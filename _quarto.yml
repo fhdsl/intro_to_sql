@@ -1,0 +1,71 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: Quarto Based OTTR Course
+  favicon: img/favicon.ico
+  bread-crumbs: false
+
+  page-navigation: true
+  search: true
+  repo-url: https://github.com/fhdsl/OTTR_Quarto
+  repo-actions: [edit] 
+  issue-url: https://docs.google.com/forms/d/e/1FAIpQLSfBvVELBg8lcynKj0TrzMlov1zil-Sbkh9VhMKRcSpeo1xo6g/viewform
+  
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - part: "First Section"
+      chapters:
+        - first-section-new-chapter.qmd
+    - part: "Second Section"
+      chapters:
+        - second-section-new-chapter.qmd
+    - conclusion.qmd
+    - references.qmd
+  
+  sidebar: 
+    logo: "img/logo.png"
+    logo-href: "https://hutchdatascience.org/"
+    foreground: "#1B365D"
+  
+  page-footer:
+    left: |
+      This book was built with <a href="https://quarto.org/" style="color: #fff;">Quarto</a> using 
+      <a href="https://github.com/fhdsl/OTTR_Quarto" style="color: #fff;">OTTR</a>.
+    center: |
+      All illustrations <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;">CC-BY. </a>
+      <br>
+      All other materials <a href= "https://creativecommons.org/licenses/by/4.0/" style="color: #fff;"> CC-BY </a> unless noted otherwise.
+    right: 
+      - icon: github
+        href: https://github.com/
+      - icon: slack
+        href: https://fhdata.slack.com/join/signup#/domain-signup
+
+      
+
+bibliography: references.bib
+
+format:
+  html:
+    grid:
+       sidebar-width: 260px
+    css: style.css
+    linkcolor: "#00C1D5"
+    mainfont: "Karla"
+    
+    sidebar: true
+    toc: true
+  
+    code-link: true
+    code-copy: true
+    
+    link-external-newwindow: true
+  
+    image: img/favicon.ico
+    license: "CC BY"
+knitr:
+  opts_chunk:
+    fig.path: "resources/images/figure/"

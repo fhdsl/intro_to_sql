@@ -1,0 +1,11 @@
+# References {.unnumbered}
+
+Shannon, C. E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal, 27(3), 379–423. [https://ieeexplore.ieee.org/document/6773024](https://ieeexplore.ieee.org/document/6773024)
+
+Turing, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433–460. [https://mind.oxfordjournals.org/content/LIX/236/433](https://mind.oxfordjournals.org/content/LIX/236/433)
+
+Turing, A. M. (1936). On Computable Numbers, with an Application to the Entscheidungsproblem. Proceedings of the London Mathematical Society, s2-42(1), 230–265. [https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf](https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf)
+
+Thompson, K. (1984). Reflections on Trusting Trust. Communications of the ACM, 27(8), 761–763. [https://dl.acm.org/doi/10.1145/358198.358210](https://dl.acm.org/doi/10.1145/358198.358210)
+
+Ghemawat, S., Gobioff, H., & Leung, S.-T. (2003). The Google File System. In Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles (pp. 29–43). [https://research.google.com/archive/gfs-sosp2003.pdf](https://research.google.com/archive/gfs-sosp2003.pdf)

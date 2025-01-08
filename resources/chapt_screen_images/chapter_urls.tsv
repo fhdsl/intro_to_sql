@@ -1,0 +1,6 @@
+chapt_title	data_level	url	img_path
+Introduction to the Course	1	http://hutchdatascience.org/OTTR_Quarto/intro.html	resources/chapt_screen_images/intro.png
+New Chapter	2	http://hutchdatascience.org/OTTR_Quarto/first-section-new-chapter.html	resources/chapt_screen_images/first-section-new-chapter.png
+New Chapter	3	http://hutchdatascience.org/OTTR_Quarto/second-section-new-chapter.html	resources/chapt_screen_images/second-section-new-chapter.png
+New Chapter	4	http://hutchdatascience.org/OTTR_Quarto/third-section-new-chapter.html	resources/chapt_screen_images/third-section-new-chapter.png
+Conclusion	5	http://hutchdatascience.org/OTTR_Quarto/conclusion.html	resources/chapt_screen_images/conclusion.png

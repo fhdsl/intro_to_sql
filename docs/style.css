@@ -1,0 +1,170 @@
+/* Imports fonts from Google Fonts (Abril Fatface, Karla, and Lora) with different weights and styles */
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Karla:400,400i,700,700i|Lora:400,400i,700,700i&display=swap');
+
+/* Styles for paragraph captions, setting their color and margin */
+p.caption {
+  color: #777;
+  margin-top: 10px;
+} /* TODO What is this? */
+
+/* Styles for paragraph code, which inherit white-space property */
+p code {
+  white-space: inherit;
+}
+
+/* Styles for pre elements to prevent words from breaking unnaturally */
+pre {
+  word-break: normal;
+  word-wrap: normal;
+} 
+
+/* Inherits the white-space property for consistent code formatting */
+pre code {
+  white-space: inherit;
+}
+
+
+/*------------- Header text---------------- */
+h1, h2, h3, h4 {
+  font-family: 'Lora', arial, sans-serif;
+}
+
+.title {
+  font-family: 'Lora';
+  font-size: 4em !important;
+  color: #012d72;
+  margin-top: 0.275em !important;
+  margin-bottom: 0.35em !important;
+}
+
+.subtitle {
+  font-family: 'Lora';
+  color: #0b8d96;
+}
+
+/* Sidebar Logo */
+.sidebar-logo {}
+
+/* Stylized boxes */
+div.notice, div.warning, div.github, div.dictionary, div.reflection, div.wip {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  min-height: 120px;
+  background-repeat: no-repeat;
+}
+
+div.notice{
+  border: 4px #68ace5;
+  border-style: solid;
+  background-size: 70px;
+  background-position: 15px center;
+  background-color: #e8ebee;
+  background-image: url("img/box-images/note.png");
+}
+
+
+div.warning{
+  border: 4px #e0471c;
+  border-style: solid;
+  background-size: 70px;
+  background-position: 15px center;
+  background-color: #e8ebee;
+  background-image: url("img/box-images/warning.png");
+}
+
+div.github{
+  border: 4px #000000;
+  border-style: solid;
+  background-size: 70px;
+  background-position: 15px center;
+  background-color: #e8ebee;
+  background-image: url("img/box-images/github.png");
+}
+
+div.dictionary{
+  border: 4px #68ace5;
+  border-style: solid;
+  background-size: 70px;
+  background-position: 15px center;
+  background-color: #e8ebee;
+  background-image: url("img/box-images/dictionary.png");
+}
+
+div.reflection{
+  border: 4px #68ace5;
+  border-style: solid;
+  background-size: 90px;
+  background-position: 15px center;
+  background-color: #e8ebee;
+  background-image: url("img/box-images/thinking_face.png");
+}
+
+div.wip{
+  border: 4px #000000;
+  border-style: solid;
+  background-size: 70px;
+  background-position: 15px center;
+  background-color: #f4d03f;
+  background-image: url("img/box-images/under_construction.png");
+}
+
+/* Navbar */
+.chapter-title {
+  text-transform: none;
+}
+.menu-text {
+  text-transform: uppercase;
+}
+
+
+
+/* iframes */
+iframe {
+   -moz-transform-origin: top left;
+   -webkit-transform-origin: top left;
+   -o-transform-origin: top left;
+   -ms-transform-origin: top left;
+   transform-origin: top left;
+}
+
+.iframe-container {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border: #ddd 2px solid;
+  box-shadow: #888 0px 5px 8px;
+  margin-bottom: 1em;
+}
+
+.iframe-container > iframe {
+  border: none;
+}
+
+
+/* Footer */
+.footer {
+  font-family: "Lora", serif;
+  font-size: 1em;
+  color: #193a5c;
+}
+
+
+/* Navbar Header */
+.navbar-logo {
+    max-height: 33px;
+}
+
+
+/* Navbar Footer */
+.nav-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    text-align: center;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    background-color: #1B365D;
+    color: #fff !important;
+}
