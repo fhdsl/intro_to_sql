@@ -4,9 +4,9 @@
     "href": "index.html",
     "title": "Intro to SQL",
     "section": "",
-    "text": "Quarto Based OTTR Course\nThis course is part of a series of courses for the Informatics Technology for Cancer Research (ITCR) called the Informatics Technology for Cancer Research Education Resource. This material was created by the ITCR Training Network (ITN) which is a collaborative effort of researchers around the United States to support cancer informatics and data science training through resources, technology, and events. This initiative is funded by the following grant: National Cancer Institute (NCI) UE5 CA254170. Our courses feature tools developed by ITCR Investigators and make it easier for principal investigators, scientists, and analysts to integrate cancer informatics into their workflows. Please see our website at www.itcrtraining.org for more information.",
+    "text": "Intro to SQL",
     "crumbs": [
-      "Quarto Based OTTR Course"
+      "Intro to SQL"
     ]
   },
   {
@@ -14,9 +14,9 @@
     "href": "index.html#available-course-formats",
     "title": "Intro to SQL",
     "section": "Available Course Formats",
-    "text": "Available Course Formats\nThis course is available in multiple formats which allows you to take it in the way that best suites your needs. You can take it for certificate which can be for free or fee.\n\nThe material for this course can be viewed without login requirement on this website. This format might be most appropriate for you if you rely on screen-reader technology.\nThis course can be taken for free certification through Leanpub.\nThis course can be taken on Coursera for certification here (but it is not available for free on Coursera).\nOur courses are open source, you can find the source material for this course on GitHub.",
+    "text": "Available Course Formats\nThis course is available in multiple formats which allows you to take it in the way that best suites your needs. You can take it for certificate which can be for free or fee.\n\nThe material for this course can be viewed without login requirement on this website. This format might be most appropriate for you if you rely on screen-reader technology.\nOur courses are open source, you can find the source material for this course on GitHub.",
     "crumbs": [
-      "Quarto Based OTTR Course"
+      "Intro to SQL"
     ]
   },
   {
