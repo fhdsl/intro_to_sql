@@ -43,20 +43,67 @@ B["2.SQL Server"] --> C
 C["3.FH Shared Storage"]
 ```
 
-Or, for those who want to use cloud-based systems:
+In many ways, SQL Server and its storage are tightly coupled. This coupling can make it difficult to migrate out of such systems.
+
+Or, for those who want to use cloud-based systems, we can have this configuration:
 
 ```{mermaid}
 graph TD
-A["1.SQL"] --> B
-B["2.Snowflake"] --> C
-C["3.AmazonS3"]
+A["1.SQL/Notebooks"] --> B
+B["2.Databricks/Snowflake"] --> C
+C["3.Amazon S3"]
 ```
+
+In this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket). 
+
+If this is making you dizzy, don't worry too much about it. Just know that we can switch out the different layers based on our needs.
 
 ## What is SQL?
 
 SQL is short for **S**tructured **Q**uery **L**anguage. It is a standardized language for querying databases (originally relational databases)
 
-SQL lets us do various operations on data. It contains various *clauses* which 
+SQL lets us do various operations on data. It contains various *clauses* which let us manipulate data:
+
+| Priority | Clause     | Purpose                                                        |
+| -------- | ---------- | -------------------------------------------------------------- |
+| 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
+| 2        | `WHERE`    | Filter tables based on criteria                                |
+| 3        | `GROUP BY` | Aggregates the Data                                            |
+| 4        | `HAVING`   | Filters Aggregated Data                                        |
+| 5        | `SELECT`   | Selects columns in table and calculate new columns             |
+| 6        | `ORDER BY` | Sorts by a database field                                      |
+| 7        | `LIMIT`    | Limits the number of records returned                          |
+
+We do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.
+
+Oftentimes, we really only want a summary out of the database. We would probably use the following clauses:
+
+| Priority | Clause     | Purpose                                                        |
+| -------- | ---------- | -------------------------------------------------------------- |
+| 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
+| 2        | `WHERE`    | Filter tables based on criteria                                |
+| 3        | `GROUP BY` | Aggregates the Data                                            |
+| 5        | `SELECT`   | Selects columns in table and calculate new columns             |
+
+Notice that there is a **Priority** column in these tables. This is important, because parts of queries are evaluated in this order.
+
+::: {callout-note}
+## Dialects of SQL
+
+You may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.
+
+However, we're focusing on the 95% of SQL that is common to all systems.
+:::
+
+## Anatomy of a SQL Statement
+
+Let's look at a typical SQL statement:
+
+```sql
+SELECT person_id, gender_source_value
+  FROM person 
+  WHERE year_of_birth < 2000
+```
 
 ## Rows versus Columns
 

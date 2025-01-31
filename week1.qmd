@@ -20,6 +20,8 @@ To access the data, we need to create a database connection. We use `dbConnect()
 library(duckdb)
 library(DBI)
 library(DiagrammeR)
+
+#if(exists(con)){DBI::dbDisconnect(con)}
 con <- DBI::dbConnect(duckdb::duckdb(), 
                       "data/GiBleed_5.3_1.1.duckdb")
                       
@@ -227,7 +229,11 @@ DESCRIBE procedure_occurrence
 
 We'll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.
 
-What column is the same in both tables? 
+What column is the same in both tables? That is a hint for what we'll cover next week: `JOIN`ing tables.
+
+## Data Types
+
+
 
 ::: {.callout-warning}
 ## Keep in Mind: Beware the Smart Quotes
