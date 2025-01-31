@@ -100,9 +100,9 @@ However, we're focusing on the 95% of SQL that is common to all systems.
 Let's look at a typical SQL statement:
 
 ```sql
-SELECT person_id, gender_source_value
-  FROM person 
-  WHERE year_of_birth < 2000
+SELECT person_id, gender_source_value   # Choose Columns
+  FROM person                           # Choose the person table
+  WHERE year_of_birth < 2000            # Filter the data using a criterion
 ```
 
 ## Rows versus Columns
