@@ -391,7 +391,7 @@
     "href": "week1.html#connecting-to-our-database",
     "title": "\n2  Week 1\n",
     "section": "\n2.2 Connecting to our database",
-    "text": "2.2 Connecting to our database\nTo access the data, we need to create a database connection. We use dbConnect() from the DBI package to do this. The first argument specifies the Database engine (duckdb()), and the second provides the file location: (“data/synthea-smaller_breast_cancer.db”).\n\nlibrary(duckdb)\n\nLoading required package: DBI\n\nlibrary(DBI)\nlibrary(DiagrammeR)\ncon &lt;- DBI::dbConnect(duckdb::duckdb(), \n                      \"data/GiBleed_5.3_1.1.duckdb\")\n\n\n\n\n\n\n\nKeep in Mind: SQL ignores letter case\n\n\n\nThese are the same to the database engine:\nSELECT person_id FROM person\nselect PERSON_ID FROM person\nAnd so on. Our convention is that we capitalize SQL clauses such as SELECT so you can differentiate them from other information.",
+    "text": "2.2 Connecting to our database\nTo access the data, we need to create a database connection. We use dbConnect() from the DBI package to do this. The first argument specifies the Database engine (duckdb()), and the second provides the file location: (“data/synthea-smaller_breast_cancer.db”).\n\nlibrary(duckdb)\n\nLoading required package: DBI\n\nlibrary(DBI)\nlibrary(DiagrammeR)\n\n#if(exists(con)){DBI::dbDisconnect(con)}\ncon &lt;- DBI::dbConnect(duckdb::duckdb(), \n                      \"data/GiBleed_5.3_1.1.duckdb\")\n\n\n\n\n\n\n\nKeep in Mind: SQL ignores letter case\n\n\n\nThese are the same to the database engine:\nSELECT person_id FROM person\nselect PERSON_ID FROM person\nAnd so on. Our convention is that we capitalize SQL clauses such as SELECT so you can differentiate them from other information.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -481,7 +481,7 @@
     "href": "week1.html#keys-linking-tables-together",
     "title": "\n2  Week 1\n",
     "section": "\n2.11 Keys: Linking tables together",
-    "text": "2.11 Keys: Linking tables together\nOne of the important properties of data in a relational database is that there are no repeat rows in the database. Each table that meets this restriction has what is called a primary key.\nWe can use DESCRIBE to get more information (the metadata) about a table. This gives us information about our tables.\n\nDESCRIBE person\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\ngender_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nyear_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmonth_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nday_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nbirth_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nrace_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nethnicity_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nlocation_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nScanning the rows, which field/column is the primary key for person?\nTry and find the primary key for procedure_occurrence. What is it?\n\nDESCRIBE procedure_occurrence\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nprocedure_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_date\nDATE\nYES\nNA\nNA\nNA\n\n\nprocedure_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nprocedure_type_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmodifier_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nquantity\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nvisit_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nWe’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.\nWhat column is the same in both tables?\n\n\n\n\n\n\nKeep in Mind: Beware the Smart Quotes\n\n\n\nBeware cutting and pasting code from Microsoft Word\nMicrosoft products such as Word, will transform double quotes \" into what are called smart quotes: “”. This is bad for us, because it breaks our code.\n\"This is the Original String\"\nwill transform into:\n“This is the Original String”\nIt is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.\nJust be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).\nOftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.",
+    "text": "2.11 Keys: Linking tables together\nOne of the important properties of data in a relational database is that there are no repeat rows in the database. Each table that meets this restriction has what is called a primary key.\nWe can use DESCRIBE to get more information (the metadata) about a table. This gives us information about our tables.\n\nDESCRIBE person\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\ngender_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nyear_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmonth_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nday_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nbirth_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nrace_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nethnicity_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nlocation_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nScanning the rows, which field/column is the primary key for person?\nTry and find the primary key for procedure_occurrence. What is it?\n\nDESCRIBE procedure_occurrence\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nprocedure_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_date\nDATE\nYES\nNA\nNA\nNA\n\n\nprocedure_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nprocedure_type_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmodifier_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nquantity\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nvisit_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nWe’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.\nWhat column is the same in both tables? That is a hint for what we’ll cover next week: JOINing tables.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -490,8 +490,8 @@
     "objectID": "week1.html#always-close-the-connection",
     "href": "week1.html#always-close-the-connection",
     "title": "\n2  Week 1\n",
-    "section": "\n2.12 Always close the connection",
-    "text": "2.12 Always close the connection\n\ndbDisconnect(con)",
+    "section": "\n2.13 Always close the connection",
+    "text": "2.13 Always close the connection\n\ndbDisconnect(con)",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -531,7 +531,7 @@
     "href": "concepts.html",
     "title": "1  Database Concepts",
     "section": "",
-    "text": "1.1 For this class\nThe Composable Codex talks three layers of a database system:\nIn our case, we will use the following configuration:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\nOr, for those who want to use cloud-based systems:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.Snowflake\"] --&gt; C\nC[\"3.AmazonS3\"]",
+    "text": "1.1 For this class\nThe Composable Codex talks three layers of a database system:\nIn our case, we will use the following configuration:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\nIn many ways, SQL Server and its storage are tightly coupled. This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -541,7 +541,7 @@
     "href": "concepts.html#what-is-sql",
     "title": "1  Database Concepts",
     "section": "1.2 What is SQL?",
-    "text": "1.2 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which",
+    "text": "1.2 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -550,8 +550,8 @@
     "objectID": "concepts.html#rows-versus-columns",
     "href": "concepts.html#rows-versus-columns",
     "title": "1  Database Concepts",
-    "section": "1.3 Rows versus Columns",
-    "text": "1.3 Rows versus Columns",
+    "section": "1.5 Rows versus Columns",
+    "text": "1.5 Rows versus Columns",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -584,6 +584,36 @@
     "text": "Why We’re Using DuckDB in this Course\n\n\n\nDuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.\nIt is what is called an analytical database engine, which means it is very fast for reading and querying data. This is compared to a transactional database engine, which must handle multiple users interacting and inserting data into the database at once.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+    ]
+  },
+  {
+    "objectID": "concepts.html#dialects-of-sql",
+    "href": "concepts.html#dialects-of-sql",
+    "title": "1  Database Concepts",
+    "section": "1.3 Dialects of SQL",
+    "text": "1.3 Dialects of SQL\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+    ]
+  },
+  {
+    "objectID": "concepts.html#anatomy-of-a-sql-statement",
+    "href": "concepts.html#anatomy-of-a-sql-statement",
+    "title": "1  Database Concepts",
+    "section": "1.4 Anatomy of a SQL Statement",
+    "text": "1.4 Anatomy of a SQL Statement",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+    ]
+  },
+  {
+    "objectID": "week1.html#data-types",
+    "href": "week1.html#data-types",
+    "title": "\n2  Week 1\n",
+    "section": "\n2.12 Data Types",
+    "text": "2.12 Data Types\n\n\n\n\n\n\nKeep in Mind: Beware the Smart Quotes\n\n\n\nBeware cutting and pasting code from Microsoft Word\nMicrosoft products such as Word, will transform double quotes \" into what are called smart quotes: “”. This is bad for us, because it breaks our code.\n\"This is the Original String\"\nwill transform into:\n“This is the Original String”\nIt is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.\nJust be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).\nOftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
   }
 ]

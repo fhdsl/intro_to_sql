@@ -181,7 +181,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#where---filtering-our-table" id="toc-where---filtering-our-table" class="nav-link" data-scroll-target="#where---filtering-our-table"><span class="header-section-number">2.9</span> <code>WHERE</code> - filtering our table</a></li>
   <li><a href="#count---how-many-rows" id="toc-count---how-many-rows" class="nav-link" data-scroll-target="#count---how-many-rows"><span class="header-section-number">2.10</span> <code>COUNT</code> - how many rows?</a></li>
   <li><a href="#keys-linking-tables-together" id="toc-keys-linking-tables-together" class="nav-link" data-scroll-target="#keys-linking-tables-together"><span class="header-section-number">2.11</span> Keys: Linking tables together</a></li>
-  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">2.12</span> Always close the connection</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">2.12</span> Data Types</a></li>
+  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">2.13</span> Always close the connection</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/week1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -218,6 +219,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org">DBI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rich-iannone.github.io/DiagrammeR/">DiagrammeR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#if(exists(con)){DBI::dbDisconnect(con)}</span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span>                      <span class="st">"data/GiBleed_5.3_1.1.duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1192,7 +1195,9 @@ Quick Note
 </div>
 </div>
 <p>We’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.</p>
-<p>What column is the same in both tables?</p>
+<p>What column is the same in both tables? That is a hint for what we’ll cover next week: <code>JOIN</code>ing tables.</p>
+</section><section id="data-types" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="data-types">
+<span class="header-section-number">2.12</span> Data Types</h2>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1213,8 +1218,8 @@ Keep in Mind: Beware the Smart Quotes
 <p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.</p>
 </div>
 </div>
-</section><section id="always-close-the-connection" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="always-close-the-connection">
-<span class="header-section-number">2.12</span> Always close the connection</h2>
+</section><section id="always-close-the-connection" class="level2" data-number="2.13"><h2 data-number="2.13" class="anchored" data-anchor-id="always-close-the-connection">
+<span class="header-section-number">2.13</span> Always close the connection</h2>
 <div class="cell">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

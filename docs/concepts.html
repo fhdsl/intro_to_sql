@@ -159,7 +159,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#for-this-class" id="toc-for-this-class" class="nav-link active" data-scroll-target="#for-this-class"><span class="header-section-number">1.1</span> For this class</a></li>
   <li><a href="#what-is-sql" id="toc-what-is-sql" class="nav-link" data-scroll-target="#what-is-sql"><span class="header-section-number">1.2</span> What is SQL?</a></li>
-  <li><a href="#rows-versus-columns" id="toc-rows-versus-columns" class="nav-link" data-scroll-target="#rows-versus-columns"><span class="header-section-number">1.3</span> Rows versus Columns</a></li>
+  <li><a href="#dialects-of-sql" id="toc-dialects-of-sql" class="nav-link" data-scroll-target="#dialects-of-sql"><span class="header-section-number">1.3</span> Dialects of SQL</a></li>
+  <li><a href="#anatomy-of-a-sql-statement" id="toc-anatomy-of-a-sql-statement" class="nav-link" data-scroll-target="#anatomy-of-a-sql-statement"><span class="header-section-number">1.4</span> Anatomy of a SQL Statement</a></li>
+  <li><a href="#rows-versus-columns" id="toc-rows-versus-columns" class="nav-link" data-scroll-target="#rows-versus-columns"><span class="header-section-number">1.5</span> Rows versus Columns</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/concepts.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -254,30 +256,131 @@ C["3.FH Shared Storage"]
 </div>
 </div>
 </div>
-<p>Or, for those who want to use cloud-based systems:</p>
+<p>In many ways, SQL Server and its storage are tightly coupled. This coupling can make it difficult to migrate out of such systems.</p>
+<p>Or, for those who want to use cloud-based systems, we can have this configuration:</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">graph TD
-A["1.SQL"] --&gt; B
-B["2.Snowflake"] --&gt; C
-C["3.AmazonS3"]
+A["1.SQL/Notebooks"] --&gt; B
+B["2.Databricks/Snowflake"] --&gt; C
+C["3.Amazon S3"]
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
+<p>In this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).</p>
+<p>If this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.</p>
 </section>
 <section id="what-is-sql" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="what-is-sql"><span class="header-section-number">1.2</span> What is SQL?</h2>
 <p>SQL is short for <strong>S</strong>tructured <strong>Q</strong>uery <strong>L</strong>anguage. It is a standardized language for querying databases (originally relational databases)</p>
-<p>SQL lets us do various operations on data. It contains various <em>clauses</em> which</p>
+<p>SQL lets us do various operations on data. It contains various <em>clauses</em> which let us manipulate data:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Priority</th>
+<th>Clause</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>FROM</code></td>
+<td>Choose tables to query and specify how to <code>JOIN</code> them together</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>WHERE</code></td>
+<td>Filter tables based on criteria</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>GROUP BY</code></td>
+<td>Aggregates the Data</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>HAVING</code></td>
+<td>Filters Aggregated Data</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>SELECT</code></td>
+<td>Selects columns in table and calculate new columns</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>ORDER BY</code></td>
+<td>Sorts by a database field</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><code>LIMIT</code></td>
+<td>Limits the number of records returned</td>
+</tr>
+</tbody>
+</table>
+<p>We do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.</p>
+<p>Oftentimes, we really only want a summary out of the database. We would probably use the following clauses:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Priority</th>
+<th>Clause</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>FROM</code></td>
+<td>Choose tables to query and specify how to <code>JOIN</code> them together</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>WHERE</code></td>
+<td>Filter tables based on criteria</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>GROUP BY</code></td>
+<td>Aggregates the Data</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td><code>SELECT</code></td>
+<td>Selects columns in table and calculate new columns</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that there is a <strong>Priority</strong> column in these tables. This is important, because parts of queries are evaluated in this order.</p>
 </section>
-<section id="rows-versus-columns" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="rows-versus-columns"><span class="header-section-number">1.3</span> Rows versus Columns</h2>
+<section id="dialects-of-sql" class="level2 {callout-note}" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="dialects-of-sql"><span class="header-section-number">1.3</span> Dialects of SQL</h2>
+<p>You may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.</p>
+<p>However, we’re focusing on the 95% of SQL that is common to all systems.</p>
+</section>
+<section id="anatomy-of-a-sql-statement" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="anatomy-of-a-sql-statement"><span class="header-section-number">1.4</span> Anatomy of a SQL Statement</h2>
+</section>
+<section id="rows-versus-columns" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="rows-versus-columns"><span class="header-section-number">1.5</span> Rows versus Columns</h2>
 
 
 </section>
