@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>1&nbsp; Week 1 – Intro to SQL</title>
+<title>2&nbsp; Week 1 – Intro to SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./week1-passwords.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./concepts.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -106,11 +106,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">
-<span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Week 1</span>
-</h1>
-        </a>     
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -142,14 +140,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./week1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Week 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week1-passwords.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -166,24 +170,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#our-composable-database-system" id="toc-our-composable-database-system" class="nav-link active" data-scroll-target="#our-composable-database-system"><span class="header-section-number">1.1</span> Our Composable Database System</a></li>
-  <li><a href="#connecting-to-our-database" id="toc-connecting-to-our-database" class="nav-link" data-scroll-target="#connecting-to-our-database"><span class="header-section-number">1.2</span> Connecting to our database</a></li>
-  <li><a href="#looking-at-the-entire-database" id="toc-looking-at-the-entire-database" class="nav-link" data-scroll-target="#looking-at-the-entire-database"><span class="header-section-number">1.3</span> Looking at the Entire Database</a></li>
-  <li><a href="#select-and-from" id="toc-select-and-from" class="nav-link" data-scroll-target="#select-and-from"><span class="header-section-number">1.4</span> <code>SELECT</code> and <code>FROM</code></a></li>
-  <li><a href="#try-it-out" id="toc-try-it-out" class="nav-link" data-scroll-target="#try-it-out"><span class="header-section-number">1.5</span> Try it Out</a></li>
-  <li><a href="#selecting-a-few-columns-in-our-table" id="toc-selecting-a-few-columns-in-our-table" class="nav-link" data-scroll-target="#selecting-a-few-columns-in-our-table"><span class="header-section-number">1.6</span> <code>SELECT</code>ing a few columns in our table</a></li>
-  <li><a href="#try-it-out-1" id="toc-try-it-out-1" class="nav-link" data-scroll-target="#try-it-out-1"><span class="header-section-number">1.7</span> Try it Out</a></li>
-  <li><a href="#check-on-learning" id="toc-check-on-learning" class="nav-link" data-scroll-target="#check-on-learning"><span class="header-section-number">1.8</span> Check on Learning</a></li>
-  <li><a href="#where" id="toc-where" class="nav-link" data-scroll-target="#where"><span class="header-section-number">1.9</span> <code>WHERE</code></a></li>
-  <li><a href="#count" id="toc-count" class="nav-link" data-scroll-target="#count"><span class="header-section-number">1.10</span> <code>COUNT</code></a></li>
-  <li><a href="#keys-linking-tables-together" id="toc-keys-linking-tables-together" class="nav-link" data-scroll-target="#keys-linking-tables-together"><span class="header-section-number">1.11</span> Keys: Linking tables together</a></li>
-  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">1.12</span> Always close the connection</a></li>
+<li><a href="#our-composable-database-system" id="toc-our-composable-database-system" class="nav-link active" data-scroll-target="#our-composable-database-system"><span class="header-section-number">2.1</span> Our Composable Database System</a></li>
+  <li><a href="#connecting-to-our-database" id="toc-connecting-to-our-database" class="nav-link" data-scroll-target="#connecting-to-our-database"><span class="header-section-number">2.2</span> Connecting to our database</a></li>
+  <li><a href="#looking-at-the-entire-database" id="toc-looking-at-the-entire-database" class="nav-link" data-scroll-target="#looking-at-the-entire-database"><span class="header-section-number">2.3</span> Looking at the Entire Database</a></li>
+  <li><a href="#select-and-from" id="toc-select-and-from" class="nav-link" data-scroll-target="#select-and-from"><span class="header-section-number">2.4</span> <code>SELECT</code> and <code>FROM</code></a></li>
+  <li><a href="#try-it-out" id="toc-try-it-out" class="nav-link" data-scroll-target="#try-it-out"><span class="header-section-number">2.5</span> Try it Out</a></li>
+  <li><a href="#selecting-a-few-columns-in-our-table" id="toc-selecting-a-few-columns-in-our-table" class="nav-link" data-scroll-target="#selecting-a-few-columns-in-our-table"><span class="header-section-number">2.6</span> <code>SELECT</code>ing a few columns in our table</a></li>
+  <li><a href="#try-it-out-1" id="toc-try-it-out-1" class="nav-link" data-scroll-target="#try-it-out-1"><span class="header-section-number">2.7</span> Try it Out</a></li>
+  <li><a href="#check-on-learning" id="toc-check-on-learning" class="nav-link" data-scroll-target="#check-on-learning"><span class="header-section-number">2.8</span> Check on Learning</a></li>
+  <li><a href="#where---filtering-our-table" id="toc-where---filtering-our-table" class="nav-link" data-scroll-target="#where---filtering-our-table"><span class="header-section-number">2.9</span> <code>WHERE</code> - filtering our table</a></li>
+  <li><a href="#count---how-many-rows" id="toc-count---how-many-rows" class="nav-link" data-scroll-target="#count---how-many-rows"><span class="header-section-number">2.10</span> <code>COUNT</code> - how many rows?</a></li>
+  <li><a href="#keys-linking-tables-together" id="toc-keys-linking-tables-together" class="nav-link" data-scroll-target="#keys-linking-tables-together"><span class="header-section-number">2.11</span> Keys: Linking tables together</a></li>
+  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">2.12</span> Always close the connection</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/week1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title d-none d-lg-block">
-<span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Week 1</span>
+<h1 class="title">
+<span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1</span>
 </h1>
 </div>
 
@@ -198,15 +202,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><section id="our-composable-database-system" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="our-composable-database-system">
-<span class="header-section-number">1.1</span> Our Composable Database System</h2>
+</header><section id="our-composable-database-system" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="our-composable-database-system">
+<span class="header-section-number">2.1</span> Our Composable Database System</h2>
 <ul>
 <li>Client: R/RStudio</li>
 <li>Database Engine: DuckDB</li>
 <li>Data Storage: single file in <code>data/</code> folder</li>
-</ul></section><section id="connecting-to-our-database" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="connecting-to-our-database">
-<span class="header-section-number">1.2</span> Connecting to our database</h2>
-<p>Our database lives in the <code>data/</code> folder as a single file called <code>synthea-smaller_breast_cancer.db</code>. I have pre-loaded the data so we can immediately start working with it.</p>
+</ul></section><section id="connecting-to-our-database" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="connecting-to-our-database">
+<span class="header-section-number">2.2</span> Connecting to our database</h2>
 <p>To access the data, we need to create a database connection. We use <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> from the <code>DBI</code> package to do this. The first argument specifies the Database engine (<code><a href="https://r.duckdb.org/reference/duckdb.html">duckdb()</a></code>), and the second provides the file location: (“data/synthea-smaller_breast_cancer.db”).</p>
 <div class="cell" data-context="setup">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -234,8 +237,8 @@ Keep in Mind: SQL ignores letter case
 <p>And so on. Our convention is that we capitalize SQL clauses such as <code>SELECT</code> so you can differentiate them from other information.</p>
 </div>
 </div>
-</section><section id="looking-at-the-entire-database" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="looking-at-the-entire-database">
-<span class="header-section-number">1.3</span> Looking at the Entire Database</h2>
+</section><section id="looking-at-the-entire-database" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="looking-at-the-entire-database">
+<span class="header-section-number">2.3</span> Looking at the Entire Database</h2>
 <p>One of the first things we can learn is to show the contents of the entire database; we can do this with <code>SHOW TABLES</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SHOW <span class="kw">TABLES</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -389,14 +392,18 @@ Keep in Mind: SQL ignores letter case
 </div>
 <p>We’ll look at a few tables in our work:</p>
 <ul>
-<li><code>person</code></li>
-<li><code>procedure_occurrence</code></li>
-<li><code>condition_occurrence</code></li>
-<li><code>concept</code></li>
+<li>
+<code>person</code> - Contains personal &amp; demographic data</li>
+<li>
+<code>procedure_occurrence</code> - procedures performed on patients and when they happened</li>
+<li>
+<code>condition_occurrence</code> - patient conditions (such as illnesses) and when they occurred</li>
+<li>
+<code>concept</code> - contains the specific information (names of concepts) that map into all three above tables</li>
 </ul>
 <p>We’ll talk much more later about the relationships between these tables.</p>
-</section><section id="select-and-from" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="select-and-from">
-<span class="header-section-number">1.4</span> <code>SELECT</code> and <code>FROM</code>
+</section><section id="select-and-from" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="select-and-from">
+<span class="header-section-number">2.4</span> <code>SELECT</code> and <code>FROM</code>
 </h2>
 <p>If we want to see the contents of a table, we can use <code>SELECT</code> and <code>FROM</code>.</p>
 <pre><code>SELECT *          # select all columns
@@ -654,16 +661,16 @@ Keep in Mind: SQL ignores letter case
 </div>
 <ol type="1">
 <li>Why are there <code>birth_datetime</code> and the <code>month_of_birth</code>, <code>day_of_birth</code>, <code>year_of_birth</code> - aren’t these redundant?</li>
-</ol></section><section id="try-it-out" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="try-it-out">
-<span class="header-section-number">1.5</span> Try it Out</h2>
+</ol></section><section id="try-it-out" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="try-it-out">
+<span class="header-section-number">2.5</span> Try it Out</h2>
 <p>Look at the first few rows of <code>procedure_occurrence</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> ____ <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="1">
 <li>Why is there a <code>person_id</code> column in this table as well?</li>
-</ol></section><section id="selecting-a-few-columns-in-our-table" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="selecting-a-few-columns-in-our-table">
-<span class="header-section-number">1.6</span> <code>SELECT</code>ing a few columns in our table</h2>
+</ol></section><section id="selecting-a-few-columns-in-our-table" class="level2" data-number="2.6"><h2 data-number="2.6" class="anchored" data-anchor-id="selecting-a-few-columns-in-our-table">
+<span class="header-section-number">2.6</span> <code>SELECT</code>ing a few columns in our table</h2>
 <p>We can use the <code>SELECT</code> clause to grab specific columns in our data.</p>
 <pre><code>SELECT person_id, birth_datetime, gender_concept_id # Columns in our table
   FROM person;                                      # Our Table</code></pre>
@@ -734,23 +741,22 @@ Keep in Mind: SQL ignores letter case
 </table>
 </div>
 </div>
-</section><section id="try-it-out-1" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="try-it-out-1">
-<span class="header-section-number">1.7</span> Try it Out</h2>
+</section><section id="try-it-out-1" class="level2" data-number="2.7"><h2 data-number="2.7" class="anchored" data-anchor-id="try-it-out-1">
+<span class="header-section-number">2.7</span> Try it Out</h2>
 <p>What happens if we ask for a column that doesn’t exist in our data?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, birth_datetime, gender_concept_id, blah</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="check-on-learning" class="level2" data-number="1.8"><h2 data-number="1.8" class="anchored" data-anchor-id="check-on-learning">
-<span class="header-section-number">1.8</span> Check on Learning</h2>
+</section><section id="check-on-learning" class="level2" data-number="2.8"><h2 data-number="2.8" class="anchored" data-anchor-id="check-on-learning">
+<span class="header-section-number">2.8</span> Check on Learning</h2>
 <p>Add <code>race_concept_id</code> and <code>year_of_birth</code> to your <code>SELECT</code> query:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, birth_datetime, gender_concept_id, ____, ____</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="where" class="level2" data-number="1.9"><h2 data-number="1.9" class="anchored" data-anchor-id="where">
-<span class="header-section-number">1.9</span> <code>WHERE</code>
-</h2>
+</section><section id="where---filtering-our-table" class="level2" data-number="2.9"><h2 data-number="2.9" class="anchored" data-anchor-id="where---filtering-our-table">
+<span class="header-section-number">2.9</span> <code>WHERE</code> - filtering our table</h2>
 <p>Adding <code>WHERE</code> to our SQL statement lets us add filtering to our query:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, gender_source_value, race_source_value, year_of_birth </span>
@@ -914,10 +920,9 @@ Quick Note
 <p>A lot of <code>dplyr</code> was inspired by SQL. In fact, there is a package called <code>dbplyr</code> that translates <code>dplyr</code> statements into SQL. A lot of us use it, and it’s pretty handy.</p>
 </div>
 </div>
-</section><section id="count" class="level2" data-number="1.10"><h2 data-number="1.10" class="anchored" data-anchor-id="count">
-<span class="header-section-number">1.10</span> <code>COUNT</code>
-</h2>
-<p>Sometimes you want to know the <em>size</em> of your result, not necessarily return the entire set of results.</p>
+</section><section id="count---how-many-rows" class="level2" data-number="2.10"><h2 data-number="2.10" class="anchored" data-anchor-id="count---how-many-rows">
+<span class="header-section-number">2.10</span> <code>COUNT</code> - how many rows?</h2>
+<p>Sometimes you want to know the <em>size</em> of your result, not necessarily return the entire set of results. That is what <code>COUNT</code> is for.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
@@ -984,8 +989,8 @@ Quick Note
 </table>
 </div>
 </div>
-</section><section id="keys-linking-tables-together" class="level2" data-number="1.11"><h2 data-number="1.11" class="anchored" data-anchor-id="keys-linking-tables-together">
-<span class="header-section-number">1.11</span> Keys: Linking tables together</h2>
+</section><section id="keys-linking-tables-together" class="level2" data-number="2.11"><h2 data-number="2.11" class="anchored" data-anchor-id="keys-linking-tables-together">
+<span class="header-section-number">2.11</span> Keys: Linking tables together</h2>
 <p>One of the important properties of data in a relational database is that there are no <em>repeat rows</em> in the database. Each table that meets this restriction has what is called a <em>primary key</em>.</p>
 <p>We can use <code>DESCRIBE</code> to get more information (the metadata) about a table. This gives us information about our tables.</p>
 <div class="cell">
@@ -1208,8 +1213,8 @@ Keep in Mind: Beware the Smart Quotes
 <p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.</p>
 </div>
 </div>
-</section><section id="always-close-the-connection" class="level2" data-number="1.12"><h2 data-number="1.12" class="anchored" data-anchor-id="always-close-the-connection">
-<span class="header-section-number">1.12</span> Always close the connection</h2>
+</section><section id="always-close-the-connection" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="always-close-the-connection">
+<span class="header-section-number">2.12</span> Always close the connection</h2>
 <div class="cell">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1637,13 +1642,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Intro to SQL">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Intro to SQL</span>
+      <a href="./concepts.html" class="pagination-link" aria-label="Database Concepts">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./week1-passwords.html" class="pagination-link" aria-label="Passwords and Code">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

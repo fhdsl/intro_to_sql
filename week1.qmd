@@ -12,7 +12,6 @@ format: html
 
 ## Connecting to our database
 
-Our database lives in the `data/` folder as a single file called `synthea-smaller_breast_cancer.db`. I have pre-loaded the data so we can immediately start working with it. 
 
 To access the data, we need to create a database connection. We use `dbConnect()` from the `DBI` package to do this. The first argument specifies the Database engine (`duckdb()`), and the second provides the file location: ("data/synthea-smaller_breast_cancer.db").
 
@@ -57,12 +56,13 @@ We can get further information about the tables within our database using `DESCR
 DESCRIBE;
 ```
 
+
 We'll look at a few tables in our work:
 
-  - `person`
-  - `procedure_occurrence`
-  - `condition_occurrence`
-  - `concept`
+  - `person` - Contains personal & demographic data
+  - `procedure_occurrence` - procedures performed on patients and when they happened
+  - `condition_occurrence` - patient conditions (such as illnesses) and when they occurred
+  - `concept` - contains the specific information (names of concepts) that map into all three above tables
   
   We'll talk much more later about the relationships between these tables.  
 
@@ -134,7 +134,7 @@ SELECT person_id, birth_datetime, gender_concept_id, ____, ____
 ```
 
 
-## `WHERE`
+## `WHERE` - filtering our table
 
 Adding `WHERE` to our SQL statement lets us add filtering to our query:
 
@@ -167,9 +167,9 @@ person |>
 A lot of `dplyr` was inspired by SQL. In fact, there is a package called `dbplyr` that translates `dplyr` statements into SQL. A lot of us use it, and it's pretty handy.
 :::
 
-## `COUNT`
+## `COUNT` - how many rows?
 
-Sometimes you want to know the *size* of your result, not necessarily return the entire set of results.
+Sometimes you want to know the *size* of your result, not necessarily return the entire set of results. That is what `COUNT` is for. 
 
 ```{sql}
 #| connection: "con"
@@ -177,6 +177,7 @@ SELECT COUNT(*)
   FROM person
   WHERE year_of_birth < 2000
 ```
+
 Similarly, when we want to count the number of `person_id`s returned, we can use `COUNT(person_id)`:
 
 ```{sql}

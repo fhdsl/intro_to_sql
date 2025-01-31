@@ -5,7 +5,7 @@ project:
 book:
   title: Intro to SQL
   favicon: img/favicon.ico
-  bread-crumbs: false
+  bread-crumbs: true
 
   page-navigation: true
   search: true
@@ -14,6 +14,7 @@ book:
 
   chapters:
     - index.qmd
+    - concepts.qmd
     - week1.qmd
     - week1-passwords.qmd
     - references.qmd

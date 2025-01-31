@@ -1,0 +1,62 @@
+---
+title: "Database Concepts"
+---
+
+The [Composable Codex](https://voltrondata.com/codex/a-new-frontier#structure-of-a-composable-data-system) talks three layers of a database system:
+
+```{mermaid}
+graph TD
+  A["1.Interface"] --> B
+  B["2.Execution Engine"] --> C
+  C["3.Data Storage"]
+```
+
+1. A user interface - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).
+2. An execution engine - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake
+3. Data Storage - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)
+
+## For this class
+
+In our case, we will use the following configuration:
+
+```{mermaid}
+graph TD
+A["1.SQL"] --> B
+B["2.DuckDB"] --> C
+C["3.File on our Machine"]
+```
+
+::: {.callout}
+## Why We're Using DuckDB in this Course
+
+DuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.
+
+It is what is called an *analytical* database engine, which means it is very fast for reading and querying data. This is compared to a *transactional* database engine, which must handle multiple users interacting and inserting data into the database at once.
+:::
+
+But you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:
+
+```{mermaid}
+graph TD
+A["1.SQL"] --> B
+B["2.SQL Server"] --> C
+C["3.FH Shared Storage"]
+```
+
+Or, for those who want to use cloud-based systems:
+
+```{mermaid}
+graph TD
+A["1.SQL"] --> B
+B["2.Snowflake"] --> C
+C["3.AmazonS3"]
+```
+
+## What is SQL?
+
+SQL is short for **S**tructured **Q**uery **L**anguage. It is a standardized language for querying databases (originally relational databases)
+
+SQL lets us do various operations on data. It contains various *clauses* which 
+
+## Rows versus Columns
+
