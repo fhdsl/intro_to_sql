@@ -2,22 +2,19 @@
 title: "Database Concepts"
 ---
 
-The [Composable Codex](https://voltrondata.com/codex/a-new-frontier#structure-of-a-composable-data-system) talks three layers of a database system:
+The [Composable Codex](https://voltrondata.com/codex/a-new-frontier#structure-of-a-composable-data-system) talks about three layers of a database system:
 
-```{mermaid}
-graph TD
-  A["1.Interface"] --> B
-  B["2.Execution Engine"] --> C
-  C["3.Data Storage"]
-```
 
-1. A user interface - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).
-2. An execution engine - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake
-3. Data Storage - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)
+![](img/composable-data-system-modules.png)
+[From the Composable Codex](https://voltrondata.com/codex/a-new-frontier#building-a-new-composable-frontier)
+
+1. **A user interface** - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).
+2. **An execution engine** - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.
+3. **Data Storage** - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)
 
 ## For this class
 
-In our case, we will use the following configuration:
+In our class, we will use the following configuration:
 
 ```{mermaid}
 graph TD
@@ -43,7 +40,7 @@ B["2.SQL Server"] --> C
 C["3.FH Shared Storage"]
 ```
 
-In many ways, SQL Server and its storage are tightly coupled. This coupling can make it difficult to migrate out of such systems.
+In many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.
 
 Or, for those who want to use cloud-based systems, we can have this configuration:
 
@@ -87,12 +84,12 @@ Oftentimes, we really only want a summary out of the database. We would probably
 
 Notice that there is a **Priority** column in these tables. This is important, because parts of queries are evaluated in this order.
 
-::: {callout-note}
+::: {.callout-note}
 ## Dialects of SQL
 
 You may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.
 
-However, we're focusing on the 95% of SQL that is common to all systems.
+However, we're focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we're showing you in this course will get you to where you want to go.
 :::
 
 ## Anatomy of a SQL Statement
@@ -105,5 +102,22 @@ SELECT person_id, gender_source_value   # Choose Columns
   WHERE year_of_birth < 2000            # Filter the data using a criterion
 ```
 
+## Database Connections
+
+We haven't really talked about how we *connect* to the database engine. 
+
+We connect to the database engine and create a database connection. We may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.
+
+Once we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can *send* queries through it, and the database engine will run these queries, and **return** a result. 
+
+As long as the connection is open, we can continue to send queries and receive results.
+
+It is best practice to explicitly **disconnect** from the database. Once we have disconnected, we no longer have access to the database. 
+
+:::{.callout}
 ## Rows versus Columns
 
+Just a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.
+
+A new trick is column-based storage. It turns out that it's actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like *Parquet* that you might have heard about.
+:::

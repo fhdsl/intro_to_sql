@@ -531,7 +531,7 @@
     "href": "concepts.html",
     "title": "1  Database Concepts",
     "section": "",
-    "text": "1.1 For this class\nThe Composable Codex talks three layers of a database system:\nIn our case, we will use the following configuration:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\nIn many ways, SQL Server and its storage are tightly coupled. This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
+    "text": "1.1 For this class\nThe Composable Codex talks about three layers of a database system:\nFrom the Composable Codex\nIn our class, we will use the following configuration:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\nIn many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -541,7 +541,7 @@
     "href": "concepts.html#what-is-sql",
     "title": "1  Database Concepts",
     "section": "1.2 What is SQL?",
-    "text": "1.2 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.",
+    "text": "1.2 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.\n\n\n\n\n\n\nDialects of SQL\n\n\n\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we’re showing you in this course will get you to where you want to go.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -550,8 +550,8 @@
     "objectID": "concepts.html#rows-versus-columns",
     "href": "concepts.html#rows-versus-columns",
     "title": "1  Database Concepts",
-    "section": "1.5 Rows versus Columns",
-    "text": "1.5 Rows versus Columns",
+    "section": "1.4 Rows versus Columns",
+    "text": "1.4 Rows versus Columns",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -600,8 +600,8 @@
     "objectID": "concepts.html#anatomy-of-a-sql-statement",
     "href": "concepts.html#anatomy-of-a-sql-statement",
     "title": "1  Database Concepts",
-    "section": "1.4 Anatomy of a SQL Statement",
-    "text": "1.4 Anatomy of a SQL Statement",
+    "section": "1.3 Anatomy of a SQL Statement",
+    "text": "1.3 Anatomy of a SQL Statement\nLet’s look at a typical SQL statement:\nSELECT person_id, gender_source_value   # Choose Columns\n  FROM person                           # Choose the person table\n  WHERE year_of_birth &lt; 2000            # Filter the data using a criterion",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -644,6 +644,16 @@
     "text": "Tentative Schedule\n\n\n\n\n\n\n\n\nWeek\nDate\nSubject\n\n\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
     "crumbs": [
       "Intro to SQL"
+    ]
+  },
+  {
+    "objectID": "concepts.html#database-connections",
+    "href": "concepts.html#database-connections",
+    "title": "1  Database Concepts",
+    "section": "1.4 Database Connections",
+    "text": "1.4 Database Connections\nWe haven’t really talked about how we connect to the database engine.\nWe connect to the database engine and create a database connection. We may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.\nOnce we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can send queries through it, and the database engine will run these queries, and return a result.\nAs long as the connection is open, we can continue to send queries and receive results.\nIt is best practice to explicitly disconnect from the database. Once we have disconnected, we no longer have access to the database.\n\n\n\n\n\n\nRows versus Columns\n\n\n\nJust a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.\nA new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like Parquet that you might have heard about.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   }
 ]

@@ -15,7 +15,7 @@ Data that we need to utilize and query is often stored in data sources such as d
 
 | Week | Date   | Subject                                                    |
 | ---- | ------ | ---------------------------------------------------------- |
-| 1    | Feb 7  | Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE` |
+| 1    | Feb 7  | [Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE`](week1.html) |
 | 2    | Feb 14 | `JOIN`ing tables, more `WHERE`                             |
 | -    | Feb 21 | No class (school break week)                               |
 | 3    | Feb 28 | Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`  |
@@ -23,8 +23,8 @@ Data that we need to utilize and query is often stored in data sources such as d
 
 ## Available Course Formats
 
-This course is available in multiple formats which allows you to take it in the way that best suites your needs. You can take it for certificate which can be for free or fee.
+This course is available in multiple formats which allows you to take it in the way that best suites your needs. 
 
-- The material for this course can be viewed without login requirement on this [website](https://www.ottrproject.org/). This format might be most appropriate for you if you rely on screen-reader technology.
+- The material for this course can be viewed without login requirement on this [website](https://hutchdatascience.org/intro_to_sql/). This format might be most appropriate for you if you rely on screen-reader technology.
 - Our courses are open source, you can find the [source material for this course on GitHub](https://github.com/fhdsl/intro_to_sql).
 
