@@ -10,6 +10,56 @@
     ]
   },
   {
+    "objectID": "index.html#course-description",
+    "href": "index.html#course-description",
+    "title": "Intro to SQL",
+    "section": "Course Description",
+    "text": "Course Description\nData that we need to utilize and query is often stored in data sources such as databases or data warehouses. In this course, you will learn how to connect and query databases using Structured Query Language (SQL). In particular, we will focus on querying data in a commonly used data model for storing patient data called OMOP. By the end of this course, you will be prepared to construct complex queries to retrieve large data sets and automate these queries to produce automated reports and dashboards.",
+    "crumbs": [
+      "Intro to SQL"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-objectives",
+    "href": "index.html#learning-objectives",
+    "title": "Intro to SQL",
+    "section": "Learning Objectives",
+    "text": "Learning Objectives\n\nExplain data sources such as Databases and how to connect to them\nQuery data sources using database engines and Structured Query Language (SQL) to filter, join, and aggregate data\nConstruct and calculate new fields using SELECT or CASE WHEN\nRead and explain a sample OMOP query: https://github.com/OHDSI/OMOP-Queries/tree/master",
+    "crumbs": [
+      "Intro to SQL"
+    ]
+  },
+  {
+    "objectID": "index.html#tentative-schedule",
+    "href": "index.html#tentative-schedule",
+    "title": "Intro to SQL",
+    "section": "Tentative Schedule",
+    "text": "Tentative Schedule\nAll classes with be Fridays from 12:00-1:30 PM PST. Connection details will be provided.\n\n\n\nWeek\nDate\nSubject\n\n\n\n\nPre-class\n—-\nConcepts of Databases\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
+    "crumbs": [
+      "Intro to SQL"
+    ]
+  },
+  {
+    "objectID": "index.html#culture-of-the-course",
+    "href": "index.html#culture-of-the-course",
+    "title": "Intro to SQL",
+    "section": "Culture of the course",
+    "text": "Culture of the course\n\nLearning on the job is challenging\n\nI will move at learner’s pace; we are learning together.\nTeach not for mastery, but teach for empowerment to learn effectively.\n\nVarious personal goals and applications: curate applications based on your interest!",
+    "crumbs": [
+      "Intro to SQL"
+    ]
+  },
+  {
+    "objectID": "index.html#culture-of-the-course-1",
+    "href": "index.html#culture-of-the-course-1",
+    "title": "Intro to SQL",
+    "section": "Culture of the course",
+    "text": "Culture of the course\nChallenge: We sometimes struggle with our data science in isolation, unaware that someone two doors down from us has gone through the same struggle. - We learn and work better with our peers. - Know that if you have a question, other people will have it. - Asking questions is our way of taking care of others.\nWe ask you to follow Participation Guidelines and Code of Conduct.",
+    "crumbs": [
+      "Intro to SQL"
+    ]
+  },
+  {
     "objectID": "index.html#available-course-formats",
     "href": "index.html#available-course-formats",
     "title": "Intro to SQL",
@@ -20,350 +70,83 @@
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "1  Introduction to the Course",
+    "objectID": "concepts.html",
+    "href": "concepts.html",
+    "title": "\n1  Database Concepts\n",
     "section": "",
-    "text": "1.1 Motivation\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu sem integer vitae justo eget magna. Viverra nibh cras pulvinar mattis. Est placerat in egestas erat imperdiet sed euismod. Diam quam nulla porttitor massa id neque. Fringilla urna porttitor rhoncus dolor purus non enim. Quis commodo odio aenean sed adipiscing diam donec. Facilisi morbi tempus iaculis urna id volutpat. Natoque penatibus et magnis dis parturient montes. Semper feugiat nibh sed pulvinar proin gravida hendrerit lectus. Lectus magna fringilla urna porttitor rhoncus dolor purus non enim. Pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit. Egestas sed tempus urna et. Tincidunt eget nullam non nisi est sit amet. Erat imperdiet sed euismod nisi porta lorem mollis. Sit amet mauris commodo quis. Massa massa ultricies mi quis hendrerit dolor magna eget.",
+    "text": "1.1 What is a Database?\nWhen we talk about databases, we mean the database system rather than database itself. Specifically, we talk about the different layers of a database system.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to the Course</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "intro.html#target-audience",
-    "href": "intro.html#target-audience",
-    "title": "1  Introduction to the Course",
-    "section": "1.2 Target Audience",
-    "text": "1.2 Target Audience\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa massa ultricies mi quis hendrerit dolor magna. Lobortis scelerisque fermentum dui faucibus. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Molestie a iaculis at erat pellentesque adipiscing commodo elit.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to the Course</span>"
-    ]
-  },
-  {
-    "objectID": "intro.html#curriculum",
-    "href": "intro.html#curriculum",
-    "title": "1  Introduction to the Course",
-    "section": "1.3 Curriculum",
-    "text": "1.3 Curriculum\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa massa ultricies mi quis hendrerit dolor magna. Lobortis scelerisque fermentum dui faucibus. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Molestie a iaculis at erat pellentesque adipiscing commodo elit.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to the Course</span>"
-    ]
-  },
-  {
-    "objectID": "first-section-new-chapter.html",
-    "href": "first-section-new-chapter.html",
-    "title": "\n2  New Chapter\n",
+    "objectID": "concepts.html#what-is-a-database",
+    "href": "concepts.html#what-is-a-database",
+    "title": "\n1  Database Concepts\n",
     "section": "",
-    "text": "2.1 Learning Objectives\nEvery chapter also needs Learning objectives.",
+    "text": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - Oracle Documentation",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "first-section-new-chapter.html#libraries",
-    "href": "first-section-new-chapter.html#libraries",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.2 Libraries",
-    "text": "2.2 Libraries\nFor this chapter, we’ll need the following packages attached:\n*Remember to add any additional packages you need to your course’s own docker image.\n\nlibrary(magrittr)",
+    "objectID": "concepts.html#parts-of-a-database-system",
+    "href": "concepts.html#parts-of-a-database-system",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.2 Parts of a Database System",
+    "text": "1.2 Parts of a Database System\nThe Composable Codex talks about three layers of a database system:\nFrom the Composable Codex\n\n\nA user interface - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).\n\nAn execution engine - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.\n\nData Storage - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "first-section-new-chapter.html#topic-of-section",
-    "href": "first-section-new-chapter.html#topic-of-section",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.3 Topic of Section",
-    "text": "2.3 Topic of Section\nYou can write all your text in sections like this, using ## to indicate a new header. you can use additional pound symbols to create lower levels of headers.\nSee here for additional general information about how you can format text within R Markdown files. In addition, see here for more in depth and advanced options.\n\n2.3.1 Subtopic\nHere’s a subheading (using three pound symbols) and some text in this subsection!",
+    "objectID": "concepts.html#for-this-class",
+    "href": "concepts.html#for-this-class",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.3 For this class",
+    "text": "1.3 For this class\nIn our class, we will use the following configuration:\n\n\n\n\n\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\n\n\n\n\n\n\n\n\n\n\n\n\nWhy We’re Using DuckDB in this Course\n\n\n\nDuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.\nIt is what is called an analytical database engine, which means it is very fast for reading and querying data. This is compared to a transactional database engine, which must handle multiple users interacting and inserting data into the database at once.\n\n\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\n\n\n\n\n\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\n\n\n\n\n\n\nIn many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\n\n\n\n\n\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\n\n\n\n\n\n\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "first-section-new-chapter.html#code-examples",
-    "href": "first-section-new-chapter.html#code-examples",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.4 Code examples",
-    "text": "2.4 Code examples\nYou can demonstrate code like this:\n\noutput_dir &lt;- file.path(\"resources\", \"code_output\")\nif (!dir.exists(output_dir)) {\n  dir.create(output_dir)\n}\n\nAnd make plots too:\n\nhist_plot &lt;- hist(iris$Sepal.Length)\n\n\n\n\n\n\n\nYou can also save these plots to file:\n\npng(file.path(output_dir, \"test_plot.png\"))\nhist_plot\n\n$breaks\n[1] 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5 8.0\n\n$counts\n[1]  5 27 27 30 31 18  6  6\n\n$density\n[1] 0.06666667 0.36000000 0.36000000 0.40000000 0.41333333 0.24000000 0.08000000\n[8] 0.08000000\n\n$mids\n[1] 4.25 4.75 5.25 5.75 6.25 6.75 7.25 7.75\n\n$xname\n[1] \"iris$Sepal.Length\"\n\n$equidist\n[1] TRUE\n\nattr(,\"class\")\n[1] \"histogram\"\n\ndev.off()\n\npng \n  2",
+    "objectID": "concepts.html#what-is-sql",
+    "href": "concepts.html#what-is-sql",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.4 What is SQL?",
+    "text": "1.4 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.\n\n\n\n\n\n\nDialects of SQL\n\n\n\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we’re showing you in this course will get you to where you want to go.",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "first-section-new-chapter.html#image-example",
-    "href": "first-section-new-chapter.html#image-example",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.5 Image example",
-    "text": "2.5 Image example\nHow to include a Google slide. It’s simplest to use the ottrpal package:\n\n\n\n\n\n\n\n\nBut if you have the slide or some other image locally downloaded you can also use HTML like this:",
+    "objectID": "concepts.html#anatomy-of-a-sql-statement",
+    "href": "concepts.html#anatomy-of-a-sql-statement",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.5 Anatomy of a SQL Statement",
+    "text": "1.5 Anatomy of a SQL Statement\nLet’s look at a typical SQL statement:\nSELECT person_id, gender_source_value   # Choose Columns\n  FROM person                           # Choose the person table\n  WHERE year_of_birth &lt; 2000;            # Filter the data using a criterion\nWe can read this as:\nSELECT the person_id and gender_source_value columns\nFROM the person table\nONLY Those with year of birth less than 2000 \nAs you can see, SQL can be read. We will gradually introduce clauses and different database operations.\n\n\n\n\n\n\nNote\n\n\n\nAs a convention, we will capitalize SQL clauses (such as SELECT), and use lowercase for everything else.",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "first-section-new-chapter.html#video-examples",
-    "href": "first-section-new-chapter.html#video-examples",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.6 Video examples",
-    "text": "2.6 Video examples\nYou may also want to embed videos in your course. If alternatively, you just want to include a link you can do so like this:\nCheck out this link to a video using markdown syntax.\n\n2.6.1 Using knitr\n\nTo embed videos in your course, you can use knitr::include_url() like this: Note that you should use echo=FALSE in the code chunk because we don’t want the code part of this to show up. If you are unfamiliar with how R Markdown code chunks work, read this.\n\n\n\n\n\n2.6.2 Using HTML\n\n\n\n2.6.3 Using knitr\n\n\n\n\n\n\n2.6.4 Using HTML",
+    "objectID": "concepts.html#database-connections",
+    "href": "concepts.html#database-connections",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.6 Database Connections",
+    "text": "1.6 Database Connections\nWe haven’t really talked about how we connect to the database engine.\nIn order to connect to the database engine and create a database connection, we may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.\nOnce we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can send queries through it, and the database engine will run these queries, and return a result.\n\n\n\n\n\ngraph LR\n  A[\"Our Computer\"] --query--&gt; B[Database Engine]\n  B --results--&gt; A\n\n\n\n\n\n\nAs long as the connection is open, we can continue to send queries and receive results.\nIt is best practice to explicitly disconnect from the database. Once we have disconnected, we no longer have access to the database.\n\n\n\n\n\ngraph LR\n  A[\"Our Computer\"] --X--&gt; B[Database Engine]\n  B --X--&gt; A",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
-    "objectID": "first-section-new-chapter.html#website-examples",
-    "href": "first-section-new-chapter.html#website-examples",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.7 Website Examples",
-    "text": "2.7 Website Examples\nYet again you can use a link to a website like so:\nA Website\nYou might want to have users open a website in a new tab by default, especially if they need to reference both the course and a resource at once.\nA Website\nOr, you can embed some websites.\n\n2.7.1 Using knitr\n\nThis works:\n\n\n\n\n\n2.7.2 Using HTML",
+    "objectID": "concepts.html#how-is-the-data-stored",
+    "href": "concepts.html#how-is-the-data-stored",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.7 How is the Data Stored?",
+    "text": "1.7 How is the Data Stored?\nTypically, the data in databases is stored in tables, such as the one below:\n\n\n\nDisplaying records 1 - 10\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nperson_id\ngender_concept_id\nyear_of_birth\nmonth_of_birth\nday_of_birth\nbirth_datetime\nrace_concept_id\nethnicity_concept_id\nlocation_id\nprovider_id\ncare_site_id\nperson_source_value\ngender_source_value\ngender_source_concept_id\nrace_source_value\nrace_source_concept_id\nethnicity_source_value\nethnicity_source_concept_id\n\n\n\n6\n8532\n1963\n12\n31\n1963-12-31\n8516\n0\nNA\nNA\nNA\n001f4a87-70d0-435c-a4b9-1425f6928d33\nF\n0\nblack\n0\nwest_indian\n0\n\n\n123\n8507\n1950\n4\n12\n1950-04-12\n8527\n0\nNA\nNA\nNA\n052d9254-80e8-428f-b8b6-69518b0ef3f3\nM\n0\nwhite\n0\nitalian\n0\n\n\n129\n8507\n1974\n10\n7\n1974-10-07\n8527\n0\nNA\nNA\nNA\n054d32d5-904f-4df4-846b-8c08d165b4e9\nM\n0\nwhite\n0\npolish\n0\n\n\n16\n8532\n1971\n10\n13\n1971-10-13\n8527\n0\nNA\nNA\nNA\n00444703-f2c9-45c9-a247-f6317a43a929\nF\n0\nwhite\n0\namerican\n0\n\n\n65\n8532\n1967\n3\n31\n1967-03-31\n8516\n0\nNA\nNA\nNA\n02a3dad9-f9d5-42fb-8074-c16d45b4f5c8\nF\n0\nblack\n0\ndominican\n0\n\n\n74\n8532\n1972\n1\n5\n1972-01-05\n8527\n0\nNA\nNA\nNA\n02fbf1be-29b7-4da8-8bbd-14c7433f843f\nF\n0\nwhite\n0\nenglish\n0\n\n\n42\n8532\n1909\n11\n2\n1909-11-02\n8527\n0\nNA\nNA\nNA\n0177d2e0-98f5-4f3d-bcfd-497b7a07b3f8\nF\n0\nwhite\n0\nirish\n0\n\n\n187\n8507\n1945\n7\n23\n1945-07-23\n8527\n0\nNA\nNA\nNA\n07a1e14d-73ed-4d3a-9a39-d729745773fa\nM\n0\nwhite\n0\nirish\n0\n\n\n18\n8532\n1965\n11\n17\n1965-11-17\n8527\n0\nNA\nNA\nNA\n0084b0fe-e30f-4930-b6d1-5e1eff4b7dea\nF\n0\nwhite\n0\nenglish\n0\n\n\n111\n8532\n1975\n5\n2\n1975-05-02\n8527\n0\nNA\nNA\nNA\n0478d6b3-bdb3-4574-9b93-cf448d725b84\nF\n0\nwhite\n0\nenglish\n0\n\n\n\n\n\nSome quick terminology:\n\n\nDatabase Record - a row in this table. In this case, each row in the table above corresponds to a single person.\n\nDatabase Field - the columns in this table. In our case, each column corresponds to a single measurement, such as birth_datetime. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.\n\nIt is faster and requires less memory if we do not use a single large table, but decompose the data up into multiple tables. These tables are stored in a number of different formats:\n\nComma Separated Value (CSV)\nA Single File (SQL Server)\na virtual file\n\n\nIn a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The virtual file lets us interact with this large mass of data as if it is a single file.\nThe database engine is responsible for scanning the data, either row by row, or column by column. The engines are made to be very fast in this scanning to return relevant records.\n\n\n\n\n\n\nRows versus Columns\n\n\n\nJust a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.\nA new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like Parquet that you might have heard about. A lot of newer database engines rely on the data to be stored in this format.",
     "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "first-section-new-chapter.html#stylized-boxes",
-    "href": "first-section-new-chapter.html#stylized-boxes",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.8 Stylized boxes",
-    "text": "2.8 Stylized boxes\nOccasionally, you might find it useful to emphasize a particular piece of information. To help you do so, we have provided css code and images (no need for you to worry about that!) to create the following stylized boxes.\nYou can use these boxes in your course with either of two options: using HTML code or Pandoc syntax.\n\n2.8.1 Using rmarkdown container syntax\nThe rmarkdown package allows for a different syntax to be converted to the HTML that you just saw and also allows for conversion to LaTeX. See the Bookdown documentation for more information. Note that Bookdown uses Pandoc.\n::: {.notice}\nNote using rmarkdown syntax.\n\n:::\n\nNote using rmarkdown syntax.\n\nAs an example you might do something like this:\n\nPlease click on the subsection headers in the left hand navigation bar (e.g., 2.1, 4.3) a second time to expand the table of contents and enable the scroll_highlight feature (see more)\n\n\n2.8.2 Using HTML\nTo add a warning box like the following use:\n\nFollowed by the text you want inside\n\nThis will create the following:\n\nFollowed by the text you want inside\n\nHere is a &lt;div class = \"warning\"&gt; box:\n\nNote text\n\nHere is a &lt;div class = \"github\"&gt; box:\n\nGitHub text\n\nHere is a &lt;div class = \"dictionary\"&gt; box:\n\ndictionary text\n\nHere is a &lt;div class = \"reflection\"&gt; box:\n\nreflection text\n\nHere is a &lt;div class = \"wip\"&gt; box:\n\nWork in Progress text",
-    "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "first-section-new-chapter.html#dropdown-summaries",
-    "href": "first-section-new-chapter.html#dropdown-summaries",
-    "title": "\n2  New Chapter\n",
-    "section": "\n2.9 Dropdown summaries",
-    "text": "2.9 Dropdown summaries\n\nYou can hide additional information in a dropdown menu\n\nHere’s more words that are hidden.",
-    "crumbs": [
-      "First Section",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html",
-    "href": "second-section-new-chapter.html",
-    "title": "\n3  New Chapter\n",
-    "section": "",
-    "text": "3.1 Learning Objectives\nEvery chapter also needs Learning objectives.",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#libraries",
-    "href": "second-section-new-chapter.html#libraries",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.2 Libraries",
-    "text": "3.2 Libraries\nFor this chapter, we’ll need the following packages attached:\n*Remember to add any additional packages you need to your course’s own docker image.\n\nlibrary(magrittr)",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#topic-of-section",
-    "href": "second-section-new-chapter.html#topic-of-section",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.3 Topic of Section",
-    "text": "3.3 Topic of Section\nYou can write all your text in sections like this, using ## to indicate a new header. you can use additional pound symbols to create lower levels of headers.\nSee here for additional general information about how you can format text within R Markdown files. In addition, see here for more in depth and advanced options.\n\n3.3.1 Subtopic\nHere’s a subheading (using three pound symbols) and some text in this subsection!",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#code-examples",
-    "href": "second-section-new-chapter.html#code-examples",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.4 Code examples",
-    "text": "3.4 Code examples\nYou can demonstrate code like this:\n\noutput_dir &lt;- file.path(\"resources\", \"code_output\")\nif (!dir.exists(output_dir)) {\n  dir.create(output_dir)\n}\n\nAnd make plots too:\n\nhist_plot &lt;- hist(iris$Sepal.Length)\n\n\n\n\n\n\n\nYou can also save these plots to file:\n\npng(file.path(output_dir, \"test_plot.png\"))\nhist_plot\n\n$breaks\n[1] 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5 8.0\n\n$counts\n[1]  5 27 27 30 31 18  6  6\n\n$density\n[1] 0.06666667 0.36000000 0.36000000 0.40000000 0.41333333 0.24000000 0.08000000\n[8] 0.08000000\n\n$mids\n[1] 4.25 4.75 5.25 5.75 6.25 6.75 7.25 7.75\n\n$xname\n[1] \"iris$Sepal.Length\"\n\n$equidist\n[1] TRUE\n\nattr(,\"class\")\n[1] \"histogram\"\n\ndev.off()\n\npng \n  2",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#image-example",
-    "href": "second-section-new-chapter.html#image-example",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.5 Image example",
-    "text": "3.5 Image example\nHow to include a Google slide. It’s simplest to use the ottrpal package:\n\n\n\n\n\n\n\n\nBut if you have the slide or some other image locally downloaded you can also use HTML like this:",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#video-examples",
-    "href": "second-section-new-chapter.html#video-examples",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.6 Video examples",
-    "text": "3.6 Video examples\nYou may also want to embed videos in your course. If alternatively, you just want to include a link you can do so like this:\nCheck out this link to a video using markdown syntax.\n\n3.6.1 Using knitr\n\nTo embed videos in your course, you can use knitr::include_url() like this: Note that you should use echo=FALSE in the code chunk because we don’t want the code part of this to show up. If you are unfamiliar with how R Markdown code chunks work, read this.\n\n\n\n\n\n3.6.2 Using HTML\n\n\n\n3.6.3 Using knitr\n\n\n\n\n\n\n3.6.4 Using HTML",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#website-examples",
-    "href": "second-section-new-chapter.html#website-examples",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.7 Website Examples",
-    "text": "3.7 Website Examples\nYet again you can use a link to a website like so:\nA Website\nYou might want to have users open a website in a new tab by default, especially if they need to reference both the course and a resource at once.\nA Website\nOr, you can embed some websites.\n\n3.7.1 Using knitr\n\nThis works:\n\n\n\n\n\n3.7.2 Using HTML",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#stylized-boxes",
-    "href": "second-section-new-chapter.html#stylized-boxes",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.8 Stylized boxes",
-    "text": "3.8 Stylized boxes\nOccasionally, you might find it useful to emphasize a particular piece of information. To help you do so, we have provided css code and images (no need for you to worry about that!) to create the following stylized boxes.\nYou can use these boxes in your course with either of two options: using HTML code or Pandoc syntax.\n\n3.8.1 Using rmarkdown container syntax\nThe rmarkdown package allows for a different syntax to be converted to the HTML that you just saw and also allows for conversion to LaTeX. See the Bookdown documentation for more information. Note that Bookdown uses Pandoc.\n::: {.notice}\nNote using rmarkdown syntax.\n\n:::\n\nNote using rmarkdown syntax.\n\nAs an example you might do something like this:\n\nPlease click on the subsection headers in the left hand navigation bar (e.g., 2.1, 4.3) a second time to expand the table of contents and enable the scroll_highlight feature (see more)\n\n\n3.8.2 Using HTML\nTo add a warning box like the following use:\n\nFollowed by the text you want inside\n\nThis will create the following:\n\nFollowed by the text you want inside\n\nHere is a &lt;div class = \"warning\"&gt; box:\n\nNote text\n\nHere is a &lt;div class = \"github\"&gt; box:\n\nGitHub text\n\nHere is a &lt;div class = \"dictionary\"&gt; box:\n\ndictionary text\n\nHere is a &lt;div class = \"reflection\"&gt; box:\n\nreflection text\n\nHere is a &lt;div class = \"wip\"&gt; box:\n\nWork in Progress text",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "second-section-new-chapter.html#dropdown-summaries",
-    "href": "second-section-new-chapter.html#dropdown-summaries",
-    "title": "\n3  New Chapter\n",
-    "section": "\n3.9 Dropdown summaries",
-    "text": "3.9 Dropdown summaries\n\nYou can hide additional information in a dropdown menu\n\nHere’s more words that are hidden.",
-    "crumbs": [
-      "Second Section",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html",
-    "href": "third-section-new-chapter.html",
-    "title": "\n4  New Chapter\n",
-    "section": "",
-    "text": "4.1 Learning Objectives\nEvery chapter also needs Learning Objectives.",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#libraries",
-    "href": "third-section-new-chapter.html#libraries",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.2 Libraries",
-    "text": "4.2 Libraries\nFor this chapter, we’ll need the following packages attached:\n*Remember to add any additional packages you need to your course’s own docker image.\n\nlibrary(magrittr)",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#topic-of-section",
-    "href": "third-section-new-chapter.html#topic-of-section",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.3 Topic of Section",
-    "text": "4.3 Topic of Section\nYou can write all your text in sections like this, using ## to indicate a new header. you can use additional pound symbols to create lower levels of headers.\nSee here for additional general information about how you can format text within R Markdown files. In addition, see here for more in depth and advanced options.\n\n4.3.1 Subtopic\nHere’s a subheading (using three pound symbols) and some text in this subsection!",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#code-examples",
-    "href": "third-section-new-chapter.html#code-examples",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.4 Code examples",
-    "text": "4.4 Code examples\nYou can demonstrate code like this:\n\noutput_dir &lt;- file.path(\"resources\", \"code_output\")\nif (!dir.exists(output_dir)) {\n  dir.create(output_dir)\n}\n\nAnd make plots too:\n\nhist_plot &lt;- hist(iris$Sepal.Length)\n\n\n\n\n\n\n\nYou can also save these plots to file:\n\npng(file.path(output_dir, \"test_plot.png\"))\nhist_plot\n\n$breaks\n[1] 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5 8.0\n\n$counts\n[1]  5 27 27 30 31 18  6  6\n\n$density\n[1] 0.06666667 0.36000000 0.36000000 0.40000000 0.41333333 0.24000000 0.08000000\n[8] 0.08000000\n\n$mids\n[1] 4.25 4.75 5.25 5.75 6.25 6.75 7.25 7.75\n\n$xname\n[1] \"iris$Sepal.Length\"\n\n$equidist\n[1] TRUE\n\nattr(,\"class\")\n[1] \"histogram\"\n\ndev.off()\n\npng \n  2",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#image-example",
-    "href": "third-section-new-chapter.html#image-example",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.5 Image example",
-    "text": "4.5 Image example\nHow to include a Google slide. It’s simplest to use the ottrpal package:\n\n\n\n\n\n\n\n\nBut if you have the slide or some other image locally downloaded you can also use HTML like this:",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#video-examples",
-    "href": "third-section-new-chapter.html#video-examples",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.6 Video examples",
-    "text": "4.6 Video examples\nYou may also want to embed videos in your course. If alternatively, you just want to include a link you can do so like this:\nCheck out this link to a video using markdown syntax.\n\n4.6.1 Using knitr\n\nTo embed videos in your course, you can use knitr::include_url() like this: Note that you should use echo=FALSE in the code chunk because we don’t want the code part of this to show up. If you are unfamiliar with how R Markdown code chunks work, read this.\n\n\n\n\n\n4.6.2 Using HTML\n\n\n\n4.6.3 Using knitr\n\n\n\n\n\n\n4.6.4 Using HTML",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#website-examples",
-    "href": "third-section-new-chapter.html#website-examples",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.7 Website Examples",
-    "text": "4.7 Website Examples\nYet again you can use a link to a website like so:\nA Website\nYou might want to have users open a website in a new tab by default, especially if they need to reference both the course and a resource at once.\nA Website\nOr, you can embed some websites.\n\n4.7.1 Using knitr\n\nThis works:\n\n\n\n\n\n4.7.2 Using HTML",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#stylized-boxes",
-    "href": "third-section-new-chapter.html#stylized-boxes",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.8 Stylized boxes",
-    "text": "4.8 Stylized boxes\nOccasionally, you might find it useful to emphasize a particular piece of information. To help you do so, we have provided css code and images (no need for you to worry about that!) to create the following stylized boxes.\nYou can use these boxes in your course with either of two options: using HTML code or Pandoc syntax.\n\n4.8.1 Using rmarkdown container syntax\nThe rmarkdown package allows for a different syntax to be converted to the HTML that you just saw and also allows for conversion to LaTeX. See the Bookdown documentation for more information. Note that Bookdown uses Pandoc.\n::: {.notice}\nNote using rmarkdown syntax.\n\n:::\n\nNote using rmarkdown syntax.\n\nAs an example you might do something like this:\n\nPlease click on the subsection headers in the left hand navigation bar (e.g., 2.1, 4.3) a second time to expand the table of contents and enable the scroll_highlight feature (see more)\n\n\n4.8.2 Using HTML\nTo add a warning box like the following use:\n\nFollowed by the text you want inside\n\nThis will create the following:\n\nFollowed by the text you want inside\n\nHere is a &lt;div class = \"warning\"&gt; box:\n\nNote text\n\nHere is a &lt;div class = \"github\"&gt; box:\n\nGitHub text\n\nHere is a &lt;div class = \"dictionary\"&gt; box:\n\ndictionary text\n\nHere is a &lt;div class = \"reflection\"&gt; box:\n\nreflection text\n\nHere is a &lt;div class = \"wip\"&gt; box:\n\nWork in Progress text",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "third-section-new-chapter.html#dropdown-summaries",
-    "href": "third-section-new-chapter.html#dropdown-summaries",
-    "title": "\n4  New Chapter\n",
-    "section": "\n4.9 Dropdown summaries",
-    "text": "4.9 Dropdown summaries\n\nYou can hide additional information in a dropdown menu\n\nHere’s more words that are hidden.",
-    "crumbs": [
-      "Third Section",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>New Chapter</span>"
-    ]
-  },
-  {
-    "objectID": "conclusion.html",
-    "href": "conclusion.html",
-    "title": "5  Conclusion",
-    "section": "",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras pulvinar mattis nunc sed blandit. Egestas integer eget aliquet nibh praesent tristique. Phasellus faucibus scelerisque eleifend donec pretium. Consequat ac felis donec et odio pellentesque diam volutpat. Maecenas volutpat blandit aliquam etiam erat. Aenean et tortor at risus viverra adipiscing at in. Integer quis auctor elit sed. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Amet tellus cras adipiscing enim eu turpis egestas. Fermentum iaculis eu non diam phasellus. Et netus et malesuada fames ac. Mauris a diam maecenas sed enim ut sem. Dignissim cras tincidunt lobortis feugiat vivamus at augue eget arcu. Amet est placerat in egestas erat imperdiet sed euismod. Volutpat commodo sed egestas egestas fringilla phasellus faucibus.\nNullam vehicula ipsum a arcu cursus vitae congue. Scelerisque varius morbi enim nunc. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nunc sed blandit libero volutpat sed. Sit amet porttitor eget dolor morbi non. Pellentesque habitant morbi tristique senectus et netus. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam. Tortor posuere ac ut consequat semper viverra nam libero justo. Bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida. Convallis aenean et tortor at. Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Hendrerit gravida rutrum quisque non tellus orci ac auctor augue. Nibh mauris cursus mattis molestie. Eu non diam phasellus vestibulum lorem sed risus ultricies tristique.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras pulvinar mattis nunc sed blandit. Egestas integer eget aliquet nibh praesent tristique. Phasellus faucibus scelerisque eleifend donec pretium. Consequat ac felis donec et odio pellentesque diam volutpat. Maecenas volutpat blandit aliquam etiam erat. Aenean et tortor at risus viverra adipiscing at in. Integer quis auctor elit sed. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Amet tellus cras adipiscing enim eu turpis egestas. Fermentum iaculis eu non diam phasellus. Et netus et malesuada fames ac. Mauris a diam maecenas sed enim ut sem. Dignissim cras tincidunt lobortis feugiat vivamus at augue eget arcu. Amet est placerat in egestas erat imperdiet sed euismod. Volutpat commodo sed egestas egestas fringilla phasellus faucibus.\nNullam vehicula ipsum a arcu cursus vitae congue. Scelerisque varius morbi enim nunc. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nunc sed blandit libero volutpat sed. Sit amet porttitor eget dolor morbi non. Pellentesque habitant morbi tristique senectus et netus. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam. Tortor posuere ac ut consequat semper viverra nam libero justo. Bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida. Convallis aenean et tortor at. Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Hendrerit gravida rutrum quisque non tellus orci ac auctor augue. Nibh mauris cursus mattis molestie. Eu non diam phasellus vestibulum lorem sed risus ultricies tristique.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Conclusion</span>"
-    ]
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Shannon, C. E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal, 27(3), 379–423. https://ieeexplore.ieee.org/document/6773024\nTuring, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433–460. https://mind.oxfordjournals.org/content/LIX/236/433\nTuring, A. M. (1936). On Computable Numbers, with an Application to the Entscheidungsproblem. Proceedings of the London Mathematical Society, s2-42(1), 230–265. https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf\nThompson, K. (1984). Reflections on Trusting Trust. Communications of the ACM, 27(8), 761–763. https://dl.acm.org/doi/10.1145/358198.358210\nGhemawat, S., Gobioff, H., & Leung, S.-T. (2003). The Google File System. In Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles (pp. 29–43). https://research.google.com/archive/gfs-sosp2003.pdf",
-    "crumbs": [
-      "References"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
   },
   {
@@ -457,106 +240,6 @@
     ]
   },
   {
-    "objectID": "week1.html#where",
-    "href": "week1.html#where",
-    "title": "\n1  Week 1\n",
-    "section": "\n1.9 WHERE\n",
-    "text": "1.9 WHERE\n\nAdding WHERE to our SQL statement lets us add filtering to our query:\n\nSELECT person_id, gender_source_value, race_source_value, year_of_birth \n  FROM person \n  WHERE year_of_birth &lt; 1980\n\n\nDisplaying records 1 - 10\n\nperson_id\ngender_source_value\nrace_source_value\nyear_of_birth\n\n\n\n6\nF\nblack\n1963\n\n\n123\nM\nwhite\n1950\n\n\n129\nM\nwhite\n1974\n\n\n16\nF\nwhite\n1971\n\n\n65\nF\nblack\n1967\n\n\n74\nF\nwhite\n1972\n\n\n42\nF\nwhite\n1909\n\n\n187\nM\nwhite\n1945\n\n\n18\nF\nwhite\n1965\n\n\n111\nF\nwhite\n1975\n\n\n\n\n\nOne critical thing to know is that you don’t need to include the columns you’re filtering on in the SELECT part of the statement. For example, we could do the following as well, removing year_of_birth from our SELECT:\n\nSELECT person_id, gender_source_value, race_source_value \n  FROM person \n  WHERE year_of_birth &lt; 2000\n\n\nDisplaying records 1 - 10\n\nperson_id\ngender_source_value\nrace_source_value\n\n\n\n6\nF\nblack\n\n\n123\nM\nwhite\n\n\n129\nM\nwhite\n\n\n16\nF\nwhite\n\n\n65\nF\nblack\n\n\n74\nF\nwhite\n\n\n42\nF\nwhite\n\n\n187\nM\nwhite\n\n\n18\nF\nwhite\n\n\n111\nF\nwhite\n\n\n\n\n\n\n\n\n\n\n\nQuick Note\n\n\n\nFor R users, notice the similarity of select() with SELECT. We can rewrite the above in dplyr code as:\nperson |&gt;\n  select(person_id, gender_source_value, race_source_value)\nA lot of dplyr was inspired by SQL. In fact, there is a package called dbplyr that translates dplyr statements into SQL. A lot of us use it, and it’s pretty handy.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "week1.html#count",
-    "href": "week1.html#count",
-    "title": "\n1  Week 1\n",
-    "section": "\n1.10 COUNT\n",
-    "text": "1.10 COUNT\n\nSometimes you want to know the size of your result, not necessarily return the entire set of results.\n\nSELECT COUNT(*) \n  FROM person\n  WHERE year_of_birth &lt; 2000\n\n\n1 records\n\ncount_star()\n\n\n2694\n\n\n\n\nSimilarly, when we want to count the number of person_ids returned, we can use COUNT(person_id):\n\nSELECT COUNT(person_id) \n  FROM person\n  WHERE year_of_birth &gt; 1970\n\n\n1 records\n\ncount(person_id)\n\n\n649\n\n\n\n\nLet’s switch gears to the procedure_concept_id table. Let’s count the overall number of procedure_concept_ids in our table:\n\nSELECT COUNT(procedure_concept_id)\n  FROM procedure_occurrence\n\n\n1 records\n\ncount(procedure_concept_id)\n\n\n37409\n\n\n\n\nHmmm. That’s quite a lot, but are there repeat procedure_concept_ids?\nWhen you have repeated values in the rows, COUNT(DISTINCT ) can help you find the number of unique values in a column:\n\nSELECT COUNT(DISTINCT procedure_concept_id)\n  FROM procedure_occurrence\n\n\n1 records\n\ncount(DISTINCT procedure_concept_id)\n\n\n51",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "week1.html#keys-linking-tables-together",
-    "href": "week1.html#keys-linking-tables-together",
-    "title": "\n2  Week 1\n",
-    "section": "\n2.12 Keys: Linking tables together",
-    "text": "2.12 Keys: Linking tables together\nOne of the important properties of data in a relational database is that there are no repeat rows in the database. Each table that meets this restriction has what is called a primary key.\nWe can use DESCRIBE to get more information (the metadata) about a table. This gives us information about our tables.\n\nDESCRIBE person\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\ngender_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nyear_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmonth_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nday_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nbirth_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nrace_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nethnicity_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nlocation_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nScanning the rows, which field/column is the primary key for person?\nTry and find the primary key for procedure_occurrence. What is it?\n\nDESCRIBE procedure_occurrence\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nprocedure_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_date\nDATE\nYES\nNA\nNA\nNA\n\n\nprocedure_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nprocedure_type_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmodifier_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nquantity\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nvisit_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nWe’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.\nWhat column is the same in both tables? That is a hint for what we’ll cover next week: JOINing tables.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "week1.html#always-close-the-connection",
-    "href": "week1.html#always-close-the-connection",
-    "title": "\n2  Week 1\n",
-    "section": "\n2.14 Always close the connection",
-    "text": "2.14 Always close the connection\nWhen we’re done, it’s best to close the connection with dbDisconnect().\n\ndbDisconnect(con)",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "week1-passwords.html",
-    "href": "week1-passwords.html",
-    "title": "\n2  Passwords and Code\n",
-    "section": "",
-    "text": "2.1 Before we get started\nA warning: do not store passwords in your code. It is a major security risk.\nThe key to avoiding this is to store the password where your machine can access it, but is not part of your code base. (If you are more advanced, you can store the password in your project directory, but make sure it is in your .gitignore).\nThere are multiple ways to store passwords securely:",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Passwords and Code</span>"
-    ]
-  },
-  {
-    "objectID": "week1-passwords.html#before-we-get-started",
-    "href": "week1-passwords.html#before-we-get-started",
-    "title": "\n2  Passwords and Code\n",
-    "section": "",
-    "text": "Store them as an Environment Variable on your machine\nUse a global .Renviron file to store it outside of your code: https://rstats.wtf/r-startup.html#renviron\nStore them in a secure password manager / keyring (see below).",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Passwords and Code</span>"
-    ]
-  },
-  {
-    "objectID": "week1-passwords.html#what-are-environment-variables",
-    "href": "week1-passwords.html#what-are-environment-variables",
-    "title": "\n2  Passwords and Code\n",
-    "section": "\n2.2 What are environment variables?",
-    "text": "2.2 What are environment variables?\nThese are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is JAVA_HOME, whih is where you set a Java installation.\nWe can set environment variables directly, or we can specify them in a file called .Renviron that lives in our home directory.\nWe will use them as a more secure way to store our passwords. We choose the user scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.\n\nusethis::edit_r_environ(scope=\"user\")\n\n☐ Edit '/Users/tladera2/.Renviron'.\n\n\n☐ Restart R for changes to take effect.\n\n\nAdd the following to your .Renviron file:\nCLASS_DB_PASSWORD=\"IntroSQL\"\nYou may have to reopen the project for it to be loaded in your environment variables. We can now load the password using Sys.getenv().\n\nSys.getenv(\"CLASS_DB_PASSWORD\")\n\n[1] \"IntroSQL\"\n\n\nYou can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.\nThere will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I’ll add more info when I know more.\nThere is much more about storing passwords and other secrets such as API keys here: https://cran.r-project.org/web/packages/httr/vignettes/secrets.html",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Passwords and Code</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html",
-    "href": "concepts.html",
-    "title": "\n1  Database Concepts\n",
-    "section": "",
-    "text": "1.1 What is a Database?\nWhen we talk about databases, we mean the database system rather than database itself. Specifically, we talk about the different layers of a database system.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html#what-is-sql",
-    "href": "concepts.html#what-is-sql",
-    "title": "\n1  Database Concepts\n",
-    "section": "\n1.4 What is SQL?",
-    "text": "1.4 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.\n\n\n\n\n\n\nDialects of SQL\n\n\n\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we’re showing you in this course will get you to where you want to go.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html#rows-versus-columns",
-    "href": "concepts.html#rows-versus-columns",
-    "title": "1  Database Concepts",
-    "section": "1.4 Rows versus Columns",
-    "text": "1.4 Rows versus Columns",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
     "objectID": "week1.html#where---filtering-our-table",
     "href": "week1.html#where---filtering-our-table",
     "title": "\n2  Week 1\n",
@@ -577,33 +260,23 @@
     ]
   },
   {
-    "objectID": "concepts.html#for-this-class",
-    "href": "concepts.html#for-this-class",
-    "title": "\n1  Database Concepts\n",
-    "section": "\n1.3 For this class",
-    "text": "1.3 For this class\nIn our class, we will use the following configuration:\n\n\n\n\n\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\n\n\n\n\n\n\n\n\n\n\n\n\nWhy We’re Using DuckDB in this Course\n\n\n\nDuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.\nIt is what is called an analytical database engine, which means it is very fast for reading and querying data. This is compared to a transactional database engine, which must handle multiple users interacting and inserting data into the database at once.\n\n\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\n\n\n\n\n\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\n\n\n\n\n\n\nIn many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\n\n\n\n\n\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\n\n\n\n\n\n\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
+    "objectID": "week1.html#check-on-learning-1",
+    "href": "week1.html#check-on-learning-1",
+    "title": "\n2  Week 1\n",
+    "section": "\n2.11 Check on Learning",
+    "text": "2.11 Check on Learning\nCount the distinct values of gender_source_value in person:\n\nSELECT COUNT(DISTINCT --------------)\n  FROM -------;",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
   },
   {
-    "objectID": "concepts.html#dialects-of-sql",
-    "href": "concepts.html#dialects-of-sql",
-    "title": "1  Database Concepts",
-    "section": "1.3 Dialects of SQL",
-    "text": "1.3 Dialects of SQL\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems.",
+    "objectID": "week1.html#keys-linking-tables-together",
+    "href": "week1.html#keys-linking-tables-together",
+    "title": "\n2  Week 1\n",
+    "section": "\n2.12 Keys: Linking tables together",
+    "text": "2.12 Keys: Linking tables together\nOne of the important properties of data in a relational database is that there are no repeat rows in the database. Each table that meets this restriction has what is called a primary key.\nWe can use DESCRIBE to get more information (the metadata) about a table. This gives us information about our tables.\n\nDESCRIBE person\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\ngender_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nyear_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmonth_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nday_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nbirth_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nrace_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nethnicity_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nlocation_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nScanning the rows, which field/column is the primary key for person?\nTry and find the primary key for procedure_occurrence. What is it?\n\nDESCRIBE procedure_occurrence\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nprocedure_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_date\nDATE\nYES\nNA\nNA\nNA\n\n\nprocedure_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nprocedure_type_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmodifier_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nquantity\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nvisit_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nWe’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.\nWhat column is the same in both tables? That is a hint for what we’ll cover next week: JOINing tables.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html#anatomy-of-a-sql-statement",
-    "href": "concepts.html#anatomy-of-a-sql-statement",
-    "title": "\n1  Database Concepts\n",
-    "section": "\n1.5 Anatomy of a SQL Statement",
-    "text": "1.5 Anatomy of a SQL Statement\nLet’s look at a typical SQL statement:\nSELECT person_id, gender_source_value   # Choose Columns\n  FROM person                           # Choose the person table\n  WHERE year_of_birth &lt; 2000;            # Filter the data using a criterion\nWe can read this as:\nSELECT the person_id and gender_source_value columns\nFROM the person table\nONLY Those with year of birth less than 2000 \nAs you can see, SQL can be read. We will gradually introduce clauses and different database operations.\n\n\n\n\n\n\nNote\n\n\n\nAs a convention, we will capitalize SQL clauses (such as SELECT), and use lowercase for everything else.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
   },
   {
@@ -617,73 +290,13 @@
     ]
   },
   {
-    "objectID": "index.html#course-description",
-    "href": "index.html#course-description",
-    "title": "Intro to SQL",
-    "section": "Course Description",
-    "text": "Course Description\nData that we need to utilize and query is often stored in data sources such as databases or data warehouses. In this course, you will learn how to connect and query databases using Structured Query Language (SQL). In particular, we will focus on querying data in a commonly used data model for storing patient data called OMOP. By the end of this course, you will be prepared to construct complex queries to retrieve large data sets and automate these queries to produce automated reports and dashboards.",
+    "objectID": "week1.html#always-close-the-connection",
+    "href": "week1.html#always-close-the-connection",
+    "title": "\n2  Week 1\n",
+    "section": "\n2.14 Always close the connection",
+    "text": "2.14 Always close the connection\nWhen we’re done, it’s best to close the connection with dbDisconnect().\n\ndbDisconnect(con)",
     "crumbs": [
-      "Intro to SQL"
-    ]
-  },
-  {
-    "objectID": "index.html#learning-objectives",
-    "href": "index.html#learning-objectives",
-    "title": "Intro to SQL",
-    "section": "Learning Objectives",
-    "text": "Learning Objectives\n\nExplain data sources such as Databases and how to connect to them\nQuery data sources using database engines and Structured Query Language (SQL) to filter, join, and aggregate data\nConstruct and calculate new fields using SELECT or CASE WHEN\nRead and explain a sample OMOP query: https://github.com/OHDSI/OMOP-Queries/tree/master",
-    "crumbs": [
-      "Intro to SQL"
-    ]
-  },
-  {
-    "objectID": "index.html#tentative-schedule",
-    "href": "index.html#tentative-schedule",
-    "title": "Intro to SQL",
-    "section": "Tentative Schedule",
-    "text": "Tentative Schedule\n\n\n\nWeek\nDate\nSubject\n\n\n\n\nPre-class\n—-\nConcepts of Databases\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
-    "crumbs": [
-      "Intro to SQL"
-    ]
-  },
-  {
-    "objectID": "concepts.html#database-connections",
-    "href": "concepts.html#database-connections",
-    "title": "\n1  Database Concepts\n",
-    "section": "\n1.6 Database Connections",
-    "text": "1.6 Database Connections\nWe haven’t really talked about how we connect to the database engine.\nIn order to connect to the database engine and create a database connection, we may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.\nOnce we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can send queries through it, and the database engine will run these queries, and return a result.\n\n\n\n\n\ngraph LR\n  A[\"Our Computer\"] --query--&gt; B[Database Engine]\n  B --results--&gt; A\n\n\n\n\n\n\nAs long as the connection is open, we can continue to send queries and receive results.\nIt is best practice to explicitly disconnect from the database. Once we have disconnected, we no longer have access to the database.\n\n\n\n\n\ngraph LR\n  A[\"Our Computer\"] --X--&gt; B[Database Engine]\n  B --X--&gt; A",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html#what-is-a-database",
-    "href": "concepts.html#what-is-a-database",
-    "title": "\n1  Database Concepts\n",
-    "section": "",
-    "text": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - Oracle Documentation",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html#parts-of-a-database-system",
-    "href": "concepts.html#parts-of-a-database-system",
-    "title": "\n1  Database Concepts\n",
-    "section": "\n1.2 Parts of a Database System",
-    "text": "1.2 Parts of a Database System\nThe Composable Codex talks about three layers of a database system:\nFrom the Composable Codex\n\n\nA user interface - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).\n\nAn execution engine - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.\n\nData Storage - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
-    ]
-  },
-  {
-    "objectID": "concepts.html#how-is-the-data-stored",
-    "href": "concepts.html#how-is-the-data-stored",
-    "title": "\n1  Database Concepts\n",
-    "section": "\n1.7 How is the Data Stored?",
-    "text": "1.7 How is the Data Stored?\nTypically, the data in databases is stored in tables, such as the one below:\n\n\n\nDisplaying records 1 - 10\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nperson_id\ngender_concept_id\nyear_of_birth\nmonth_of_birth\nday_of_birth\nbirth_datetime\nrace_concept_id\nethnicity_concept_id\nlocation_id\nprovider_id\ncare_site_id\nperson_source_value\ngender_source_value\ngender_source_concept_id\nrace_source_value\nrace_source_concept_id\nethnicity_source_value\nethnicity_source_concept_id\n\n\n\n6\n8532\n1963\n12\n31\n1963-12-31\n8516\n0\nNA\nNA\nNA\n001f4a87-70d0-435c-a4b9-1425f6928d33\nF\n0\nblack\n0\nwest_indian\n0\n\n\n123\n8507\n1950\n4\n12\n1950-04-12\n8527\n0\nNA\nNA\nNA\n052d9254-80e8-428f-b8b6-69518b0ef3f3\nM\n0\nwhite\n0\nitalian\n0\n\n\n129\n8507\n1974\n10\n7\n1974-10-07\n8527\n0\nNA\nNA\nNA\n054d32d5-904f-4df4-846b-8c08d165b4e9\nM\n0\nwhite\n0\npolish\n0\n\n\n16\n8532\n1971\n10\n13\n1971-10-13\n8527\n0\nNA\nNA\nNA\n00444703-f2c9-45c9-a247-f6317a43a929\nF\n0\nwhite\n0\namerican\n0\n\n\n65\n8532\n1967\n3\n31\n1967-03-31\n8516\n0\nNA\nNA\nNA\n02a3dad9-f9d5-42fb-8074-c16d45b4f5c8\nF\n0\nblack\n0\ndominican\n0\n\n\n74\n8532\n1972\n1\n5\n1972-01-05\n8527\n0\nNA\nNA\nNA\n02fbf1be-29b7-4da8-8bbd-14c7433f843f\nF\n0\nwhite\n0\nenglish\n0\n\n\n42\n8532\n1909\n11\n2\n1909-11-02\n8527\n0\nNA\nNA\nNA\n0177d2e0-98f5-4f3d-bcfd-497b7a07b3f8\nF\n0\nwhite\n0\nirish\n0\n\n\n187\n8507\n1945\n7\n23\n1945-07-23\n8527\n0\nNA\nNA\nNA\n07a1e14d-73ed-4d3a-9a39-d729745773fa\nM\n0\nwhite\n0\nirish\n0\n\n\n18\n8532\n1965\n11\n17\n1965-11-17\n8527\n0\nNA\nNA\nNA\n0084b0fe-e30f-4930-b6d1-5e1eff4b7dea\nF\n0\nwhite\n0\nenglish\n0\n\n\n111\n8532\n1975\n5\n2\n1975-05-02\n8527\n0\nNA\nNA\nNA\n0478d6b3-bdb3-4574-9b93-cf448d725b84\nF\n0\nwhite\n0\nenglish\n0\n\n\n\n\n\nSome quick terminology:\n\n\nDatabase Record - a row in this table. In this case, each row in the table above corresponds to a single person.\n\nDatabase Field - the columns in this table. In our case, each column corresponds to a single measurement, such as birth_datetime. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.\n\nIt is faster and requires less memory if we do not use a single large table, but decompose the data up into multiple tables. These tables are stored in a number of different formats:\n\nComma Separated Value (CSV)\nA Single File (SQL Server)\na virtual file\n\n\nIn a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The virtual file lets us interact with this large mass of data as if it is a single file.\nThe database engine is responsible for scanning the data, either row by row, or column by column. The engines are made to be very fast in this scanning to return relevant records.\n\n\n\n\n\n\nRows versus Columns\n\n\n\nJust a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.\nA new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like Parquet that you might have heard about. A lot of newer database engines rely on the data to be stored in this format.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
   },
   {
@@ -707,13 +320,13 @@
     ]
   },
   {
-    "objectID": "week1.html#check-on-learning-1",
-    "href": "week1.html#check-on-learning-1",
-    "title": "\n2  Week 1\n",
-    "section": "\n2.11 Check on Learning",
-    "text": "2.11 Check on Learning\nCount the distinct values of gender_source_value in person:\n\nSELECT COUNT(DISTINCT --------------)\n  FROM -------;",
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Shannon, C. E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal, 27(3), 379–423. https://ieeexplore.ieee.org/document/6773024\nTuring, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433–460. https://mind.oxfordjournals.org/content/LIX/236/433\nTuring, A. M. (1936). On Computable Numbers, with an Application to the Entscheidungsproblem. Proceedings of the London Mathematical Society, s2-42(1), 230–265. https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf\nThompson, K. (1984). Reflections on Trusting Trust. Communications of the ACM, 27(8), 761–763. https://dl.acm.org/doi/10.1145/358198.358210\nGhemawat, S., Gobioff, H., & Leung, S.-T. (2003). The Google File System. In Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles (pp. 29–43). https://research.google.com/archive/gfs-sosp2003.pdf",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
+      "References"
     ]
   }
 ]
