@@ -480,8 +480,8 @@
     "objectID": "week1.html#keys-linking-tables-together",
     "href": "week1.html#keys-linking-tables-together",
     "title": "\n2  Week 1\n",
-    "section": "\n2.11 Keys: Linking tables together",
-    "text": "2.11 Keys: Linking tables together\nOne of the important properties of data in a relational database is that there are no repeat rows in the database. Each table that meets this restriction has what is called a primary key.\nWe can use DESCRIBE to get more information (the metadata) about a table. This gives us information about our tables.\n\nDESCRIBE person\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\ngender_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nyear_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmonth_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nday_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nbirth_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nrace_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nethnicity_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nlocation_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nScanning the rows, which field/column is the primary key for person?\nTry and find the primary key for procedure_occurrence. What is it?\n\nDESCRIBE procedure_occurrence\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nprocedure_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_date\nDATE\nYES\nNA\nNA\nNA\n\n\nprocedure_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nprocedure_type_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmodifier_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nquantity\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nvisit_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nWe’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.\nWhat column is the same in both tables? That is a hint for what we’ll cover next week: JOINing tables.",
+    "section": "\n2.12 Keys: Linking tables together",
+    "text": "2.12 Keys: Linking tables together\nOne of the important properties of data in a relational database is that there are no repeat rows in the database. Each table that meets this restriction has what is called a primary key.\nWe can use DESCRIBE to get more information (the metadata) about a table. This gives us information about our tables.\n\nDESCRIBE person\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\ngender_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nyear_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmonth_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nday_of_birth\nINTEGER\nYES\nNA\nNA\nNA\n\n\nbirth_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nrace_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nethnicity_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nlocation_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nScanning the rows, which field/column is the primary key for person?\nTry and find the primary key for procedure_occurrence. What is it?\n\nDESCRIBE procedure_occurrence\n\n\nDisplaying records 1 - 10\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\nprocedure_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nperson_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprocedure_date\nDATE\nYES\nNA\nNA\nNA\n\n\nprocedure_datetime\nTIMESTAMP\nYES\nNA\nNA\nNA\n\n\nprocedure_type_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nmodifier_concept_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nquantity\nINTEGER\nYES\nNA\nNA\nNA\n\n\nprovider_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\nvisit_occurrence_id\nINTEGER\nYES\nNA\nNA\nNA\n\n\n\n\n\nWe’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.\nWhat column is the same in both tables? That is a hint for what we’ll cover next week: JOINing tables.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -490,8 +490,8 @@
     "objectID": "week1.html#always-close-the-connection",
     "href": "week1.html#always-close-the-connection",
     "title": "\n2  Week 1\n",
-    "section": "\n2.13 Always close the connection",
-    "text": "2.13 Always close the connection\nWhen we’re done, it’s best to close the connection with dbDisconnect().\n\ndbDisconnect(con)",
+    "section": "\n2.14 Always close the connection",
+    "text": "2.14 Always close the connection\nWhen we’re done, it’s best to close the connection with dbDisconnect().\n\ndbDisconnect(con)",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -610,8 +610,8 @@
     "objectID": "week1.html#data-types",
     "href": "week1.html#data-types",
     "title": "\n2  Week 1\n",
-    "section": "\n2.12 Data Types",
-    "text": "2.12 Data Types\nIf you look at the column_type for one of the DESCRIBE statements above, you’ll notice there are different data types:\n\nINTEGER\nTIMESTAMP\nDATE\nVARCHAR\n\nEach column of a database needs to be typed. The data type of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like date arithmetic on DATETIME columns, asking the engine to calculate 5 days after the dates.\nYou can see all of the datatypes that are available in DuckDB here.\n\n\n\n\n\n\nKeep in Mind: Beware the Smart Quotes\n\n\n\nBeware cutting and pasting code from Microsoft Word\nMicrosoft products such as Word, will transform double quotes \" into what are called smart quotes: “”. This is bad for us, because it breaks our code.\n\"This is the Original String\"\nwill transform into:\n“This is the Original String”\nIt is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.\nJust be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).\nOftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.",
+    "section": "\n2.13 Data Types",
+    "text": "2.13 Data Types\nIf you look at the column_type for one of the DESCRIBE statements above, you’ll notice there are different data types:\n\nINTEGER\nTIMESTAMP\nDATE\nVARCHAR\n\nEach column of a database needs to be typed. The data type of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like date arithmetic on DATETIME columns, asking the engine to calculate 5 days after the dates.\nYou can see all of the datatypes that are available in DuckDB here.\n\n\n\n\n\n\nKeep in Mind: Beware the Smart Quotes\n\n\n\nBeware cutting and pasting code from Microsoft Word\nMicrosoft products such as Word, will transform double quotes \" into what are called smart quotes: “”. This is bad for us, because it breaks our code.\n\"This is the Original String\"\nwill transform into:\n“This is the Original String”\nIt is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.\nJust be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).\nOftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -641,7 +641,7 @@
     "href": "index.html#tentative-schedule",
     "title": "Intro to SQL",
     "section": "Tentative Schedule",
-    "text": "Tentative Schedule\n\n\n\nWeek\nDate\nSubject\n\n\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
+    "text": "Tentative Schedule\n\n\n\nWeek\nDate\nSubject\n\n\n\n\nPre-class\n—-\nConcepts of Databases\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
     "crumbs": [
       "Intro to SQL"
     ]
@@ -704,6 +704,16 @@
     "text": "4.1 What are environment variables?\nThese are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is JAVA_HOME, whih is where you set a Java installation.\nWe can set environment variables directly, or we can specify them in a file called .Renviron that lives in our home directory.\nWe will use them as a more secure way to store our passwords. We choose the user scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.\n\nusethis::edit_r_environ(scope=\"user\")\n\n☐ Edit '/Users/tladera2/.Renviron'.\n\n\n☐ Restart R for changes to take effect.\n\n\nAdd the following to your .Renviron file:\nCLASS_DB_PASSWORD=\"IntroSQL\"\nYou may have to reopen the project for it to be loaded in your environment variables. We can now load the password using Sys.getenv().\n\nSys.getenv(\"CLASS_DB_PASSWORD\")\n\n[1] \"IntroSQL\"\n\n\nYou can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.\nThere will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I’ll add more info when I know more.\nThere is much more about storing passwords and other secrets such as API keys here: https://cran.r-project.org/web/packages/httr/vignettes/secrets.html.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Miscellaneous Grabbag</span>"
+    ]
+  },
+  {
+    "objectID": "week1.html#check-on-learning-1",
+    "href": "week1.html#check-on-learning-1",
+    "title": "\n2  Week 1\n",
+    "section": "\n2.11 Check on Learning",
+    "text": "2.11 Check on Learning\nCount the distinct values of gender_source_value in person:\n\nSELECT COUNT(DISTINCT --------------)\n  FROM -------;",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
   }
 ]

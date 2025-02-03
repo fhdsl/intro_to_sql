@@ -180,9 +180,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#check-on-learning" id="toc-check-on-learning" class="nav-link" data-scroll-target="#check-on-learning"><span class="header-section-number">2.8</span> Check on Learning</a></li>
   <li><a href="#where---filtering-our-table" id="toc-where---filtering-our-table" class="nav-link" data-scroll-target="#where---filtering-our-table"><span class="header-section-number">2.9</span> <code>WHERE</code> - filtering our table</a></li>
   <li><a href="#count---how-many-rows" id="toc-count---how-many-rows" class="nav-link" data-scroll-target="#count---how-many-rows"><span class="header-section-number">2.10</span> <code>COUNT</code> - how many rows?</a></li>
-  <li><a href="#keys-linking-tables-together" id="toc-keys-linking-tables-together" class="nav-link" data-scroll-target="#keys-linking-tables-together"><span class="header-section-number">2.11</span> Keys: Linking tables together</a></li>
-  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">2.12</span> Data Types</a></li>
-  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">2.13</span> Always close the connection</a></li>
+  <li><a href="#check-on-learning-1" id="toc-check-on-learning-1" class="nav-link" data-scroll-target="#check-on-learning-1"><span class="header-section-number">2.11</span> Check on Learning</a></li>
+  <li><a href="#keys-linking-tables-together" id="toc-keys-linking-tables-together" class="nav-link" data-scroll-target="#keys-linking-tables-together"><span class="header-section-number">2.12</span> Keys: Linking tables together</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">2.13</span> Data Types</a></li>
+  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">2.14</span> Always close the connection</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/week1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -991,12 +992,19 @@ Quick Note
 </table>
 </div>
 </div>
-</section><section id="keys-linking-tables-together" class="level2" data-number="2.11"><h2 data-number="2.11" class="anchored" data-anchor-id="keys-linking-tables-together">
-<span class="header-section-number">2.11</span> Keys: Linking tables together</h2>
+</section><section id="check-on-learning-1" class="level2" data-number="2.11"><h2 data-number="2.11" class="anchored" data-anchor-id="check-on-learning-1">
+<span class="header-section-number">2.11</span> Check on Learning</h2>
+<p>Count the distinct values of <code>gender_source_value</code> in <code>person</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> <span class="co">--------------)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="co">-------;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="keys-linking-tables-together" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="keys-linking-tables-together">
+<span class="header-section-number">2.12</span> Keys: Linking tables together</h2>
 <p>One of the important properties of data in a relational database is that there are no <em>repeat rows</em> in the database. Each table that meets this restriction has what is called a <em>primary key</em>.</p>
 <p>We can use <code>DESCRIBE</code> to get more information (the metadata) about a table. This gives us information about our tables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE person</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE person</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -1096,7 +1104,7 @@ Quick Note
 <p>Scanning the rows, which field/column is the primary key for <code>person</code>?</p>
 <p>Try and find the <em>primary key</em> for <code>procedure_occurrence</code>. What is it?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -1195,8 +1203,8 @@ Quick Note
 </div>
 <p>We’ll see that keys need to be unique (so they can map to each row). In fact, each key is a way to connect one table to another.</p>
 <p>What column is the same in both tables? That is a hint for what we’ll cover next week: <code>JOIN</code>ing tables.</p>
-</section><section id="data-types" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="data-types">
-<span class="header-section-number">2.12</span> Data Types</h2>
+</section><section id="data-types" class="level2" data-number="2.13"><h2 data-number="2.13" class="anchored" data-anchor-id="data-types">
+<span class="header-section-number">2.13</span> Data Types</h2>
 <p>If you look at the <code>column_type</code> for one of the <code>DESCRIBE</code> statements above, you’ll notice there are different data types:</p>
 <ul>
 <li><code>INTEGER</code></li>
@@ -1226,11 +1234,11 @@ Keep in Mind: Beware the Smart Quotes
 <p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.</p>
 </div>
 </div>
-</section><section id="always-close-the-connection" class="level2" data-number="2.13"><h2 data-number="2.13" class="anchored" data-anchor-id="always-close-the-connection">
-<span class="header-section-number">2.13</span> Always close the connection</h2>
+</section><section id="always-close-the-connection" class="level2" data-number="2.14"><h2 data-number="2.14" class="anchored" data-anchor-id="always-close-the-connection">
+<span class="header-section-number">2.14</span> Always close the connection</h2>
 <p>When we’re done, it’s best to close the connection with <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
