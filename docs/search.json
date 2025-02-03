@@ -529,9 +529,9 @@
   {
     "objectID": "concepts.html",
     "href": "concepts.html",
-    "title": "1  Database Concepts",
+    "title": "\n1  Database Concepts\n",
     "section": "",
-    "text": "1.1 For this class\nThe Composable Codex talks about three layers of a database system:\nFrom the Composable Codex\nIn our class, we will use the following configuration:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\nIn many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
+    "text": "1.1 What is a Database?\nWhen we talk about databases, we mean the database system rather than database itself. Specifically, we talk about the different layers of a database system.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -539,9 +539,9 @@
   {
     "objectID": "concepts.html#what-is-sql",
     "href": "concepts.html#what-is-sql",
-    "title": "1  Database Concepts",
-    "section": "1.2 What is SQL?",
-    "text": "1.2 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.\n\n\n\n\n\n\nDialects of SQL\n\n\n\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we’re showing you in this course will get you to where you want to go.",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.4 What is SQL?",
+    "text": "1.4 What is SQL?\nSQL is short for Structured Query Language. It is a standardized language for querying databases (originally relational databases)\nSQL lets us do various operations on data. It contains various clauses which let us manipulate data:\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n4\nHAVING\nFilters Aggregated Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n6\nORDER BY\nSorts by a database field\n\n\n7\nLIMIT\nLimits the number of records returned\n\n\n\nWe do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.\nOftentimes, we really only want a summary out of the database. We would probably use the following clauses:\n\n\n\n\n\n\n\nPriority\nClause\nPurpose\n\n\n\n1\nFROM\nChoose tables to query and specify how to JOIN them together\n\n\n2\nWHERE\nFilter tables based on criteria\n\n\n3\nGROUP BY\nAggregates the Data\n\n\n5\nSELECT\nSelects columns in table and calculate new columns\n\n\n\nNotice that there is a Priority column in these tables. This is important, because parts of queries are evaluated in this order.\n\n\n\n\n\n\nDialects of SQL\n\n\n\nYou may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.\nHowever, we’re focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we’re showing you in this course will get you to where you want to go.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -579,9 +579,9 @@
   {
     "objectID": "concepts.html#for-this-class",
     "href": "concepts.html#for-this-class",
-    "title": "1  Database Concepts",
-    "section": "",
-    "text": "Why We’re Using DuckDB in this Course\n\n\n\nDuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.\nIt is what is called an analytical database engine, which means it is very fast for reading and querying data. This is compared to a transactional database engine, which must handle multiple users interacting and inserting data into the database at once.",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.3 For this class",
+    "text": "1.3 For this class\nIn our class, we will use the following configuration:\n\n\n\n\n\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.DuckDB\"] --&gt; C\nC[\"3.File on our Machine\"]\n\n\n\n\n\n\n\n\n\n\n\n\nWhy We’re Using DuckDB in this Course\n\n\n\nDuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.\nIt is what is called an analytical database engine, which means it is very fast for reading and querying data. This is compared to a transactional database engine, which must handle multiple users interacting and inserting data into the database at once.\n\n\nBut you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:\n\n\n\n\n\ngraph TD\nA[\"1.SQL\"] --&gt; B\nB[\"2.SQL Server\"] --&gt; C\nC[\"3.FH Shared Storage\"]\n\n\n\n\n\n\nIn many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.\nOr, for those who want to use cloud-based systems, we can have this configuration:\n\n\n\n\n\ngraph TD\nA[\"1.SQL/Notebooks\"] --&gt; B\nB[\"2.Databricks/Snowflake\"] --&gt; C\nC[\"3.Amazon S3\"]\n\n\n\n\n\n\nIn this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).\nIf this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -599,9 +599,9 @@
   {
     "objectID": "concepts.html#anatomy-of-a-sql-statement",
     "href": "concepts.html#anatomy-of-a-sql-statement",
-    "title": "1  Database Concepts",
-    "section": "1.3 Anatomy of a SQL Statement",
-    "text": "1.3 Anatomy of a SQL Statement\nLet’s look at a typical SQL statement:\nSELECT person_id, gender_source_value   # Choose Columns\n  FROM person                           # Choose the person table\n  WHERE year_of_birth &lt; 2000            # Filter the data using a criterion",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.5 Anatomy of a SQL Statement",
+    "text": "1.5 Anatomy of a SQL Statement\nLet’s look at a typical SQL statement:\nSELECT person_id, gender_source_value   # Choose Columns\n  FROM person                           # Choose the person table\n  WHERE year_of_birth &lt; 2000            # Filter the data using a criterion",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]
@@ -649,9 +649,39 @@
   {
     "objectID": "concepts.html#database-connections",
     "href": "concepts.html#database-connections",
-    "title": "1  Database Concepts",
-    "section": "1.4 Database Connections",
-    "text": "1.4 Database Connections\nWe haven’t really talked about how we connect to the database engine.\nWe connect to the database engine and create a database connection. We may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.\nOnce we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can send queries through it, and the database engine will run these queries, and return a result.\nAs long as the connection is open, we can continue to send queries and receive results.\nIt is best practice to explicitly disconnect from the database. Once we have disconnected, we no longer have access to the database.\n\n\n\n\n\n\nRows versus Columns\n\n\n\nJust a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.\nA new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like Parquet that you might have heard about.",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.6 Database Connections",
+    "text": "1.6 Database Connections\nWe haven’t really talked about how we connect to the database engine.\nWe connect to the database engine and create a database connection. We may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.\nOnce we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can send queries through it, and the database engine will run these queries, and return a result.\nAs long as the connection is open, we can continue to send queries and receive results.\nIt is best practice to explicitly disconnect from the database. Once we have disconnected, we no longer have access to the database.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+    ]
+  },
+  {
+    "objectID": "concepts.html#what-is-a-database",
+    "href": "concepts.html#what-is-a-database",
+    "title": "\n1  Database Concepts\n",
+    "section": "",
+    "text": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - Oracle Documentation",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+    ]
+  },
+  {
+    "objectID": "concepts.html#parts-of-a-database-system",
+    "href": "concepts.html#parts-of-a-database-system",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.2 Parts of a Database System",
+    "text": "1.2 Parts of a Database System\nThe Composable Codex talks about three layers of a database system:\nFrom the Composable Codex\n\n\nA user interface - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).\n\nAn execution engine - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.\n\nData Storage - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
+    ]
+  },
+  {
+    "objectID": "concepts.html#how-is-the-data-stored",
+    "href": "concepts.html#how-is-the-data-stored",
+    "title": "\n1  Database Concepts\n",
+    "section": "\n1.7 How is the Data Stored?",
+    "text": "1.7 How is the Data Stored?\nTypically, the data in databases is stored in tables, such as the one below:\n\n\n\nDisplaying records 1 - 10\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nperson_id\ngender_concept_id\nyear_of_birth\nmonth_of_birth\nday_of_birth\nbirth_datetime\nrace_concept_id\nethnicity_concept_id\nlocation_id\nprovider_id\ncare_site_id\nperson_source_value\ngender_source_value\ngender_source_concept_id\nrace_source_value\nrace_source_concept_id\nethnicity_source_value\nethnicity_source_concept_id\n\n\n\n6\n8532\n1963\n12\n31\n1963-12-31\n8516\n0\nNA\nNA\nNA\n001f4a87-70d0-435c-a4b9-1425f6928d33\nF\n0\nblack\n0\nwest_indian\n0\n\n\n123\n8507\n1950\n4\n12\n1950-04-12\n8527\n0\nNA\nNA\nNA\n052d9254-80e8-428f-b8b6-69518b0ef3f3\nM\n0\nwhite\n0\nitalian\n0\n\n\n129\n8507\n1974\n10\n7\n1974-10-07\n8527\n0\nNA\nNA\nNA\n054d32d5-904f-4df4-846b-8c08d165b4e9\nM\n0\nwhite\n0\npolish\n0\n\n\n16\n8532\n1971\n10\n13\n1971-10-13\n8527\n0\nNA\nNA\nNA\n00444703-f2c9-45c9-a247-f6317a43a929\nF\n0\nwhite\n0\namerican\n0\n\n\n65\n8532\n1967\n3\n31\n1967-03-31\n8516\n0\nNA\nNA\nNA\n02a3dad9-f9d5-42fb-8074-c16d45b4f5c8\nF\n0\nblack\n0\ndominican\n0\n\n\n74\n8532\n1972\n1\n5\n1972-01-05\n8527\n0\nNA\nNA\nNA\n02fbf1be-29b7-4da8-8bbd-14c7433f843f\nF\n0\nwhite\n0\nenglish\n0\n\n\n42\n8532\n1909\n11\n2\n1909-11-02\n8527\n0\nNA\nNA\nNA\n0177d2e0-98f5-4f3d-bcfd-497b7a07b3f8\nF\n0\nwhite\n0\nirish\n0\n\n\n187\n8507\n1945\n7\n23\n1945-07-23\n8527\n0\nNA\nNA\nNA\n07a1e14d-73ed-4d3a-9a39-d729745773fa\nM\n0\nwhite\n0\nirish\n0\n\n\n18\n8532\n1965\n11\n17\n1965-11-17\n8527\n0\nNA\nNA\nNA\n0084b0fe-e30f-4930-b6d1-5e1eff4b7dea\nF\n0\nwhite\n0\nenglish\n0\n\n\n111\n8532\n1975\n5\n2\n1975-05-02\n8527\n0\nNA\nNA\nNA\n0478d6b3-bdb3-4574-9b93-cf448d725b84\nF\n0\nwhite\n0\nenglish\n0\n\n\n\n\n\nSome quick terminology:\n\n\nDatabase Record - a row in this table. In this case, each row in the table above corresponds to a single person.\n\nDatabase Field - the columns in this table. In our case, each column corresponds to a single measurement, such as birth_datetime. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.\n\nIt is faster and requires less memory if we do not use a single large table, but decompose the data up into multiple tables. These tables are stored in a number of different formats:\n\nComma Separated Value (CSV)\nA Single File (SQL Server)\na virtual file\n\n\nIn a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The virtual file lets us interact with this large mass of data as if it is a single file.\nThe database engine is responsible for scanning the data, either row by row, or column by column.\n\n\n\n\n\n\nRows versus Columns\n\n\n\nJust a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.\nA new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like Parquet that you might have heard about.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Database Concepts</span>"
     ]

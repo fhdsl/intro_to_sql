@@ -2,6 +2,26 @@
 title: "Database Concepts"
 ---
 
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+library(DiagrammeR)
+
+#if(exists(con)){DBI::dbDisconnect(con)}
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/GiBleed_5.3_1.1.duckdb")
+                      
+```
+
+## What is a Database?
+
+> A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - [Oracle Documentation](https://www.oracle.com/database/what-is-database/)
+
+When we talk about databases, we mean the *database system* rather than database itself. Specifically, we talk about the different layers of a database system.
+
+## Parts of a Database System
+
 The [Composable Codex](https://voltrondata.com/codex/a-new-frontier#structure-of-a-composable-data-system) talks about three layers of a database system:
 
 
@@ -113,6 +133,31 @@ Once we are authenticated, we now have a connection. This is basically our condu
 As long as the connection is open, we can continue to send queries and receive results.
 
 It is best practice to explicitly **disconnect** from the database. Once we have disconnected, we no longer have access to the database. 
+
+## How is the Data Stored?
+
+Typically, the data in databases is stored in tables, such as the one below:
+
+```{sql}
+#| connection: "con"
+#| echo: false
+SELECT * FROM person LIMIT 10;
+```
+
+Some quick terminology:
+
+- **Database Record** - a row in this table. In this case, each row in the table above corresponds to a single *person*.
+- **Database Field** - the columns in this table. In our case, each column corresponds to a single measurement, such as `birth_datetime`. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.
+
+It is faster and requires less memory if we do not use a single large table, but decompose the data up into *multiple tables*.  These tables are stored in a number of different formats:
+
+- Comma Separated Value (CSV) 
+- A Single File (SQL Server)
+- a *virtual file*
+
+In a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The *virtual file* lets us interact with this large mass of data as if it is a single file. 
+
+The database engine is responsible for scanning the data, either row by row, or column by column. 
 
 :::{.callout}
 ## Rows versus Columns
