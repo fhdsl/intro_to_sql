@@ -34,7 +34,7 @@
     "href": "index.html#tentative-schedule",
     "title": "Intro to SQL",
     "section": "Tentative Schedule",
-    "text": "Tentative Schedule\nAll classes with be Fridays from 12:00-1:30 PM PST. Connection details will be provided.\n\n\n\nWeek\nDate\nSubject\n\n\n\n\nPre-class\n—-\nConcepts of Databases\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
+    "text": "Tentative Schedule\nAll classes with be Fridays from 12:00-1:30 PM PST. Connection details will be provided.\nIn class we will be going through the Quarto Notebooks that are hosted on Posit.cloud. No knowledge of R is necessary, we’ll show you what you need to know in class.\n\n\n\nWeek\nDate\nSubject\n\n\n\n\nPre-class\n—-\nConcepts of Databases\n\n\n1\nFeb 7\nIntro to SQL; SHOW TABLES, DESCRIBE, SELECT, WHERE\n\n\n2\nFeb 14\nJOINing tables, more WHERE\n\n\n-\nFeb 21\nNo class (school break week)\n\n\n3\nFeb 28\nCalculating new fields, GROUP BY, CASE WHEN, HAVING\n\n\n4\nMar 7\nSubqueries/Views, Recap of course / review OMOP queries",
     "crumbs": [
       "Intro to SQL"
     ]
@@ -44,17 +44,7 @@
     "href": "index.html#culture-of-the-course",
     "title": "Intro to SQL",
     "section": "Culture of the course",
-    "text": "Culture of the course\n\nLearning on the job is challenging\n\nI will move at learner’s pace; we are learning together.\nTeach not for mastery, but teach for empowerment to learn effectively.\n\nVarious personal goals and applications: curate applications based on your interest!",
-    "crumbs": [
-      "Intro to SQL"
-    ]
-  },
-  {
-    "objectID": "index.html#culture-of-the-course-1",
-    "href": "index.html#culture-of-the-course-1",
-    "title": "Intro to SQL",
-    "section": "Culture of the course",
-    "text": "Culture of the course\nChallenge: We sometimes struggle with our data science in isolation, unaware that someone two doors down from us has gone through the same struggle. - We learn and work better with our peers. - Know that if you have a question, other people will have it. - Asking questions is our way of taking care of others.\nWe ask you to follow Participation Guidelines and Code of Conduct.",
+    "text": "Culture of the course\n\nLearning on the job is challenging\n\nI will move at learner’s pace; we are learning together.\nTeach not for mastery, but teach for empowerment to learn effectively.\n\nVarious personal goals and applications: curate applications based on your interest!\n\nChallenge: We sometimes struggle with our data science in isolation, unaware that someone two doors down from us has gone through the same struggle.\n\nWe learn and work better with our peers.\nKnow that if you have a question, other people will have it.\nAsking questions is our way of taking care of others.\n\nWe ask you to follow Participation Guidelines and Code of Conduct.",
     "crumbs": [
       "Intro to SQL"
     ]
