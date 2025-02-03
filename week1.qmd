@@ -9,9 +9,8 @@ format: html
 - Database Engine: DuckDB
 - Data Storage: single file in `data/` folder
 
-
+ 
 ## Connecting to our database
-
 
 To access the data, we need to create a database connection. We use `dbConnect()` from the `DBI` package to do this. The first argument specifies the Database engine (`duckdb()`), and the second provides the file location: ("data/synthea-smaller_breast_cancer.db").
 
@@ -19,13 +18,13 @@ To access the data, we need to create a database connection. We use `dbConnect()
 #| context: setup
 library(duckdb)
 library(DBI)
-library(DiagrammeR)
 
-#if(exists(con)){DBI::dbDisconnect(con)}
 con <- DBI::dbConnect(duckdb::duckdb(), 
                       "data/GiBleed_5.3_1.1.duckdb")
-                      
 ```
+
+Once open, we can use `con` (our database connection)
+
 :::{.callout-note}
 ## Keep in Mind: SQL ignores letter case
 
@@ -207,6 +206,17 @@ SELECT COUNT(DISTINCT procedure_concept_id)
   FROM procedure_occurrence
 ```
 
+## Check on Learning
+
+Count the distinct values of `gender_source_value` in `person`:
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT COUNT(DISTINCT --------------)
+  FROM -------;
+```
+
 ## Keys: Linking tables together
 
 One of the important properties of data in a relational database is that there are no *repeat rows* in the database. Each table that meets this restriction has what is called a *primary key*.
@@ -233,7 +243,16 @@ What column is the same in both tables? That is a hint for what we'll cover next
 
 ## Data Types
 
+If you look at the `column_type` for one of the `DESCRIBE` statements above, you'll notice there are different data types:
 
+- `INTEGER`
+- `TIMESTAMP`
+- `DATE`
+- `VARCHAR`
+
+Each column of a database needs to be *typed*. The *data type* of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like `date arithmetic` on `DATETIME` columns, asking the engine to calculate 5 days after the dates. 
+
+You can see all of the [datatypes that are available in DuckDB here](https://duckdb.org/docs/sql/data_types/overview.html).
 
 ::: {.callout-warning}
 ## Keep in Mind: Beware the Smart Quotes
@@ -260,6 +279,8 @@ Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace 
 :::
 
 ## Always close the connection
+
+When we're done, it's best to close the connection with `dbDisconnect()`. 
 
 ```{r}
 dbDisconnect(con)

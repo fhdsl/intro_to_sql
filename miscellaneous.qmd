@@ -1,0 +1,63 @@
+---
+title: "Miscellaneous Grabbag"
+format: html
+---
+
+This section is for small articles or to answer questions in class.
+
+# How to Store Passwords
+
+A warning: do not store passwords in your code. It is a major security risk.
+
+The key to avoiding this is to store the password where your machine can access it, but is not part of your code base. (If you are more advanced, you can store the password in your project directory, but make sure it is in your `.gitignore`).
+
+There are multiple ways to store passwords securely:
+
+- Store them as an Environment Variable on your machine
+- Use a global `.Renviron` file to store it outside of your code: https://rstats.wtf/r-startup.html#renviron
+- Store them in a secure password manager / keyring (see below).
+
+## What are environment variables?
+
+These are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is `JAVA_HOME`, whih is where you set a Java installation.
+
+We can set environment variables directly, or we can specify them in a file called `.Renviron` that lives in our home directory. 
+
+We will use them as a more secure way to store our passwords. We choose the `user` scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.
+
+```{r}
+usethis::edit_r_environ(scope="user")
+```
+
+Add the following to your `.Renviron` file:
+
+```
+CLASS_DB_PASSWORD="IntroSQL"
+```
+
+You may have to reopen the project for it to be loaded in your environment variables. We can now load the password using `Sys.getenv()`.
+
+```{r}
+Sys.getenv("CLASS_DB_PASSWORD")
+```
+
+You can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.
+
+There will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I'll add more info when I know more.
+
+There is much more about storing passwords and other secrets such as API keys here: <https://cran.r-project.org/web/packages/httr/vignettes/secrets.html>.
+
+# Databases versus Data Warehouses
+
+```{mermaid}
+graph TD
+  A[(Database)] --ETL--> D
+  B[(Database)] --ETL--> D
+  C[(Database)] --ETL--> D
+  D[(Data Warehouse)] 
+
+```
+- **Databases**: made for data collection, or *transactional processing* - these systems are made to be updated by multiple sources at once. For example, a collection form that feeds into a database can be submitted by multiple people at once. If you need the latest records, you want to pull from the database.
+- **Data Warehouse**: Aggregated data from many databases, made for data analysis, or *analytical processing*. They are usually updated on a nightly basis, taking summary data from each database. 
+
+We will be mostly doing analytical querying, as if our data is stored in a data warehouse.

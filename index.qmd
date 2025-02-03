@@ -9,22 +9,42 @@ Data that we need to utilize and query is often stored in data sources such as d
 - **Explain** data sources such as Databases and how to connect to them
 - **Query** data sources using database engines and Structured Query Language (SQL) to **filter**, **join**, and **aggregate** data
 - **Construct** and **calculate** new fields using `SELECT` or `CASE WHEN`
-- **Read** and **explain** a sample OMOP query: https://github.com/OHDSI/OMOP-Queries/tree/master
+- **Read** and **explain** a sample OMOP query: <https://github.com/OHDSI/OMOP-Queries/tree/master>
 
 ## Tentative Schedule
 
+All classes with be Fridays from 12:00-1:30 PM PST. Connection details will be provided.
+
+In class we will be going through the Quarto Notebooks that are hosted on Posit.cloud. No knowledge of R is necessary, we'll show you what you need to know in class.
+
 | Week | Date   | Subject                                                    |
 | ---- | ------ | ---------------------------------------------------------- |
+|Pre-class|----|[Concepts of Databases](concepts.html)|
 | 1    | Feb 7  | [Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE`](week1.html) |
 | 2    | Feb 14 | `JOIN`ing tables, more `WHERE`                             |
 | -    | Feb 21 | No class (school break week)                               |
 | 3    | Feb 28 | Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`  |
 | 4    | Mar 7  | Subqueries/Views, Recap of course / review OMOP queries    |
 
+## Culture of the course
+
+-   Learning on the job is challenging
+    -   I will move at learner's pace; we are learning together.
+    -   Teach not for mastery, but teach for empowerment to learn effectively.
+    
+We sometimes struggle with our data science in isolation, unaware that someone two doors down from us has gone through the same struggle.
+
+  -   *We learn and work better with our peers.*
+  -   *Know that if you have a question, other people will have it.*
+  -   *Asking questions is our way of taking care of others.*
+
+We ask you to follow [Participation Guidelines](https://hutchdatascience.org/communitystudios/guidelines/) and [Code of Conduct](https://github.com/fhdsl/coc).
+
 ## Available Course Formats
 
 This course is available in multiple formats which allows you to take it in the way that best suites your needs. 
 
-- The material for this course can be viewed without login requirement on this [website](https://hutchdatascience.org/intro_to_sql/). This format might be most appropriate for you if you rely on screen-reader technology.
+- The material for this course can be viewed without login requirement on this [website](https:///intro-sql-fh.netlify.app/). This format might be most appropriate for you if you rely on screen-reader technology.
+- The material is also available to Fred Hutch Consortia students via Posit Cloud.
 - Our courses are open source, you can find the [source material for this course on GitHub](https://github.com/fhdsl/intro_to_sql).
 

@@ -4,6 +4,7 @@ title: "Database Concepts"
 
 ```{r}
 #| context: setup
+#| echo: false
 library(duckdb)
 library(DBI)
 library(DiagrammeR)
@@ -119,20 +120,46 @@ Let's look at a typical SQL statement:
 ```sql
 SELECT person_id, gender_source_value   # Choose Columns
   FROM person                           # Choose the person table
-  WHERE year_of_birth < 2000            # Filter the data using a criterion
+  WHERE year_of_birth < 2000;            # Filter the data using a criterion
 ```
+
+We can read this as:
+
+```
+SELECT the person_id and gender_source_value columns
+FROM the person table
+ONLY Those with year of birth less than 2000 
+```
+
+As you can see, SQL can be read. We will gradually introduce clauses and different database operations.
+
+::: {.callout-note}
+As a convention, we will capitalize SQL clauses (such as `SELECT`), and use lowercase for everything else.
+:::
 
 ## Database Connections
 
 We haven't really talked about how we *connect* to the database engine. 
 
-We connect to the database engine and create a database connection. We may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.
+In order to connect to the database engine and create a database connection, we may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.
 
 Once we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can *send* queries through it, and the database engine will run these queries, and **return** a result. 
+
+```{mermaid}
+graph LR
+  A["Our Computer"] --query--> B[Database Engine]
+  B --results--> A
+```
 
 As long as the connection is open, we can continue to send queries and receive results.
 
 It is best practice to explicitly **disconnect** from the database. Once we have disconnected, we no longer have access to the database. 
+
+```{mermaid}
+graph LR
+  A["Our Computer"] --X--> B[Database Engine]
+  B --X--> A
+```
 
 ## How is the Data Stored?
 
@@ -157,12 +184,17 @@ It is faster and requires less memory if we do not use a single large table, but
 
 In a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The *virtual file* lets us interact with this large mass of data as if it is a single file. 
 
-The database engine is responsible for scanning the data, either row by row, or column by column. 
+The database engine is responsible for scanning the data, either row by row, or column by column. The engines are made to be very fast in this scanning to return relevant records.
 
 :::{.callout}
 ## Rows versus Columns
 
 Just a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.
 
-A new trick is column-based storage. It turns out that it's actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like *Parquet* that you might have heard about.
+A new trick is column-based storage. It turns out that it's actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like *Parquet* that you might have heard about. A lot of newer database engines rely on the data to be stored in this format.
 :::
+
+```{r}
+#| echo: false
+dbDisconnect(con)
+```

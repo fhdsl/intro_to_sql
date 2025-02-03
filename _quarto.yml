@@ -16,7 +16,7 @@ book:
     - index.qmd
     - concepts.qmd
     - week1.qmd
-    - week1-passwords.qmd
+    - miscellaneous.qmd
     - references.qmd
   
   sidebar: 

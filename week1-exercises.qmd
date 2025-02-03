@@ -1,0 +1,25 @@
+---
+title: "week1-exercises"
+format: html
+---
+
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+library(DiagrammeR)
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/synthea-smaller_breast_cancer.db")
+                      
+```
+
+## Look at the `concept` table
+
+`DESCRIBE` the concept table.
+
+```{sql}
+#| connection: "con"
+DESCRIBE concept
+```
+
+DESCRIBE `procedure_occurrence`:
