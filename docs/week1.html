@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./week1-passwords.html" rel="next">
+<link href="./miscellaneous.html" rel="next">
 <link href="./concepts.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -152,8 +152,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./week1-passwords.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span></a>
+  <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -218,12 +218,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Loading required package: DBI</code></pre>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org">DBI</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rich-iannone.github.io/DiagrammeR/">DiagrammeR</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#if(exists(con)){DBI::dbDisconnect(con)}</span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span>                      <span class="st">"data/GiBleed_5.3_1.1.duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Once open, we can use <code>con</code> (our database connection)</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1198,6 +1197,15 @@ Quick Note
 <p>What column is the same in both tables? That is a hint for what we’ll cover next week: <code>JOIN</code>ing tables.</p>
 </section><section id="data-types" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="data-types">
 <span class="header-section-number">2.12</span> Data Types</h2>
+<p>If you look at the <code>column_type</code> for one of the <code>DESCRIBE</code> statements above, you’ll notice there are different data types:</p>
+<ul>
+<li><code>INTEGER</code></li>
+<li><code>TIMESTAMP</code></li>
+<li><code>DATE</code></li>
+<li><code>VARCHAR</code></li>
+</ul>
+<p>Each column of a database needs to be <em>typed</em>. The <em>data type</em> of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like <code>date arithmetic</code> on <code>DATETIME</code> columns, asking the engine to calculate 5 days after the dates.</p>
+<p>You can see all of the <a href="https://duckdb.org/docs/sql/data_types/overview.html">datatypes that are available in DuckDB here</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1220,6 +1228,7 @@ Keep in Mind: Beware the Smart Quotes
 </div>
 </section><section id="always-close-the-connection" class="level2" data-number="2.13"><h2 data-number="2.13" class="anchored" data-anchor-id="always-close-the-connection">
 <span class="header-section-number">2.13</span> Always close the connection</h2>
+<p>When we’re done, it’s best to close the connection with <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1652,8 +1661,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./week1-passwords.html" class="pagination-link" aria-label="Passwords and Code">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./miscellaneous.html" class="pagination-link" aria-label="Miscellaneous Grabbag">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

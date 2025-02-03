@@ -153,8 +153,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./week1-passwords.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span></a>
+  <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,16 +199,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><div class="cell" data-context="setup">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: DBI</code></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org">DBI</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rich-iannone.github.io/DiagrammeR/">DiagrammeR</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#if(exists(con)){DBI::dbDisconnect(con)}</span></span>
-<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>                      <span class="st">"data/GiBleed_5.3_1.1.duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="what-is-a-database" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="what-is-a-database">
 <span class="header-section-number">1.1</span> What is a Database?</h2>
@@ -401,16 +394,62 @@ Dialects of SQL
 </section><section id="anatomy-of-a-sql-statement" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="anatomy-of-a-sql-statement">
 <span class="header-section-number">1.5</span> Anatomy of a SQL Statement</h2>
 <p>Let’s look at a typical SQL statement:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, gender_source_value   # <span class="kw">Choose</span> <span class="kw">Columns</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person                           # <span class="kw">Choose</span> <span class="kw">the</span> person <span class="kw">table</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&lt;</span> <span class="dv">2000</span>            # <span class="kw">Filter</span> <span class="kw">the</span> <span class="kw">data</span> <span class="kw">using</span> a criterion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, gender_source_value   # <span class="kw">Choose</span> <span class="kw">Columns</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person                           # <span class="kw">Choose</span> <span class="kw">the</span> person <span class="kw">table</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&lt;</span> <span class="dv">2000</span>;            # <span class="kw">Filter</span> <span class="kw">the</span> <span class="kw">data</span> <span class="kw">using</span> a criterion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can read this as:</p>
+<pre><code>SELECT the person_id and gender_source_value columns
+FROM the person table
+ONLY Those with year of birth less than 2000 </code></pre>
+<p>As you can see, SQL can be read. We will gradually introduce clauses and different database operations.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As a convention, we will capitalize SQL clauses (such as <code>SELECT</code>), and use lowercase for everything else.</p>
+</div>
+</div>
 </section><section id="database-connections" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="database-connections">
 <span class="header-section-number">1.6</span> Database Connections</h2>
 <p>We haven’t really talked about how we <em>connect</em> to the database engine.</p>
-<p>We connect to the database engine and create a database connection. We may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.</p>
+<p>In order to connect to the database engine and create a database connection, we may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.</p>
 <p>Once we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can <em>send</em> queries through it, and the database engine will run these queries, and <strong>return</strong> a result.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"></figure><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+  A["Our Computer"] --query--&gt; B[Database Engine]
+  B --results--&gt; A
+</pre>
+</div>
+<p></p>
+</div>
+</div>
+</div>
 <p>As long as the connection is open, we can continue to send queries and receive results.</p>
 <p>It is best practice to explicitly <strong>disconnect</strong> from the database. Once we have disconnected, we no longer have access to the database.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"></figure><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+  A["Our Computer"] --X--&gt; B[Database Engine]
+  B --X--&gt; A
+</pre>
+</div>
+<p></p>
+</div>
+</div>
+</div>
 </section><section id="how-is-the-data-stored" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="how-is-the-data-stored">
 <span class="header-section-number">1.7</span> How is the Data Stored?</h2>
 <p>Typically, the data in databases is stored in tables, such as the one below:</p>
@@ -678,7 +717,7 @@ Dialects of SQL
 </li>
 </ul>
 <p>In a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The <em>virtual file</em> lets us interact with this large mass of data as if it is a single file.</p>
-<p>The database engine is responsible for scanning the data, either row by row, or column by column.</p>
+<p>The database engine is responsible for scanning the data, either row by row, or column by column. The engines are made to be very fast in this scanning to return relevant records.</p>
 <div class="callout callout-style-simple callout-none no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -690,7 +729,7 @@ Rows versus Columns
 </div>
 <div class="callout-body-container callout-body">
 <p>Just a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.</p>
-<p>A new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like <em>Parquet</em> that you might have heard about.</p>
+<p>A new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like <em>Parquet</em> that you might have heard about. A lot of newer database engines rely on the data to be stored in this format.</p>
 </div>
 </div>
 

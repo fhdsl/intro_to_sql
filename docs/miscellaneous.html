@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Intro to SQL</title>
+<title>3&nbsp; Miscellaneous Grabbag – Intro to SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,8 +17,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -30,7 +60,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./concepts.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./week1.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -40,8 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -67,38 +97,28 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-
-
+}</script><script src="site_libs/quarto-diagram/mermaid.min.js"></script><script src="site_libs/quarto-diagram/mermaid-init.js"></script><link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Intro to SQL</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./miscellaneous.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="https://hutchdatascience.org/" class="sidebar-logo-link">
-      <img src="./img/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="./img/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Intro to SQL</a> 
         <div class="sidebar-tools-main">
@@ -113,9 +133,9 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to SQL</span></a>
   </div>
 </li>
@@ -133,8 +153,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./week1-passwords.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Passwords and Code</span></span></a>
+  <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -144,31 +164,27 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intro-to-sql" id="toc-intro-to-sql" class="nav-link active" data-scroll-target="#intro-to-sql">Intro to SQL</a>
+<li>
+<a href="#how-to-store-passwords" id="toc-how-to-store-passwords" class="nav-link active" data-scroll-target="#how-to-store-passwords"><span class="header-section-number">4</span> How to Store Passwords</a>
   <ul class="collapse">
-  <li><a href="#course-description" id="toc-course-description" class="nav-link" data-scroll-target="#course-description">Course Description</a></li>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
-  <li><a href="#tentative-schedule" id="toc-tentative-schedule" class="nav-link" data-scroll-target="#tentative-schedule">Tentative Schedule</a></li>
-  <li><a href="#available-course-formats" id="toc-available-course-formats" class="nav-link" data-scroll-target="#available-course-formats">Available Course Formats</a></li>
-  </ul></li>
+<li><a href="#what-are-environment-variables" id="toc-what-are-environment-variables" class="nav-link" data-scroll-target="#what-are-environment-variables"><span class="header-section-number">4.1</span> What are environment variables?</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+</li>
+  <li><a href="#databases-versus-data-warehouses" id="toc-databases-versus-data-warehouses" class="nav-link" data-scroll-target="#databases-versus-data-warehouses"><span class="header-section-number">5</span> Databases versus Data Warehouses</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/miscellaneous.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Intro to SQL</h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span>
+</h1>
 </div>
 
 
@@ -182,77 +198,72 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
-
-
-<section id="intro-to-sql" class="level1 unnumbered">
-<h1 class="unnumbered">Intro to SQL</h1>
-<section id="course-description" class="level2">
-<h2 class="anchored" data-anchor-id="course-description">Course Description</h2>
-<p>Data that we need to utilize and query is often stored in data sources such as databases or data warehouses. In this course, you will learn how to connect and query databases using Structured Query Language (SQL). In particular, we will focus on querying data in a commonly used data model for storing patient data called OMOP. By the end of this course, you will be prepared to construct complex queries to retrieve large data sets and automate these queries to produce automated reports and dashboards.</p>
-</section>
-<section id="learning-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+</header><p>This section is for small articles or to answer questions in class.</p>
+<section id="how-to-store-passwords" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> How to Store Passwords</h1>
+<p>A warning: do not store passwords in your code. It is a major security risk.</p>
+<p>The key to avoiding this is to store the password where your machine can access it, but is not part of your code base. (If you are more advanced, you can store the password in your project directory, but make sure it is in your <code>.gitignore</code>).</p>
+<p>There are multiple ways to store passwords securely:</p>
 <ul>
-<li><strong>Explain</strong> data sources such as Databases and how to connect to them</li>
-<li><strong>Query</strong> data sources using database engines and Structured Query Language (SQL) to <strong>filter</strong>, <strong>join</strong>, and <strong>aggregate</strong> data</li>
-<li><strong>Construct</strong> and <strong>calculate</strong> new fields using <code>SELECT</code> or <code>CASE WHEN</code></li>
-<li><strong>Read</strong> and <strong>explain</strong> a sample OMOP query: https://github.com/OHDSI/OMOP-Queries/tree/master</li>
+<li>Store them as an Environment Variable on your machine</li>
+<li>Use a global <code>.Renviron</code> file to store it outside of your code: https://rstats.wtf/r-startup.html#renviron</li>
+<li>Store them in a secure password manager / keyring (see below).</li>
 </ul>
-</section>
-<section id="tentative-schedule" class="level2">
-<h2 class="anchored" data-anchor-id="tentative-schedule">Tentative Schedule</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Week</th>
-<th>Date</th>
-<th>Subject</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Feb 7</td>
-<td><a href="week1.html">Intro to SQL; <code>SHOW TABLES</code>, <code>DESCRIBE</code>, <code>SELECT</code>, <code>WHERE</code></a></td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Feb 14</td>
-<td><code>JOIN</code>ing tables, more <code>WHERE</code></td>
-</tr>
-<tr class="odd">
-<td>-</td>
-<td>Feb 21</td>
-<td>No class (school break week)</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>Feb 28</td>
-<td>Calculating new fields, <code>GROUP BY</code>, <code>CASE WHEN</code>, <code>HAVING</code></td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>Mar 7</td>
-<td>Subqueries/Views, Recap of course / review OMOP queries</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="available-course-formats" class="level2">
-<h2 class="anchored" data-anchor-id="available-course-formats">Available Course Formats</h2>
-<p>This course is available in multiple formats which allows you to take it in the way that best suites your needs.</p>
+<section id="what-are-environment-variables" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="what-are-environment-variables">
+<span class="header-section-number">4.1</span> What are environment variables?</h2>
+<p>These are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is <code>JAVA_HOME</code>, whih is where you set a Java installation.</p>
+<p>We can set environment variables directly, or we can specify them in a file called <code>.Renviron</code> that lives in our home directory.</p>
+<p>We will use them as a more secure way to store our passwords. We choose the <code>user</code> scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/edit.html">edit_r_environ</a></span><span class="op">(</span>scope<span class="op">=</span><span class="st">"user"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>☐ Edit '/Users/tladera2/.Renviron'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>☐ Restart R for changes to take effect.</code></pre>
+</div>
+</div>
+<p>Add the following to your <code>.Renviron</code> file:</p>
+<pre><code>CLASS_DB_PASSWORD="IntroSQL"</code></pre>
+<p>You may have to reopen the project for it to be loaded in your environment variables. We can now load the password using <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"CLASS_DB_PASSWORD"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "IntroSQL"</code></pre>
+</div>
+</div>
+<p>You can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.</p>
+<p>There will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I’ll add more info when I know more.</p>
+<p>There is much more about storing passwords and other secrets such as API keys here: <a href="https://cran.r-project.org/web/packages/httr/vignettes/secrets.html" class="uri">https://cran.r-project.org/web/packages/httr/vignettes/secrets.html</a>.</p>
+</section></section><section id="databases-versus-data-warehouses" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Databases versus Data Warehouses</h1>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"></figure><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+  A[(Database)] --ETL--&gt; D
+  B[(Database)] --ETL--&gt; D
+  C[(Database)] --ETL--&gt; D
+  D[(Data Warehouse)] 
+
+</pre>
+</div>
+<p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>The material for this course can be viewed without login requirement on this <a href="https://hutchdatascience.org/intro_to_sql/">website</a>. This format might be most appropriate for you if you rely on screen-reader technology.</li>
-<li>Our courses are open source, you can find the <a href="https://github.com/fhdsl/intro_to_sql">source material for this course on GitHub</a>.</li>
+<li>
+<strong>Databases</strong>: made for data collection, or <em>transactional processing</em> - these systems are made to be updated by multiple sources at once. For example, a collection form that feeds into a database can be submitted by multiple people at once. If you need the latest records, you want to pull from the database.</li>
+<li>
+<strong>Data Warehouse</strong>: Aggregated data from many databases, made for data analysis, or <em>analytical processing</em>. They are usually updated on a nightly basis, taking summary data from each database.</li>
 </ul>
+<p>We will be mostly doing analytical querying, as if our data is stored in a data warehouse.</p>
 
 
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -673,28 +684,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./week1.html" class="pagination-link" aria-label="Week 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./concepts.html" class="pagination-link" aria-label="Database Concepts">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p>This book was built with <a href="https://quarto.org/" style="color: #fff;">Quarto</a> using <a href="https://github.com/fhdsl/OTTR_Quarto" style="color: #fff;">OTTR</a>.</p>
 </div>   
     <div class="nav-footer-center">
 <p>All illustrations <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;">CC-BY. </a> <br> All other materials <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;"> CC-BY </a> unless noted otherwise.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/miscellaneous.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link active" href="https://github.com/fhdsl/intro_to_sql" aria-current="page">
       <i class="bi bi-github" role="img">
 </i> 
@@ -707,11 +718,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
-
 
 
 </body></html>
