@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>3&nbsp; Miscellaneous Grabbag – Intro to SQL</title>
 <style>
@@ -60,7 +60,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
 <link href="./week1.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -68,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
@@ -157,12 +156,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -172,12 +165,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
 <li>
-<a href="#how-to-store-passwords" id="toc-how-to-store-passwords" class="nav-link active" data-scroll-target="#how-to-store-passwords"><span class="header-section-number">4</span> How to Store Passwords</a>
+<a href="#how-to-store-passwords" id="toc-how-to-store-passwords" class="nav-link active" data-scroll-target="#how-to-store-passwords"><span class="header-section-number">3.1</span> How to Store Passwords</a>
   <ul class="collapse">
-<li><a href="#what-are-environment-variables" id="toc-what-are-environment-variables" class="nav-link" data-scroll-target="#what-are-environment-variables"><span class="header-section-number">4.1</span> What are environment variables?</a></li>
+<li><a href="#what-are-environment-variables" id="toc-what-are-environment-variables" class="nav-link" data-scroll-target="#what-are-environment-variables"><span class="header-section-number">3.1.1</span> What are environment variables?</a></li>
   </ul>
 </li>
-  <li><a href="#databases-versus-data-warehouses" id="toc-databases-versus-data-warehouses" class="nav-link" data-scroll-target="#databases-versus-data-warehouses"><span class="header-section-number">5</span> Databases versus Data Warehouses</a></li>
+  <li><a href="#databases-versus-data-warehouses" id="toc-databases-versus-data-warehouses" class="nav-link" data-scroll-target="#databases-versus-data-warehouses"><span class="header-section-number">3.2</span> Databases versus Data Warehouses</a></li>
+  <li><a href="#whats-the-deal-with-the-semicolon" id="toc-whats-the-deal-with-the-semicolon" class="nav-link" data-scroll-target="#whats-the-deal-with-the-semicolon"><span class="header-section-number">3.3</span> What’s the deal with the <code>;</code> (semicolon)?</a></li>
+  <li><a href="#keep-in-mind-beware-the-smart-quotes" id="toc-keep-in-mind-beware-the-smart-quotes" class="nav-link" data-scroll-target="#keep-in-mind-beware-the-smart-quotes"><span class="header-section-number">3.4</span> Keep in Mind: Beware the Smart Quotes</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/miscellaneous.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -199,8 +194,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><p>This section is for small articles or to answer questions in class.</p>
-<section id="how-to-store-passwords" class="level1" data-number="4"><h1 data-number="4">
-<span class="header-section-number">4</span> How to Store Passwords</h1>
+<section id="how-to-store-passwords" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="how-to-store-passwords">
+<span class="header-section-number">3.1</span> How to Store Passwords</h2>
 <p>A warning: do not store passwords in your code. It is a major security risk.</p>
 <p>The key to avoiding this is to store the password where your machine can access it, but is not part of your code base. (If you are more advanced, you can store the password in your project directory, but make sure it is in your <code>.gitignore</code>).</p>
 <p>There are multiple ways to store passwords securely:</p>
@@ -209,8 +204,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use a global <code>.Renviron</code> file to store it outside of your code: https://rstats.wtf/r-startup.html#renviron</li>
 <li>Store them in a secure password manager / keyring (see below).</li>
 </ul>
-<section id="what-are-environment-variables" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="what-are-environment-variables">
-<span class="header-section-number">4.1</span> What are environment variables?</h2>
+<section id="what-are-environment-variables" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="what-are-environment-variables">
+<span class="header-section-number">3.1.1</span> What are environment variables?</h3>
 <p>These are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is <code>JAVA_HOME</code>, whih is where you set a Java installation.</p>
 <p>We can set environment variables directly, or we can specify them in a file called <code>.Renviron</code> that lives in our home directory.</p>
 <p>We will use them as a more secure way to store our passwords. We choose the <code>user</code> scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.</p>
@@ -235,8 +230,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.</p>
 <p>There will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I’ll add more info when I know more.</p>
 <p>There is much more about storing passwords and other secrets such as API keys here: <a href="https://cran.r-project.org/web/packages/httr/vignettes/secrets.html" class="uri">https://cran.r-project.org/web/packages/httr/vignettes/secrets.html</a>.</p>
-</section></section><section id="databases-versus-data-warehouses" class="level1" data-number="5"><h1 data-number="5">
-<span class="header-section-number">5</span> Databases versus Data Warehouses</h1>
+</section></section><section id="databases-versus-data-warehouses" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="databases-versus-data-warehouses">
+<span class="header-section-number">3.2</span> Databases versus Data Warehouses</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -261,6 +256,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>Data Warehouse</strong>: Aggregated data from many databases, made for data analysis, or <em>analytical processing</em>. They are usually updated on a nightly basis, taking summary data from each database.</li>
 </ul>
 <p>We will be mostly doing analytical querying, as if our data is stored in a data warehouse.</p>
+</section><section id="whats-the-deal-with-the-semicolon" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="whats-the-deal-with-the-semicolon">
+<span class="header-section-number">3.3</span> What’s the deal with the <code>;</code> (semicolon)?</h2>
+<p>We use the <code>;</code> to specify the end of a SQL statement. It is mostly important if you write SQL statements in multiple parts, which we will not do in class.</p>
+</section><section id="keep-in-mind-beware-the-smart-quotes" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="keep-in-mind-beware-the-smart-quotes">
+<span class="header-section-number">3.4</span> Keep in Mind: Beware the Smart Quotes</h2>
+<p><strong>Beware cutting and pasting code from Microsoft Word</strong></p>
+<p>Microsoft products such as Word, will transform double quotes <code>"</code> into what are called <em>smart quotes</em>: <code>“”</code>. This is bad for us, because it breaks our code.</p>
+<pre><code>"This is the Original String"</code></pre>
+<p>will transform into:</p>
+<pre><code>“This is the Original String”</code></pre>
+<p>It is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.</p>
+<p>Just be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).</p>
+<p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes. :::</p>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -690,9 +698,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

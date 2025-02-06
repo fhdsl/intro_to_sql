@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>2&nbsp; Week 1 – Intro to SQL</title>
 <style>
@@ -68,7 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
@@ -156,12 +156,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -178,7 +172,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#selecting-a-few-columns-in-our-table" id="toc-selecting-a-few-columns-in-our-table" class="nav-link" data-scroll-target="#selecting-a-few-columns-in-our-table"><span class="header-section-number">2.6</span> <code>SELECT</code>ing a few columns in our table</a></li>
   <li><a href="#try-it-out-1" id="toc-try-it-out-1" class="nav-link" data-scroll-target="#try-it-out-1"><span class="header-section-number">2.7</span> Try it Out</a></li>
   <li><a href="#check-on-learning" id="toc-check-on-learning" class="nav-link" data-scroll-target="#check-on-learning"><span class="header-section-number">2.8</span> Check on Learning</a></li>
-  <li><a href="#where---filtering-our-table" id="toc-where---filtering-our-table" class="nav-link" data-scroll-target="#where---filtering-our-table"><span class="header-section-number">2.9</span> <code>WHERE</code> - filtering our table</a></li>
+  <li>
+<a href="#where---filtering-our-table" id="toc-where---filtering-our-table" class="nav-link" data-scroll-target="#where---filtering-our-table"><span class="header-section-number">2.9</span> <code>WHERE</code> - filtering our table</a>
+  <ul class="collapse">
+<li><a href="#single-quotes-and-where" id="toc-single-quotes-and-where" class="nav-link" data-scroll-target="#single-quotes-and-where"><span class="header-section-number">2.9.1</span> Single quotes and <code>WHERE</code></a></li>
+  </ul>
+</li>
   <li><a href="#count---how-many-rows" id="toc-count---how-many-rows" class="nav-link" data-scroll-target="#count---how-many-rows"><span class="header-section-number">2.10</span> <code>COUNT</code> - how many rows?</a></li>
   <li><a href="#check-on-learning-1" id="toc-check-on-learning-1" class="nav-link" data-scroll-target="#check-on-learning-1"><span class="header-section-number">2.11</span> Check on Learning</a></li>
   <li><a href="#keys-linking-tables-together" id="toc-keys-linking-tables-together" class="nav-link" data-scroll-target="#keys-linking-tables-together"><span class="header-section-number">2.12</span> Keys: Linking tables together</a></li>
@@ -207,12 +206,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header><section id="our-composable-database-system" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="our-composable-database-system">
 <span class="header-section-number">2.1</span> Our Composable Database System</h2>
 <ul>
-<li>Client: R/RStudio</li>
+<li>Client: R/RStudio w/ SQL</li>
 <li>Database Engine: DuckDB</li>
 <li>Data Storage: single file in <code>data/</code> folder</li>
 </ul></section><section id="connecting-to-our-database" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="connecting-to-our-database">
 <span class="header-section-number">2.2</span> Connecting to our database</h2>
-<p>To access the data, we need to create a database connection. We use <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> from the <code>DBI</code> package to do this. The first argument specifies the Database engine (<code><a href="https://r.duckdb.org/reference/duckdb.html">duckdb()</a></code>), and the second provides the file location: (“data/synthea-smaller_breast_cancer.db”).</p>
+<p>To access the data, we need to create a database connection. We use <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> from the <code>DBI</code> package to do this. The first argument specifies the Database engine (<code><a href="https://r.duckdb.org/reference/duckdb.html">duckdb()</a></code>), and the second provides the file location: <code>"data/data/GiBleed_5.3_1.1.duckdb"</code>.</p>
 <div class="cell" data-context="setup">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -235,8 +234,8 @@ Keep in Mind: SQL ignores letter case
 </div>
 <div class="callout-body-container callout-body">
 <p>These are the same to the database engine:</p>
-<pre><code>SELECT person_id FROM person</code></pre>
-<pre><code>select PERSON_ID FROM person</code></pre>
+<pre><code>SELECT person_id FROM person;</code></pre>
+<pre><code>select PERSON_ID FROM person;</code></pre>
 <p>And so on. Our convention is that we capitalize SQL clauses such as <code>SELECT</code> so you can differentiate them from other information.</p>
 </div>
 </div>
@@ -286,7 +285,7 @@ Keep in Mind: SQL ignores letter case
 </table>
 </div>
 </div>
-<p>We can get further information about the tables within our database using <code>DESCRIBE</code>; This will give us more information about</p>
+<p>We can get further information about the tables within our database using <code>DESCRIBE</code>; This will give us more information about individual tables:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -413,7 +412,7 @@ Keep in Mind: SQL ignores letter case
   FROM person     # from the person table
   LIMIT 10;       # return only 10 rows</code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> person <span class="kw">LIMIT</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> person <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -907,6 +906,80 @@ Keep in Mind: SQL ignores letter case
 </table>
 </div>
 </div>
+<section id="single-quotes-and-where" class="level3" data-number="2.9.1"><h3 data-number="2.9.1" class="anchored" data-anchor-id="single-quotes-and-where">
+<span class="header-section-number">2.9.1</span> Single quotes and <code>WHERE</code>
+</h3>
+<p>SQL convention: single quotes (‘M’) refer to values, and double quotes refer to columns (“person_id”). If you try to use double quotes in the below, it will look for a column called “M”.</p>
+<p>This will trip you up several times if you’re not used to it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, gender_source_value, race_source_value </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> gender_source_value <span class="op">=</span> <span class="st">'M'</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead><tr class="header">
+<th style="text-align: right;">person_id</th>
+<th style="text-align: left;">gender_source_value</th>
+<th style="text-align: left;">race_source_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">123</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">129</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">187</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">40</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">53</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">78</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">69</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">asian</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">248</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">105</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">49</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Reminder: use single (’’) quotes in your SQL statements to refer to values, not double quotes (“).</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -918,18 +991,18 @@ Quick Note
 </div>
 <div class="callout-body-container callout-body">
 <p>For R users, notice the similarity of <code>select()</code> with <code>SELECT</code>. We can rewrite the above in <code>dplyr</code> code as:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">person</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">person</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">person_id</span>, <span class="va">gender_source_value</span>, <span class="va">race_source_value</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A lot of <code>dplyr</code> was inspired by SQL. In fact, there is a package called <code>dbplyr</code> that translates <code>dplyr</code> statements into SQL. A lot of us use it, and it’s pretty handy.</p>
 </div>
 </div>
-</section><section id="count---how-many-rows" class="level2" data-number="2.10"><h2 data-number="2.10" class="anchored" data-anchor-id="count---how-many-rows">
+</section></section><section id="count---how-many-rows" class="level2" data-number="2.10"><h2 data-number="2.10" class="anchored" data-anchor-id="count---how-many-rows">
 <span class="header-section-number">2.10</span> <code>COUNT</code> - how many rows?</h2>
 <p>Sometimes you want to know the <em>size</em> of your result, not necessarily return the entire set of results. That is what <code>COUNT</code> is for.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&lt;</span> <span class="dv">2000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&lt;</span> <span class="dv">2000</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>1 records</caption>
@@ -944,9 +1017,9 @@ Quick Note
 </div>
 <p>Similarly, when we want to count the number of <code>person_id</code>s returned, we can use <code>COUNT(person_id)</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(person_id) </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&gt;</span> <span class="dv">1970</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(person_id) </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&lt;</span> <span class="dv">2000</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>1 records</caption>
@@ -954,15 +1027,15 @@ Quick Note
 <th style="text-align: right;">count(person_id)</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td style="text-align: right;">649</td>
+<td style="text-align: right;">2694</td>
 </tr></tbody>
 </table>
 </div>
 </div>
 <p>Let’s switch gears to the <code>procedure_concept_id</code> table. Let’s count the overall number of <code>procedure_concept_id</code>s in our table:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(procedure_concept_id)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(procedure_concept_id)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>1 records</caption>
@@ -978,8 +1051,8 @@ Quick Note
 <p>Hmmm. That’s quite a lot, but are there repeat <code>procedure_concept_id</code>s?</p>
 <p>When you have repeated values in the rows, <code>COUNT(DISTINCT )</code> can help you find the number of unique values in a column:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> procedure_concept_id)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> procedure_concept_id)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>1 records</caption>
@@ -992,19 +1065,64 @@ Quick Note
 </table>
 </div>
 </div>
+<p>We can also return the actual <code>DISTINCT</code> values by removing <code>COUNT</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> procedure_concept_id</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead><tr class="header">
+<th style="text-align: right;">procedure_concept_id</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4058899</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4295880</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4216130</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4024289</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4202451</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4330583</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4238715</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4186930</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4242997</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4047491</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section><section id="check-on-learning-1" class="level2" data-number="2.11"><h2 data-number="2.11" class="anchored" data-anchor-id="check-on-learning-1">
 <span class="header-section-number">2.11</span> Check on Learning</h2>
 <p>Count the distinct values of <code>gender_source_value</code> in <code>person</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> <span class="co">--------------)</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="co">-------;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> <span class="co">--------------)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="co">-------;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="keys-linking-tables-together" class="level2" data-number="2.12"><h2 data-number="2.12" class="anchored" data-anchor-id="keys-linking-tables-together">
 <span class="header-section-number">2.12</span> Keys: Linking tables together</h2>
 <p>One of the important properties of data in a relational database is that there are no <em>repeat rows</em> in the database. Each table that meets this restriction has what is called a <em>primary key</em>.</p>
 <p>We can use <code>DESCRIBE</code> to get more information (the metadata) about a table. This gives us information about our tables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE person</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE person</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -1020,8 +1138,8 @@ Quick Note
 <tr class="odd">
 <td style="text-align: left;">person_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NO</td>
+<td style="text-align: left;">PRI</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">NA</td>
 </tr>
@@ -1104,7 +1222,7 @@ Quick Note
 <p>Scanning the rows, which field/column is the primary key for <code>person</code>?</p>
 <p>Try and find the <em>primary key</em> for <code>procedure_occurrence</code>. What is it?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE procedure_occurrence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -1120,8 +1238,8 @@ Quick Note
 <tr class="odd">
 <td style="text-align: left;">procedure_occurrence_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NO</td>
+<td style="text-align: left;">PRI</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">NA</td>
 </tr>
@@ -1214,26 +1332,6 @@ Quick Note
 </ul>
 <p>Each column of a database needs to be <em>typed</em>. The <em>data type</em> of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like <code>date arithmetic</code> on <code>DATETIME</code> columns, asking the engine to calculate 5 days after the dates.</p>
 <p>You can see all of the <a href="https://duckdb.org/docs/sql/data_types/overview.html">datatypes that are available in DuckDB here</a>.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Keep in Mind: Beware the Smart Quotes
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Beware cutting and pasting code from Microsoft Word</strong></p>
-<p>Microsoft products such as Word, will transform double quotes <code>"</code> into what are called <em>smart quotes</em>: <code>“”</code>. This is bad for us, because it breaks our code.</p>
-<pre><code>"This is the Original String"</code></pre>
-<p>will transform into:</p>
-<pre><code>“This is the Original String”</code></pre>
-<p>It is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.</p>
-<p>Just be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).</p>
-<p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.</p>
-</div>
-</div>
 </section><section id="always-close-the-connection" class="level2" data-number="2.14"><h2 data-number="2.14" class="anchored" data-anchor-id="always-close-the-connection">
 <span class="header-section-number">2.14</span> Always close the connection</h2>
 <p>When we’re done, it’s best to close the connection with <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code>.</p>
