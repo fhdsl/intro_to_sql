@@ -1,0 +1,199 @@
+---
+title: "Week 4"
+format: html
+---
+
+In this lecture, we will explore **subqueries** and **views** in SQL. These concepts help us break complicated queries into smaller, more manageable parts, improving our ability to read and maintain our code.
+
+## Connecting to our database
+
+As always, to access the data, we create our database connection to our Synthea breast cancer data.
+
+```{r, message=FALSE}
+library(duckdb)
+library(DBI)
+
+con <- DBI::dbConnect(
+  duckdb::duckdb(), 
+  "data/GiBleed_5.3_1.1.duckdb"
+)
+```
+
+With our data loaded and ready to go, let's get started!
+
+## Subqueries
+
+A subquery is a query nested inside another query. Subqueries let us process smaller computations inside larger outer queries.
+
+The following is a great example from [The Data School](https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/), offering a visualization of how a subquery works. In this case, we use a subquery to calculate the total number of friends across individuals by state. Here, we are making use of a subquery in our `SELECT` clause. Let's dive a little deeper into this type of example using our own data.
+
+![](https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_1.gif)
+
+### Example: Using a Subquery in the SELECT Clause
+
+Let's use a subquery to dynamically calculate the age of each individual (as of March 7th, 2024) in our database while collecting other patient metadata. To handle this, we'll make use of the `person` table in our dataframe and the `birth_datetime` column.
+
+```{sql, connection="con", output.var="person_age"}
+SELECT 
+  person_id, 
+  birth_datetime,
+  gender_source_value, 
+  race_source_value, 
+  ethnicity_source_value,
+  (SELECT 
+    DATE_DIFF('year', birth_datetime, DATE '2024-03-07')
+  ) AS age
+FROM 
+  person;
+```
+
+As we can see in the above example, we've performed the computation of calculating patient age in a subquery:
+
+```         
+SELECT 
+    DATE_DIFF('year', birth_datetime, DATE '2024-03-07')
+```
+
+This subquery is integrated into the larger query of collecting patient data.
+
+### Check on learning
+
+Fill in the blanks here to complete the query that dynamically calculates the timespan (in days) between the start and end date for conditions from the condition_occurrence table
+
+```{sql, connection="con", output.var="condition_time"}
+SELECT 
+  person_id,
+  visit_occurrence_id,
+  condition_occurrence_id,
+  condition_concept_id, 
+  condition_start_date,
+  condition_end_date,
+  (SELECT 
+    DATE_DIFF(
+      'day', condition_start_date, condition_end_date
+    )
+  ) AS condition_time_span
+FROM 
+  condition_occurrence;
+```
+
+### Example: Filtering with a Subquery
+
+We've now worked through a couple of examples where we use subqueries to create new variables within our `SELECT` clause. Another thing we can try to do is filter our data based on conditions calculated in a subquery.
+
+Here's another great example from [The Data School](https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/), where we apply a subquery in the filtration component of our larger query to find individuals on Facebook who have the same number of Facebook connections as anyone else on LinkedIn.
+
+![](https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_7.gif)
+
+For our own database, let's collect patient demographic data for all patients who had some kind of procedure performed after January 1st, 2019. We'll make use of the `person` and `procedure_occurrence` tables for this query.
+
+```{sql, connection="con", output.var="recent_pts"}
+SELECT 
+  person_id, 
+  birth_datetime, 
+  gender_source_value, 
+  race_source_value, 
+  ethnicity_source_value
+FROM 
+  person
+WHERE 
+  person_id IN (
+    SELECT 
+      person_id 
+    FROM 
+      procedure_occurrence
+    WHERE 
+      procedure_datetime >= DATE '2019-01-01'
+  );
+```
+
+### Check on learning
+
+Fill in the blanks here to complete the query that selects patients who had conditions starting after January 1st, 2019.
+
+```{sql, connection="con", output.var="recent_pts"}
+SELECT 
+  person_id, 
+  birth_datetime, 
+  gender_source_value, 
+  race_source_value, 
+  ethnicity_source_value
+FROM 
+  person
+WHERE 
+  person_id IN (
+    SELECT 
+      person_id 
+    FROM 
+      condition_occurrence
+    WHERE 
+      condition_start_date >= DATE '2019-01-01'
+  );
+```
+
+## Views
+
+A *view* is a stored SQL query that acts as a virtual table. Views improve code reuse and readability. The following image, taken from [SQLShack](https://www.sqlshack.com/create-view-sql-modifying-views-in-sql-server/), depicts how a complicated query can produce a new customized view that can be used in downstream data processing.
+
+![](https://www.sqlshack.com/wp-content/uploads/2020/03/an-executed-create-view-sql-script-showing-data-re.png)
+
+### Example: Creating a View
+
+With our own data, let's create a view from the `concept` table that focuses on the drugs in our dataset.
+
+```{sql, connection="con", echo=FALSE}
+DROP VIEW IF EXISTS drugs;
+DROP VIEW IF EXISTS measurements;
+```
+
+```{sql, connection="con"}
+CREATE VIEW drugs AS
+SELECT * FROM concept
+WHERE domain_id == 'Drug';
+```
+
+Now, we can use this view just like a table:
+
+```{sql, connection="con", output.var = "drugs"}
+SELECT * FROM drugs;
+```
+
+::: callout-note
+If a view already exists in your database, then trying to create a new view with the same name will generate an error! To delete a view from memory, using the `DROP VIEW` command. E.g.:
+```         
+DROP VIEW IF EXISTS drugs;
+```
+:::
+
+### Check on learning
+
+Fill in the blanks to create a view that stores measurements from the `concept` table
+
+```{sql, connection="con"}
+CREATE VIEW measurements AS
+SELECT * FROM concept
+WHERE domain_id == 'Measurement';
+```
+
+```{sql, connection="con", output.var = "measurements"}
+SELECT * FROM measurements;
+```
+
+## Summary
+
+-   Subqueries allow us to use the result of one query inside another
+-   Views provide a way to store and reuse complex queries as virtual tables
+-   Using subqueries and views can make SQL queries more modular and maintanable.
+
+## Always close the connection
+
+When we're done, always close the connection with `dbDisconnect()`.
+
+```{r}
+dbDisconnect(con)
+```
+
+## References
+
+-   [The Data School](https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/) - all `SUBQUERY` animations come from here
+-   [SQL Shack](https://www.sqlshack.com/create-view-sql-modifying-views-in-sql-server/) - the image depicting the creation of a `VIEW` comes from here

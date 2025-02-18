@@ -16,6 +16,7 @@ book:
     - index.qmd
     - concepts.qmd
     - week1.qmd
+    - week4.qmd
     - miscellaneous.qmd
     - references.qmd
   
