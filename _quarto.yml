@@ -16,10 +16,12 @@ book:
     - index.qmd
     - concepts.qmd
     - week1.qmd
-    - week4.qmd
+    - week2.qmd
+    - week3.qmd
+#    - week4.qmd
     - miscellaneous.qmd
-    - references.qmd
-  
+    - tableref.qmd
+
   sidebar: 
     logo: "img/logo.png"
     logo-href: "https://hutchdatascience.org/"
