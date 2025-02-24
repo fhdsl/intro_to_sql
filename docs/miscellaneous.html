@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>4&nbsp; Miscellaneous Grabbag – Intro to SQL</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./week2.html" rel="prev">
+<link href="./img/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="site_libs/quarto-diagram/mermaid.min.js"></script><script src="site_libs/quarto-diagram/mermaid-init.js"></script><link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./miscellaneous.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="https://hutchdatascience.org/" class="sidebar-logo-link">
+      <img src="./img/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Intro to SQL</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/fhdsl/intro_to_sql" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to SQL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1: <code>DESCRIBE</code>, <code>SELECT</code>, <code>WHERE</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Week 2: <code>JOIN</code>s, More <code>WHERE</code>, Boolean Logic, <code>ORDER BY</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#how-to-store-passwords" id="toc-how-to-store-passwords" class="nav-link active" data-scroll-target="#how-to-store-passwords"><span class="header-section-number">4.1</span> How to Store Passwords</a>
+  <ul class="collapse">
+<li><a href="#what-are-environment-variables" id="toc-what-are-environment-variables" class="nav-link" data-scroll-target="#what-are-environment-variables"><span class="header-section-number">4.1.1</span> What are environment variables?</a></li>
+  </ul>
+</li>
+  <li><a href="#databases-versus-data-warehouses" id="toc-databases-versus-data-warehouses" class="nav-link" data-scroll-target="#databases-versus-data-warehouses"><span class="header-section-number">4.2</span> Databases versus Data Warehouses</a></li>
+  <li><a href="#whats-the-deal-with-the-semicolon" id="toc-whats-the-deal-with-the-semicolon" class="nav-link" data-scroll-target="#whats-the-deal-with-the-semicolon"><span class="header-section-number">4.3</span> What’s the deal with the <code>;</code> (semicolon)?</a></li>
+  <li><a href="#keep-in-mind-beware-the-smart-quotes" id="toc-keep-in-mind-beware-the-smart-quotes" class="nav-link" data-scroll-target="#keep-in-mind-beware-the-smart-quotes"><span class="header-section-number">4.4</span> Keep in Mind: Beware the Smart Quotes</a></li>
+  <li><a href="#dumping-a-query-straight-into-memory" id="toc-dumping-a-query-straight-into-memory" class="nav-link" data-scroll-target="#dumping-a-query-straight-into-memory"><span class="header-section-number">4.5</span> Dumping a Query Straight into memory</a></li>
+  <li><a href="#query-plans" id="toc-query-plans" class="nav-link" data-scroll-target="#query-plans"><span class="header-section-number">4.6</span> Query Plans</a></li>
+  <li><a href="#apache-iceberg" id="toc-apache-iceberg" class="nav-link" data-scroll-target="#apache-iceberg"><span class="header-section-number">4.7</span> Apache Iceberg</a></li>
+  <li><a href="#how-do-we-speed-things-up" id="toc-how-do-we-speed-things-up" class="nav-link" data-scroll-target="#how-do-we-speed-things-up"><span class="header-section-number">4.8</span> How do we speed things up?</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/miscellaneous.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><div class="cell" data-context="setup">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: DBI</code></pre>
+</div>
+</div>
+<p>This section is for small articles or to answer questions in class.</p>
+<section id="how-to-store-passwords" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="how-to-store-passwords">
+<span class="header-section-number">4.1</span> How to Store Passwords</h2>
+<p>A warning: do not store passwords in your code. It is a major security risk.</p>
+<p>The key to avoiding this is to store the password where your machine can access it, but is not part of your code base. (If you are more advanced, you can store the password in your project directory, but make sure it is in your <code>.gitignore</code>).</p>
+<p>There are multiple ways to store passwords securely:</p>
+<ul>
+<li>Store them as an Environment Variable on your machine</li>
+<li>Use a global <code>.Renviron</code> file to store it outside of your code: https://rstats.wtf/r-startup.html#renviron</li>
+<li>Store them in a secure password manager / keyring (see below).</li>
+</ul>
+<section id="what-are-environment-variables" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="what-are-environment-variables">
+<span class="header-section-number">4.1.1</span> What are environment variables?</h3>
+<p>These are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is <code>JAVA_HOME</code>, whih is where you set a Java installation.</p>
+<p>We can set environment variables directly, or we can specify them in a file called <code>.Renviron</code> that lives in our home directory.</p>
+<p>We will use them as a more secure way to store our passwords. We choose the <code>user</code> scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/edit.html">edit_r_environ</a></span><span class="op">(</span>scope<span class="op">=</span><span class="st">"user"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>☐ Edit '/Users/tladera2/.Renviron'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>☐ Restart R for changes to take effect.</code></pre>
+</div>
+</div>
+<p>Add the following to your <code>.Renviron</code> file:</p>
+<pre><code>CLASS_DB_PASSWORD="IntroSQL"</code></pre>
+<p>You may have to reopen the project for it to be loaded in your environment variables. We can now load the password using <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"CLASS_DB_PASSWORD"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "IntroSQL"</code></pre>
+</div>
+</div>
+<p>You can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.</p>
+<p>There will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I’ll add more info when I know more.</p>
+<p>There is much more about storing passwords and other secrets such as API keys here: <a href="https://cran.r-project.org/web/packages/httr/vignettes/secrets.html" class="uri">https://cran.r-project.org/web/packages/httr/vignettes/secrets.html</a>.</p>
+</section></section><section id="databases-versus-data-warehouses" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="databases-versus-data-warehouses">
+<span class="header-section-number">4.2</span> Databases versus Data Warehouses</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"></figure><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+  A[(Database)] --ETL--&gt; D
+  B[(Database)] --ETL--&gt; D
+  C[(Database)] --ETL--&gt; D
+  D[(Data Warehouse)] 
+
+</pre>
+</div>
+<p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>
+<strong>Databases</strong>: made for data collection, or <em>transactional processing</em> - these systems are made to be updated by multiple sources at once. For example, a collection form that feeds into a database can be submitted by multiple people at once. If you need the latest records, you want to pull from the database.</li>
+<li>
+<strong>Data Warehouse</strong>: Aggregated data from many databases, made for data analysis, or <em>analytical processing</em>. They are usually updated on a nightly basis, taking summary data from each database.</li>
+</ul>
+<p>We will be mostly doing analytical querying, as if our data is stored in a data warehouse.</p>
+</section><section id="whats-the-deal-with-the-semicolon" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="whats-the-deal-with-the-semicolon">
+<span class="header-section-number">4.3</span> What’s the deal with the <code>;</code> (semicolon)?</h2>
+<p>We use the <code>;</code> to specify the end of a SQL statement. It is mostly important if you write SQL statements in multiple parts, which we will not do in class.</p>
+</section><section id="keep-in-mind-beware-the-smart-quotes" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="keep-in-mind-beware-the-smart-quotes">
+<span class="header-section-number">4.4</span> Keep in Mind: Beware the Smart Quotes</h2>
+<p><strong>Beware cutting and pasting code from Microsoft Word</strong></p>
+<p>Microsoft products such as Word, will transform double quotes <code>"</code> into what are called <em>smart quotes</em>: <code>“”</code>. This is bad for us, because it breaks our code.</p>
+<pre><code>"This is the Original String"</code></pre>
+<p>will transform into:</p>
+<pre><code>“This is the Original String”</code></pre>
+<p>It is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.</p>
+<p>Just be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).</p>
+<p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes. :::</p>
+</section><section id="dumping-a-query-straight-into-memory" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="dumping-a-query-straight-into-memory">
+<span class="header-section-number">4.5</span> Dumping a Query Straight into memory</h2>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>                      <span class="st">"data/GiBleed_5.3_1.1.duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can add a line to our SQL code cell to save the output of our SQL query</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{sql}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="in">#| connection: "con"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="in">#| output.var: person</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT * FROM person</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="in">  LIMIT 10;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we run this, we will save the output into the object called <code>person</code>:</p>
+<div class="cell" data-output.var="person">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> person</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can work with this as a normal R object now:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">person</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   person_id gender_concept_id year_of_birth month_of_birth day_of_birth
+1          6              8532          1963             12           31
+2        123              8507          1950              4           12
+3        129              8507          1974             10            7
+4         16              8532          1971             10           13
+5         65              8532          1967              3           31
+6         74              8532          1972              1            5
+7         42              8532          1909             11            2
+8        187              8507          1945              7           23
+9         18              8532          1965             11           17
+10       111              8532          1975              5            2
+   birth_datetime race_concept_id ethnicity_concept_id location_id provider_id
+1      1963-12-31            8516                    0          NA          NA
+2      1950-04-12            8527                    0          NA          NA
+3      1974-10-07            8527                    0          NA          NA
+4      1971-10-13            8527                    0          NA          NA
+5      1967-03-31            8516                    0          NA          NA
+6      1972-01-05            8527                    0          NA          NA
+7      1909-11-02            8527                    0          NA          NA
+8      1945-07-23            8527                    0          NA          NA
+9      1965-11-17            8527                    0          NA          NA
+10     1975-05-02            8527                    0          NA          NA
+   care_site_id                  person_source_value gender_source_value
+1            NA 001f4a87-70d0-435c-a4b9-1425f6928d33                   F
+2            NA 052d9254-80e8-428f-b8b6-69518b0ef3f3                   M
+3            NA 054d32d5-904f-4df4-846b-8c08d165b4e9                   M
+4            NA 00444703-f2c9-45c9-a247-f6317a43a929                   F
+5            NA 02a3dad9-f9d5-42fb-8074-c16d45b4f5c8                   F
+6            NA 02fbf1be-29b7-4da8-8bbd-14c7433f843f                   F
+7            NA 0177d2e0-98f5-4f3d-bcfd-497b7a07b3f8                   F
+8            NA 07a1e14d-73ed-4d3a-9a39-d729745773fa                   M
+9            NA 0084b0fe-e30f-4930-b6d1-5e1eff4b7dea                   F
+10           NA 0478d6b3-bdb3-4574-9b93-cf448d725b84                   F
+   gender_source_concept_id race_source_value race_source_concept_id
+1                         0             black                      0
+2                         0             white                      0
+3                         0             white                      0
+4                         0             white                      0
+5                         0             black                      0
+6                         0             white                      0
+7                         0             white                      0
+8                         0             white                      0
+9                         0             white                      0
+10                        0             white                      0
+   ethnicity_source_value ethnicity_source_concept_id
+1             west_indian                           0
+2                 italian                           0
+3                  polish                           0
+4                american                           0
+5               dominican                           0
+6                 english                           0
+7                   irish                           0
+8                   irish                           0
+9                 english                           0
+10                english                           0</code></pre>
+</div>
+</div>
+</section><section id="query-plans" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="query-plans">
+<span class="header-section-number">4.6</span> Query Plans</h2>
+<p>All database systems will translate your SQL query into a concrete <em>query plan</em>: this shows step by step, how the engine will execute your query. With DuckDB, we can use <code>EXPLAIN</code>.</p>
+<p>Note that the output of <code>EXPLAIN</code> is not a table, which is why I’m using an R chunk to execute the SQL.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">statement</span> <span class="op">&lt;-</span>   <span class="st">"EXPLAIN SELECT po.person_id, c.concept_name, po.procedure_date</span></span>
+<span><span class="st">    FROM procedure_occurrence as po </span></span>
+<span><span class="st">    INNER JOIN concept as c</span></span>
+<span><span class="st">    ON po.procedure_concept_id = c.concept_id</span></span>
+<span><span class="st">    ORDER BY po.procedure_date;"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">dbGetQuery</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">statement</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>physical_plan
+┌───────────────────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_decompress_integ│
+│     ral_integer(#0, 1)    │
+│             #1            │
+│             #2            │
+│                           │
+│        ~38448 Rows        │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│   po.procedure_date ASC   │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_compress_integra│
+│     l_usmallint(#0, 1)    │
+│             #1            │
+│             #2            │
+│                           │
+│        ~38448 Rows        │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         person_id         │
+│        concept_name       │
+│       procedure_date      │
+│                           │
+│        ~38448 Rows        │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├──────────────┐
+│   procedure_concept_id =  │              │
+│         concept_id        │              │
+│                           │              │
+│        ~38448 Rows        │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│         SEQ_SCAN          ││         SEQ_SCAN          │
+│    ────────────────────   ││    ────────────────────   │
+│           Table:          ││       Table: concept      │
+│    procedure_occurrence   ││    Type: Sequence Scan    │
+│                           ││                           │
+│    Type: Sequence Scan    ││        Projections:       │
+│                           ││         concept_id        │
+│        Projections:       ││        concept_name       │
+│    procedure_concept_id   ││                           │
+│         person_id         ││          Filters:         │
+│       procedure_date      ││  concept_id&gt;=4010253 AND  │
+│                           ││    concept_id&lt;=44805732   │
+│                           ││                           │
+│        ~37409 Rows        ││         ~444 Rows         │
+└───────────────────────────┘└───────────────────────────┘</code></pre>
+</div>
+</div>
+<p>Using <code>EXPLAIN ANALYZE</code> will not only show the query plan, but also how long it takes to execute each step.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">statement</span> <span class="op">&lt;-</span>   <span class="st">"EXPLAIN ANALYZE SELECT po.person_id, c.concept_name, po.procedure_date</span></span>
+<span><span class="st">    FROM procedure_occurrence as po </span></span>
+<span><span class="st">    INNER JOIN concept as c</span></span>
+<span><span class="st">    ON po.procedure_concept_id = c.concept_id</span></span>
+<span><span class="st">    ORDER BY po.procedure_date;"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">dbGetQuery</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">statement</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>analyzed_plan
+┌─────────────────────────────────────┐
+│┌───────────────────────────────────┐│
+││    Query Profiling Information    ││
+│└───────────────────────────────────┘│
+└─────────────────────────────────────┘
+EXPLAIN ANALYZE SELECT po.person_id, c.concept_name, po.procedure_date     FROM procedure_occurrence as po      INNER JOIN concept as c     ON po.procedure_concept_id = c.concept_id     ORDER BY po.procedure_date;
+┌────────────────────────────────────────────────┐
+│┌──────────────────────────────────────────────┐│
+││              Total Time: 0.0034s             ││
+│└──────────────────────────────────────────────┘│
+└────────────────────────────────────────────────┘
+┌───────────────────────────┐
+│           QUERY           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│      EXPLAIN_ANALYZE      │
+│    ────────────────────   │
+│           0 Rows          │
+│          (0.00s)          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_decompress_integ│
+│     ral_integer(#0, 1)    │
+│             #1            │
+│             #2            │
+│                           │
+│         37409 Rows        │
+│          (0.00s)          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│   po.procedure_date ASC   │
+│                           │
+│         37409 Rows        │
+│          (0.00s)          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_compress_integra│
+│     l_usmallint(#0, 1)    │
+│             #1            │
+│             #2            │
+│                           │
+│         37409 Rows        │
+│          (0.00s)          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         person_id         │
+│        concept_name       │
+│       procedure_date      │
+│                           │
+│         37409 Rows        │
+│          (0.00s)          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        │
+│   procedure_concept_id =  ├──────────────┐
+│         concept_id        │              │
+│                           │              │
+│         37409 Rows        │              │
+│          (0.00s)          │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│         TABLE_SCAN        ││         TABLE_SCAN        │
+│    ────────────────────   ││    ────────────────────   │
+│           Table:          ││       Table: concept      │
+│    procedure_occurrence   ││    Type: Sequence Scan    │
+│                           ││                           │
+│    Type: Sequence Scan    ││        Projections:       │
+│                           ││         concept_id        │
+│        Projections:       ││        concept_name       │
+│    procedure_concept_id   ││                           │
+│         person_id         ││          Filters:         │
+│       procedure_date      ││  concept_id&gt;=4010253 AND  │
+│                           ││    concept_id&lt;=44805732   │
+│                           ││                           │
+│         37409 Rows        ││          235 Rows         │
+│          (0.00s)          ││          (0.00s)          │
+└───────────────────────────┘└───────────────────────────┘</code></pre>
+</div>
+</div>
+</section><section id="apache-iceberg" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="apache-iceberg">
+<span class="header-section-number">4.7</span> Apache Iceberg</h2>
+<p>One transactional database format that is starting to be very important is <em>Apache Iceberg</em>.</p>
+</section><section id="how-do-we-speed-things-up" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="how-do-we-speed-things-up">
+<span class="header-section-number">4.8</span> How do we speed things up?</h2>
+<p>Our main tool for speeding up database searches is <strong>Indexing</strong>. Creating an index on a column speeds up searching through that particular column.</p>
+<p>Database Tuning is as much an art as it is a science. Too many indexes will make the database too big, whereas too few indexes will result in slow performance. This is why we hire database admins. Their work is incredibly important to keeping our data integrity and performing.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./week2.html" class="pagination-link" aria-label="Week 2: `JOIN`s, More `WHERE`, Boolean Logic, `ORDER BY`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Week 2: <code>JOIN</code>s, More <code>WHERE</code>, Boolean Logic, <code>ORDER BY</code></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>This book was built with <a href="https://quarto.org/" style="color: #fff;">Quarto</a> using <a href="https://github.com/fhdsl/OTTR_Quarto" style="color: #fff;">OTTR</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>All illustrations <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;">CC-BY. </a> <br> All other materials <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;"> CC-BY </a> unless noted otherwise.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/miscellaneous.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link active" href="https://github.com/fhdsl/intro_to_sql" aria-current="page">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://fhdata.slack.com/join/signup#/domain-signup">
+      <i class="bi bi-slack" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
