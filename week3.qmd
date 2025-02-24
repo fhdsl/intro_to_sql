@@ -13,7 +13,7 @@ library(DBI)
 
 con <- DBI::dbConnect(duckdb::duckdb(), 
                       "data/GiBleed_5.3_1.1.duckdb")
-```
+``` pul
 
 ## `GROUP BY`
 
@@ -101,6 +101,17 @@ SELECT domain_id, COUNT(concept_id) AS count_domain
   GROUP BY domain_id
   HAVING count_domain > 40
   ORDER BY count_domain DESC
+```
+
+```{r}
+sql_statement <- "EXPLAIN SELECT domain_id, COUNT(concept_id) AS count_domain
+  FROM concept
+  WHERE domain_id != 'Drug'
+  GROUP BY domain_id
+  HAVING count_domain > 40
+  ORDER BY count_domain DESC"
+
+DBI::dbGetQuery(con, sql_statement)
 ```
 
 Here's what happens when you put `WHERE` after `GROUP BY`/`HAVING`:
