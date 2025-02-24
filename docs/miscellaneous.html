@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Miscellaneous Grabbag – Intro to SQL</title>
+<title>5&nbsp; Miscellaneous Grabbag – Intro to SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,8 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./week2.html" rel="prev">
+<link href="./tableref.html" rel="next">
+<link href="./week3.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./miscellaneous.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./miscellaneous.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -159,14 +159,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
+  <a href="./week3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 3: <code>GROUP BY</code>/<code>HAVING</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+  <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tableref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
   </div>
 </li>
     </ul>
@@ -178,24 +184,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
 <li>
-<a href="#how-to-store-passwords" id="toc-how-to-store-passwords" class="nav-link active" data-scroll-target="#how-to-store-passwords"><span class="header-section-number">4.1</span> How to Store Passwords</a>
+<a href="#how-to-store-passwords" id="toc-how-to-store-passwords" class="nav-link active" data-scroll-target="#how-to-store-passwords"><span class="header-section-number">5.1</span> How to Store Passwords</a>
   <ul class="collapse">
-<li><a href="#what-are-environment-variables" id="toc-what-are-environment-variables" class="nav-link" data-scroll-target="#what-are-environment-variables"><span class="header-section-number">4.1.1</span> What are environment variables?</a></li>
+<li><a href="#what-are-environment-variables" id="toc-what-are-environment-variables" class="nav-link" data-scroll-target="#what-are-environment-variables"><span class="header-section-number">5.1.1</span> What are environment variables?</a></li>
   </ul>
 </li>
-  <li><a href="#databases-versus-data-warehouses" id="toc-databases-versus-data-warehouses" class="nav-link" data-scroll-target="#databases-versus-data-warehouses"><span class="header-section-number">4.2</span> Databases versus Data Warehouses</a></li>
-  <li><a href="#whats-the-deal-with-the-semicolon" id="toc-whats-the-deal-with-the-semicolon" class="nav-link" data-scroll-target="#whats-the-deal-with-the-semicolon"><span class="header-section-number">4.3</span> What’s the deal with the <code>;</code> (semicolon)?</a></li>
-  <li><a href="#keep-in-mind-beware-the-smart-quotes" id="toc-keep-in-mind-beware-the-smart-quotes" class="nav-link" data-scroll-target="#keep-in-mind-beware-the-smart-quotes"><span class="header-section-number">4.4</span> Keep in Mind: Beware the Smart Quotes</a></li>
-  <li><a href="#dumping-a-query-straight-into-memory" id="toc-dumping-a-query-straight-into-memory" class="nav-link" data-scroll-target="#dumping-a-query-straight-into-memory"><span class="header-section-number">4.5</span> Dumping a Query Straight into memory</a></li>
-  <li><a href="#query-plans" id="toc-query-plans" class="nav-link" data-scroll-target="#query-plans"><span class="header-section-number">4.6</span> Query Plans</a></li>
-  <li><a href="#apache-iceberg" id="toc-apache-iceberg" class="nav-link" data-scroll-target="#apache-iceberg"><span class="header-section-number">4.7</span> Apache Iceberg</a></li>
-  <li><a href="#how-do-we-speed-things-up" id="toc-how-do-we-speed-things-up" class="nav-link" data-scroll-target="#how-do-we-speed-things-up"><span class="header-section-number">4.8</span> How do we speed things up?</a></li>
+  <li><a href="#databases-versus-data-warehouses" id="toc-databases-versus-data-warehouses" class="nav-link" data-scroll-target="#databases-versus-data-warehouses"><span class="header-section-number">5.2</span> Databases versus Data Warehouses</a></li>
+  <li><a href="#whats-the-deal-with-the-semicolon" id="toc-whats-the-deal-with-the-semicolon" class="nav-link" data-scroll-target="#whats-the-deal-with-the-semicolon"><span class="header-section-number">5.3</span> What’s the deal with the <code>;</code> (semicolon)?</a></li>
+  <li><a href="#keep-in-mind-beware-the-smart-quotes" id="toc-keep-in-mind-beware-the-smart-quotes" class="nav-link" data-scroll-target="#keep-in-mind-beware-the-smart-quotes"><span class="header-section-number">5.4</span> Keep in Mind: Beware the Smart Quotes</a></li>
+  <li><a href="#dumping-a-query-straight-into-memory" id="toc-dumping-a-query-straight-into-memory" class="nav-link" data-scroll-target="#dumping-a-query-straight-into-memory"><span class="header-section-number">5.5</span> Dumping a Query Straight into memory</a></li>
+  <li><a href="#query-plans" id="toc-query-plans" class="nav-link" data-scroll-target="#query-plans"><span class="header-section-number">5.6</span> Query Plans</a></li>
+  <li><a href="#apache-iceberg" id="toc-apache-iceberg" class="nav-link" data-scroll-target="#apache-iceberg"><span class="header-section-number">5.7</span> Apache Iceberg</a></li>
+  <li><a href="#how-do-we-speed-things-up" id="toc-how-do-we-speed-things-up" class="nav-link" data-scroll-target="#how-do-we-speed-things-up"><span class="header-section-number">5.8</span> How do we speed things up?</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/miscellaneous.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span>
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span>
 </h1>
 </div>
 
@@ -216,8 +222,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>This section is for small articles or to answer questions in class.</p>
-<section id="how-to-store-passwords" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="how-to-store-passwords">
-<span class="header-section-number">4.1</span> How to Store Passwords</h2>
+<section id="how-to-store-passwords" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="how-to-store-passwords">
+<span class="header-section-number">5.1</span> How to Store Passwords</h2>
 <p>A warning: do not store passwords in your code. It is a major security risk.</p>
 <p>The key to avoiding this is to store the password where your machine can access it, but is not part of your code base. (If you are more advanced, you can store the password in your project directory, but make sure it is in your <code>.gitignore</code>).</p>
 <p>There are multiple ways to store passwords securely:</p>
@@ -226,8 +232,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use a global <code>.Renviron</code> file to store it outside of your code: https://rstats.wtf/r-startup.html#renviron</li>
 <li>Store them in a secure password manager / keyring (see below).</li>
 </ul>
-<section id="what-are-environment-variables" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="what-are-environment-variables">
-<span class="header-section-number">4.1.1</span> What are environment variables?</h3>
+<section id="what-are-environment-variables" class="level3" data-number="5.1.1"><h3 data-number="5.1.1" class="anchored" data-anchor-id="what-are-environment-variables">
+<span class="header-section-number">5.1.1</span> What are environment variables?</h3>
 <p>These are variables that can be seen by all applications, including R/RStudio. They are not stored within code, but as variables in memory. One of the ones you might have had to struggle wiht is <code>JAVA_HOME</code>, whih is where you set a Java installation.</p>
 <p>We can set environment variables directly, or we can specify them in a file called <code>.Renviron</code> that lives in our home directory.</p>
 <p>We will use them as a more secure way to store our passwords. We choose the <code>user</code> scope so that it is saved in our home directory, not the project directory. This way, we can protect our password from prying eyes and bots.</p>
@@ -252,8 +258,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can also set the environment variable using Windows Control Panel or PowerShell: https://phoenixnap.com/kb/windows-set-environment-variable - the easiest way to do it is probably the control panel method.</p>
 <p>There will probably be some sort of authentication process involved in connecting to your databases at Fred Hutch. I’ll add more info when I know more.</p>
 <p>There is much more about storing passwords and other secrets such as API keys here: <a href="https://cran.r-project.org/web/packages/httr/vignettes/secrets.html" class="uri">https://cran.r-project.org/web/packages/httr/vignettes/secrets.html</a>.</p>
-</section></section><section id="databases-versus-data-warehouses" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="databases-versus-data-warehouses">
-<span class="header-section-number">4.2</span> Databases versus Data Warehouses</h2>
+</section></section><section id="databases-versus-data-warehouses" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="databases-versus-data-warehouses">
+<span class="header-section-number">5.2</span> Databases versus Data Warehouses</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -278,11 +284,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>Data Warehouse</strong>: Aggregated data from many databases, made for data analysis, or <em>analytical processing</em>. They are usually updated on a nightly basis, taking summary data from each database.</li>
 </ul>
 <p>We will be mostly doing analytical querying, as if our data is stored in a data warehouse.</p>
-</section><section id="whats-the-deal-with-the-semicolon" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="whats-the-deal-with-the-semicolon">
-<span class="header-section-number">4.3</span> What’s the deal with the <code>;</code> (semicolon)?</h2>
+</section><section id="whats-the-deal-with-the-semicolon" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="whats-the-deal-with-the-semicolon">
+<span class="header-section-number">5.3</span> What’s the deal with the <code>;</code> (semicolon)?</h2>
 <p>We use the <code>;</code> to specify the end of a SQL statement. It is mostly important if you write SQL statements in multiple parts, which we will not do in class.</p>
-</section><section id="keep-in-mind-beware-the-smart-quotes" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="keep-in-mind-beware-the-smart-quotes">
-<span class="header-section-number">4.4</span> Keep in Mind: Beware the Smart Quotes</h2>
+</section><section id="keep-in-mind-beware-the-smart-quotes" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="keep-in-mind-beware-the-smart-quotes">
+<span class="header-section-number">5.4</span> Keep in Mind: Beware the Smart Quotes</h2>
 <p><strong>Beware cutting and pasting code from Microsoft Word</strong></p>
 <p>Microsoft products such as Word, will transform double quotes <code>"</code> into what are called <em>smart quotes</em>: <code>“”</code>. This is bad for us, because it breaks our code.</p>
 <pre><code>"This is the Original String"</code></pre>
@@ -291,8 +297,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That’s because the smart quotes aren’t double quotes, which you need to specify a string.</p>
 <p>Just be aware that you might have to fix these quotes if you’re cutting / pasting from a Microsoft product (although google is also guilty of this).</p>
 <p>Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes. :::</p>
-</section><section id="dumping-a-query-straight-into-memory" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="dumping-a-query-straight-into-memory">
-<span class="header-section-number">4.5</span> Dumping a Query Straight into memory</h2>
+</section><section id="dumping-a-query-straight-into-memory" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="dumping-a-query-straight-into-memory">
+<span class="header-section-number">5.5</span> Dumping a Query Straight into memory</h2>
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
@@ -371,8 +377,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10                english                           0</code></pre>
 </div>
 </div>
-</section><section id="query-plans" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="query-plans">
-<span class="header-section-number">4.6</span> Query Plans</h2>
+</section><section id="query-plans" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="query-plans">
+<span class="header-section-number">5.6</span> Query Plans</h2>
 <p>All database systems will translate your SQL query into a concrete <em>query plan</em>: this shows step by step, how the engine will execute your query. With DuckDB, we can use <code>EXPLAIN</code>.</p>
 <p>Note that the output of <code>EXPLAIN</code> is not a table, which is why I’m using an R chunk to execute the SQL.</p>
 <div class="cell">
@@ -467,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 EXPLAIN ANALYZE SELECT po.person_id, c.concept_name, po.procedure_date     FROM procedure_occurrence as po      INNER JOIN concept as c     ON po.procedure_concept_id = c.concept_id     ORDER BY po.procedure_date;
 ┌────────────────────────────────────────────────┐
 │┌──────────────────────────────────────────────┐│
-││              Total Time: 0.0034s             ││
+││              Total Time: 0.0038s             ││
 │└──────────────────────────────────────────────┘│
 └────────────────────────────────────────────────┘
 ┌───────────────────────────┐
@@ -550,11 +556,11 @@ EXPLAIN ANALYZE SELECT po.person_id, c.concept_name, po.procedure_date     FROM 
 └───────────────────────────┘└───────────────────────────┘</code></pre>
 </div>
 </div>
-</section><section id="apache-iceberg" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="apache-iceberg">
-<span class="header-section-number">4.7</span> Apache Iceberg</h2>
+</section><section id="apache-iceberg" class="level2" data-number="5.7"><h2 data-number="5.7" class="anchored" data-anchor-id="apache-iceberg">
+<span class="header-section-number">5.7</span> Apache Iceberg</h2>
 <p>One transactional database format that is starting to be very important is <em>Apache Iceberg</em>.</p>
-</section><section id="how-do-we-speed-things-up" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="how-do-we-speed-things-up">
-<span class="header-section-number">4.8</span> How do we speed things up?</h2>
+</section><section id="how-do-we-speed-things-up" class="level2" data-number="5.8"><h2 data-number="5.8" class="anchored" data-anchor-id="how-do-we-speed-things-up">
+<span class="header-section-number">5.8</span> How do we speed things up?</h2>
 <p>Our main tool for speeding up database searches is <strong>Indexing</strong>. Creating an index on a column speeds up searching through that particular column.</p>
 <p>Database Tuning is as much an art as it is a science. Too many indexes will make the database too big, whereas too few indexes will result in slow performance. This is why we hire database admins. Their work is incredibly important to keeping our data integrity and performing.</p>
 <div class="cell">
@@ -984,13 +990,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./week2.html" class="pagination-link" aria-label="Week 2: `JOIN`s, More `WHERE`, Boolean Logic, `ORDER BY`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Week 2: <code>JOIN</code>s, More <code>WHERE</code>, Boolean Logic, <code>ORDER BY</code></span></span>
+      <a href="./week3.html" class="pagination-link" aria-label="Week 3: `GROUP BY`/`HAVING`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 3: <code>GROUP BY</code>/<code>HAVING</code></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tableref.html" class="pagination-link" aria-label="Table Reference">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

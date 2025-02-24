@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>1&nbsp; Database Concepts – Intro to SQL</title>
+<title>6&nbsp; Table Reference – Intro to SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,8 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./week1.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./miscellaneous.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -97,8 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="site_libs/quarto-diagram/mermaid.min.js"></script><script src="site_libs/quarto-diagram/mermaid-init.js"></script><link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+}</script><link rel="stylesheet" href="style.css">
 </head>
 <body class="nav-sidebar floating">
 
@@ -107,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./concepts.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tableref.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -141,7 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./concepts.html" class="sidebar-item-text sidebar-link active">
+  <a href="./concepts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span></span></a>
   </div>
 </li>
@@ -171,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tableref.html" class="sidebar-item-text sidebar-link">
+  <a href="./tableref.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
   </div>
 </li>
@@ -183,19 +181,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#what-is-a-database" id="toc-what-is-a-database" class="nav-link active" data-scroll-target="#what-is-a-database"><span class="header-section-number">1.1</span> What is a Database?</a></li>
-  <li><a href="#parts-of-a-database-system" id="toc-parts-of-a-database-system" class="nav-link" data-scroll-target="#parts-of-a-database-system"><span class="header-section-number">1.2</span> Parts of a Database System</a></li>
-  <li><a href="#for-this-class" id="toc-for-this-class" class="nav-link" data-scroll-target="#for-this-class"><span class="header-section-number">1.3</span> For this class</a></li>
-  <li><a href="#what-is-sql" id="toc-what-is-sql" class="nav-link" data-scroll-target="#what-is-sql"><span class="header-section-number">1.4</span> What is SQL?</a></li>
-  <li><a href="#anatomy-of-a-sql-statement" id="toc-anatomy-of-a-sql-statement" class="nav-link" data-scroll-target="#anatomy-of-a-sql-statement"><span class="header-section-number">1.5</span> Anatomy of a SQL Statement</a></li>
-  <li><a href="#database-connections" id="toc-database-connections" class="nav-link" data-scroll-target="#database-connections"><span class="header-section-number">1.6</span> Database Connections</a></li>
-  <li><a href="#how-is-the-data-stored" id="toc-how-is-the-data-stored" class="nav-link" data-scroll-target="#how-is-the-data-stored"><span class="header-section-number">1.7</span> How is the Data Stored?</a></li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/concepts.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<li><a href="#person-table" id="toc-person-table" class="nav-link active" data-scroll-target="#person-table"><span class="header-section-number">6.1</span> <code>person</code> table:</a></li>
+  <li><a href="#procedure_occurrence-table" id="toc-procedure_occurrence-table" class="nav-link" data-scroll-target="#procedure_occurrence-table"><span class="header-section-number">6.2</span> <code>procedure_occurrence</code> table:</a></li>
+  <li><a href="#concept-table" id="toc-concept-table" class="nav-link" data-scroll-target="#concept-table"><span class="header-section-number">6.3</span> <code>concept</code> table</a></li>
+  <li><a href="#condition_occurrence-table" id="toc-condition_occurrence-table" class="nav-link" data-scroll-target="#condition_occurrence-table"><span class="header-section-number">6.4</span> <code>condition_occurrence</code> table</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/tableref.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Database Concepts</span>
+<span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span>
 </h1>
 </div>
 
@@ -215,258 +210,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Loading required package: DBI</code></pre>
 </div>
 </div>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/7YQpuKynWLI" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<section id="what-is-a-database" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="what-is-a-database">
-<span class="header-section-number">1.1</span> What is a Database?</h2>
-<blockquote class="blockquote">
-<p>A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - <a href="https://www.oracle.com/database/what-is-database/">Oracle Documentation</a></p>
-</blockquote>
-<p>When we talk about databases, we mean the <em>database system</em> rather than database itself. Specifically, we talk about the different layers of a database system.</p>
-</section><section id="parts-of-a-database-system" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="parts-of-a-database-system">
-<span class="header-section-number">1.2</span> Parts of a Database System</h2>
-<p>The <a href="https://voltrondata.com/codex/a-new-frontier#structure-of-a-composable-data-system">Composable Codex</a> talks about three layers of a database system:</p>
-<p><img src="img/composable-data-system-modules.png" class="img-fluid"><a href="https://voltrondata.com/codex/a-new-frontier#building-a-new-composable-frontier">From the Composable Codex</a></p>
-<ol type="1">
-<li>
-<strong>A user interface</strong> - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).</li>
-<li>
-<strong>An execution engine</strong> - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.</li>
-<li>
-<strong>Data Storage</strong> - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)</li>
-</ol></section><section id="for-this-class" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="for-this-class">
-<span class="header-section-number">1.3</span> For this class</h2>
-<p>In our class, we will use the following configuration:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"></figure><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-A["1.SQL"] --&gt; B
-B["2.DuckDB"] --&gt; C
-C["3.File on our Machine"]
-</pre>
-</div>
-<p></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-none no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Why We’re Using DuckDB in this Course
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>DuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.</p>
-<p>It is what is called an <em>analytical</em> database engine, which means it is very fast for reading and querying data. This is compared to a <em>transactional</em> database engine, which must handle multiple users interacting and inserting data into the database at once.</p>
-</div>
-</div>
-<p>But you can think of other configurations that might be more applicable to you. For example, a lot of groups at the Hutch use SQL Server:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"></figure><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-A["1.SQL"] --&gt; B
-B["2.SQL Server"] --&gt; C
-C["3.FH Shared Storage"]
-</pre>
-</div>
-<p></p>
-</div>
-</div>
-</div>
-<p>In many ways, SQL Server and its storage are tightly coupled (the engine and the storage are in the same location). This coupling can make it difficult to migrate out of such systems.</p>
-<p>Or, for those who want to use cloud-based systems, we can have this configuration:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"></figure><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-A["1.SQL/Notebooks"] --&gt; B
-B["2.Databricks/Snowflake"] --&gt; C
-C["3.Amazon S3"]
-</pre>
-</div>
-<p></p>
-</div>
-</div>
-</div>
-<p>In this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).</p>
-<p>If this is making you dizzy, don’t worry too much about it. Just know that we can switch out the different layers based on our needs.</p>
-</section><section id="what-is-sql" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="what-is-sql">
-<span class="header-section-number">1.4</span> What is SQL?</h2>
-<p>SQL is short for <strong>S</strong>tructured <strong>Q</strong>uery <strong>L</strong>anguage. It is a standardized language for querying databases (originally relational databases)</p>
-<p>SQL lets us do various operations on data. It contains various <em>clauses</em> which let us manipulate data:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 12%">
-<col style="width: 77%">
-</colgroup>
-<thead><tr class="header">
-<th>Priority</th>
-<th>Clause</th>
-<th>Purpose</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td><code>FROM</code></td>
-<td>Choose tables to query and specify how to <code>JOIN</code> them together</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td><code>WHERE</code></td>
-<td>Filter tables based on criteria</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td><code>GROUP BY</code></td>
-<td>Aggregates the Data</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td><code>HAVING</code></td>
-<td>Filters Aggregated Data</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td><code>SELECT</code></td>
-<td>Selects columns in table and calculate new columns</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td><code>ORDER BY</code></td>
-<td>Sorts by a database field</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td><code>LIMIT</code></td>
-<td>Limits the number of records returned</td>
-</tr>
-</tbody>
-</table>
-<p>We do not use all of these clauses when we write a SQL Query. We only use the ones we need to get the data we need out.</p>
-<p>Oftentimes, we really only want a summary out of the database. We would probably use the following clauses:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 12%">
-<col style="width: 77%">
-</colgroup>
-<thead><tr class="header">
-<th>Priority</th>
-<th>Clause</th>
-<th>Purpose</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td><code>FROM</code></td>
-<td>Choose tables to query and specify how to <code>JOIN</code> them together</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td><code>WHERE</code></td>
-<td>Filter tables based on criteria</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td><code>GROUP BY</code></td>
-<td>Aggregates the Data</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td><code>SELECT</code></td>
-<td>Selects columns in table and calculate new columns</td>
-</tr>
-</tbody>
-</table>
-<p>Notice that there is a <strong>Priority</strong> column in these tables. This is important, because parts of queries are evaluated in this order.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Dialects of SQL
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.</p>
-<p>However, we’re focusing on the 95% of SQL that is common to all systems. Most of the time, the SQL we’re showing you in this course will get you to where you want to go.</p>
-</div>
-</div>
-</section><section id="anatomy-of-a-sql-statement" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="anatomy-of-a-sql-statement">
-<span class="header-section-number">1.5</span> Anatomy of a SQL Statement</h2>
-<p>Let’s look at a typical SQL statement:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, gender_source_value   # <span class="kw">Choose</span> <span class="kw">Columns</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person                           # <span class="kw">Choose</span> <span class="kw">the</span> person <span class="kw">table</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> year_of_birth <span class="op">&lt;</span> <span class="dv">2000</span>;            # <span class="kw">Filter</span> <span class="kw">the</span> <span class="kw">data</span> <span class="kw">using</span> a criterion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can read this as:</p>
-<pre><code>SELECT the person_id and gender_source_value columns
-FROM the person table
-ONLY Those with year of birth less than 2000 </code></pre>
-<p>As you can see, SQL can be read. We will gradually introduce clauses and different database operations.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>As a convention, we will capitalize SQL clauses (such as <code>SELECT</code>), and use lowercase for everything else.</p>
-</div>
-</div>
-</section><section id="database-connections" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="database-connections">
-<span class="header-section-number">1.6</span> Database Connections</h2>
-<p>We haven’t really talked about how we <em>connect</em> to the database engine.</p>
-<p>In order to connect to the database engine and create a database connection, we may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.</p>
-<p>Once we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can <em>send</em> queries through it, and the database engine will run these queries, and <strong>return</strong> a result.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"></figure><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-  A["Our Computer"] --query--&gt; B[Database Engine]
-  B --results--&gt; A
-</pre>
-</div>
-<p></p>
-</div>
-</div>
-</div>
-<p>As long as the connection is open, we can continue to send queries and receive results.</p>
-<p>It is best practice to explicitly <strong>disconnect</strong> from the database. Once we have disconnected, we no longer have access to the database.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"></figure><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-  A["Our Computer"] --X--&gt; B[Database Engine]
-  B --X--&gt; A
-</pre>
-</div>
-<p></p>
-</div>
-</div>
-</div>
-</section><section id="how-is-the-data-stored" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="how-is-the-data-stored">
-<span class="header-section-number">1.7</span> How is the Data Stored?</h2>
-<p>Typically, the data in databases is stored in tables, such as the one below:</p>
+<section id="person-table" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="person-table">
+<span class="header-section-number">6.1</span> <code>person</code> table:</h2>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> person <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -715,34 +462,592 @@ Note
 </table>
 </div>
 </div>
-<p>Some quick terminology:</p>
-<ul>
-<li>
-<strong>Database Record</strong> - a row in this table. In this case, each row in the table above corresponds to a single <em>person</em>.</li>
-<li>
-<strong>Database Field</strong> - the columns in this table. In our case, each column corresponds to a single measurement, such as <code>birth_datetime</code>. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.</li>
-</ul>
-<p>It is faster and requires less memory if we do not use a single large table, but decompose the data up into <em>multiple tables</em>. These tables are stored in a number of different formats:</p>
-<ul>
-<li>Comma Separated Value (CSV)</li>
-<li>A Single File (SQL Server)</li>
-<li>a <em>virtual file</em>
-</li>
-</ul>
-<p>In a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The <em>virtual file</em> lets us interact with this large mass of data as if it is a single file.</p>
-<p>The database engine is responsible for scanning the data, either row by row, or column by column. The engines are made to be very fast in this scanning to return relevant records.</p>
-<div class="callout callout-style-simple callout-none no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+</section><section id="procedure_occurrence-table" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="procedure_occurrence-table">
+<span class="header-section-number">6.2</span> <code>procedure_occurrence</code> table:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> procedure_occurrence <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 8%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">procedure_occurrence_id</th>
+<th style="text-align: right;">person_id</th>
+<th style="text-align: right;">procedure_concept_id</th>
+<th style="text-align: left;">procedure_date</th>
+<th style="text-align: left;">procedure_datetime</th>
+<th style="text-align: right;">procedure_type_concept_id</th>
+<th style="text-align: right;">modifier_concept_id</th>
+<th style="text-align: right;">quantity</th>
+<th style="text-align: right;">provider_id</th>
+<th style="text-align: right;">visit_occurrence_id</th>
+<th style="text-align: right;">visit_detail_id</th>
+<th style="text-align: left;">procedure_source_value</th>
+<th style="text-align: right;">procedure_source_concept_id</th>
+<th style="text-align: left;">modifier_source_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3554</td>
+<td style="text-align: right;">343</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">1992-02-01</td>
+<td style="text-align: left;">1992-02-01</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">22951</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">180256009</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3741</td>
+<td style="text-align: right;">357</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">1990-11-14</td>
+<td style="text-align: left;">1990-11-14</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">23670</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">180256009</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3928</td>
+<td style="text-align: right;">399</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">1991-09-08</td>
+<td style="text-align: left;">1991-09-08</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">26205</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">180256009</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4115</td>
+<td style="text-align: right;">406</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">1990-02-13</td>
+<td style="text-align: left;">1990-02-13</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">26759</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">180256009</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4302</td>
+<td style="text-align: right;">411</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">1992-01-11</td>
+<td style="text-align: left;">1992-01-11</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">27401</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">180256009</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4489</td>
+<td style="text-align: right;">430</td>
+<td style="text-align: right;">4058899</td>
+<td style="text-align: left;">1938-10-11</td>
+<td style="text-align: left;">1938-10-11</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">28537</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">168594001</td>
+<td style="text-align: right;">4058899</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4676</td>
+<td style="text-align: right;">442</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">1992-10-31</td>
+<td style="text-align: left;">1992-10-31</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">29330</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">180256009</td>
+<td style="text-align: right;">4107731</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4863</td>
+<td style="text-align: right;">453</td>
+<td style="text-align: right;">4043071</td>
+<td style="text-align: left;">1984-03-20</td>
+<td style="text-align: left;">1984-03-20</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">30237</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">228557008</td>
+<td style="text-align: right;">4043071</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5050</td>
+<td style="text-align: right;">469</td>
+<td style="text-align: right;">4043071</td>
+<td style="text-align: left;">1948-04-26</td>
+<td style="text-align: left;">1948-04-26</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">31282</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">228557008</td>
+<td style="text-align: right;">4043071</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5237</td>
+<td style="text-align: right;">488</td>
+<td style="text-align: right;">4151422</td>
+<td style="text-align: left;">1962-09-21</td>
+<td style="text-align: left;">1962-09-21</td>
+<td style="text-align: right;">38000275</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">32616</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">269911007</td>
+<td style="text-align: right;">4151422</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="callout-title-container flex-fill">
-Rows versus Columns
+</div>
+</section><section id="concept-table" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="concept-table">
+<span class="header-section-number">6.3</span> <code>concept</code> table</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">concept_id</th>
+<th style="text-align: left;">concept_name</th>
+<th style="text-align: left;">domain_id</th>
+<th style="text-align: left;">vocabulary_id</th>
+<th style="text-align: left;">concept_class_id</th>
+<th style="text-align: left;">standard_concept</th>
+<th style="text-align: left;">concept_code</th>
+<th style="text-align: left;">valid_start_date</th>
+<th style="text-align: left;">valid_end_date</th>
+<th style="text-align: left;">invalid_reason</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">35208414</td>
+<td style="text-align: left;">Gastrointestinal hemorrhage, unspecified</td>
+<td style="text-align: left;">Condition</td>
+<td style="text-align: left;">ICD10CM</td>
+<td style="text-align: left;">4-char billing code</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">K92.2</td>
+<td style="text-align: left;">2007-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1118088</td>
+<td style="text-align: left;">celecoxib 200 MG Oral Capsule [Celebrex]</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">RxNorm</td>
+<td style="text-align: left;">Branded Drug</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">213469</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">40213201</td>
+<td style="text-align: left;">pneumococcal polysaccharide vaccine, 23 valent</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">CVX</td>
+<td style="text-align: left;">CVX</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">33</td>
+<td style="text-align: left;">2008-12-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1557272</td>
+<td style="text-align: left;">Alendronate</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">RxNorm</td>
+<td style="text-align: left;">Ingredient</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">46041</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4336464</td>
+<td style="text-align: left;">Coronary artery bypass graft</td>
+<td style="text-align: left;">Procedure</td>
+<td style="text-align: left;">SNOMED</td>
+<td style="text-align: left;">Procedure</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">232717009</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4295880</td>
+<td style="text-align: left;">Intramuscular injection</td>
+<td style="text-align: left;">Procedure</td>
+<td style="text-align: left;">SNOMED</td>
+<td style="text-align: left;">Procedure</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">76601001</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3020630</td>
+<td style="text-align: left;">Protein serum/plasma</td>
+<td style="text-align: left;">Measurement</td>
+<td style="text-align: left;">LOINC</td>
+<td style="text-align: left;">Lab Test</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">2885-2</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19129655</td>
+<td style="text-align: left;">Ampicillin 100 MG/ML Injectable Solution</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">RxNorm</td>
+<td style="text-align: left;">Clinical Drug</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">789980</td>
+<td style="text-align: left;">2008-03-30</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">44923712</td>
+<td style="text-align: left;">celecoxib 200 MG Oral Capsule [Celebrex]</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">NDC</td>
+<td style="text-align: left;">11-digit NDC</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">00025152531</td>
+<td style="text-align: left;">2000-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1569708</td>
+<td style="text-align: left;">Other diseases of digestive system</td>
+<td style="text-align: left;">Condition</td>
+<td style="text-align: left;">ICD10CM</td>
+<td style="text-align: left;">3-char nonbill code</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">K92</td>
+<td style="text-align: left;">2012-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Just a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.</p>
-<p>A new trick is column-based storage. It turns out that it’s actually faster to query the data in many instances when the data in a column is all stored together. These are the formats like <em>Parquet</em> that you might have heard about. A lot of newer database engines rely on the data to be stored in this format.</p>
+</section><section id="condition_occurrence-table" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="condition_occurrence-table">
+<span class="header-section-number">6.4</span> <code>condition_occurrence</code> table</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> condition_occurrence <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">condition_occurrence_id</th>
+<th style="text-align: right;">person_id</th>
+<th style="text-align: right;">condition_concept_id</th>
+<th style="text-align: left;">condition_start_date</th>
+<th style="text-align: left;">condition_start_datetime</th>
+<th style="text-align: left;">condition_end_date</th>
+<th style="text-align: left;">condition_end_datetime</th>
+<th style="text-align: right;">condition_type_concept_id</th>
+<th style="text-align: right;">condition_status_concept_id</th>
+<th style="text-align: left;">stop_reason</th>
+<th style="text-align: right;">provider_id</th>
+<th style="text-align: right;">visit_occurrence_id</th>
+<th style="text-align: right;">visit_detail_id</th>
+<th style="text-align: left;">condition_source_value</th>
+<th style="text-align: right;">condition_source_concept_id</th>
+<th style="text-align: left;">condition_status_source_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4483</td>
+<td style="text-align: right;">263</td>
+<td style="text-align: right;">4112343</td>
+<td style="text-align: left;">2015-10-02</td>
+<td style="text-align: left;">2015-10-02</td>
+<td style="text-align: left;">2015-10-14</td>
+<td style="text-align: left;">2015-10-14</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">17479</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">195662009</td>
+<td style="text-align: right;">4112343</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4657</td>
+<td style="text-align: right;">273</td>
+<td style="text-align: right;">192671</td>
+<td style="text-align: left;">2011-10-10</td>
+<td style="text-align: left;">2011-10-10</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">18192</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">K92.2</td>
+<td style="text-align: right;">35208414</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4815</td>
+<td style="text-align: right;">283</td>
+<td style="text-align: right;">28060</td>
+<td style="text-align: left;">1984-02-15</td>
+<td style="text-align: left;">1984-02-15</td>
+<td style="text-align: left;">1984-02-25</td>
+<td style="text-align: left;">1984-02-25</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">18859</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">43878008</td>
+<td style="text-align: right;">28060</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4981</td>
+<td style="text-align: right;">293</td>
+<td style="text-align: right;">378001</td>
+<td style="text-align: left;">2005-11-07</td>
+<td style="text-align: left;">2005-11-07</td>
+<td style="text-align: left;">2005-12-07</td>
+<td style="text-align: left;">2005-12-07</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">19515</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">62106007</td>
+<td style="text-align: right;">378001</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5153</td>
+<td style="text-align: right;">304</td>
+<td style="text-align: right;">257012</td>
+<td style="text-align: left;">1974-07-30</td>
+<td style="text-align: left;">1974-07-30</td>
+<td style="text-align: left;">1974-11-05</td>
+<td style="text-align: left;">1974-11-05</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">20239</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">40055000</td>
+<td style="text-align: right;">257012</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5313</td>
+<td style="text-align: right;">312</td>
+<td style="text-align: right;">4134304</td>
+<td style="text-align: left;">1991-05-14</td>
+<td style="text-align: left;">1991-05-14</td>
+<td style="text-align: left;">1991-06-13</td>
+<td style="text-align: left;">1991-06-13</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">20658</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">263102004</td>
+<td style="text-align: right;">4134304</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5513</td>
+<td style="text-align: right;">326</td>
+<td style="text-align: right;">28060</td>
+<td style="text-align: left;">1979-09-23</td>
+<td style="text-align: left;">1979-09-23</td>
+<td style="text-align: left;">1979-10-06</td>
+<td style="text-align: left;">1979-10-06</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">21553</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">43878008</td>
+<td style="text-align: right;">28060</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5655</td>
+<td style="text-align: right;">334</td>
+<td style="text-align: right;">40481087</td>
+<td style="text-align: left;">1999-07-12</td>
+<td style="text-align: left;">1999-07-12</td>
+<td style="text-align: left;">1999-07-19</td>
+<td style="text-align: left;">1999-07-19</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">22124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">444814009</td>
+<td style="text-align: right;">40481087</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5811</td>
+<td style="text-align: right;">341</td>
+<td style="text-align: right;">40481087</td>
+<td style="text-align: left;">1990-09-14</td>
+<td style="text-align: left;">1990-09-14</td>
+<td style="text-align: left;">1990-10-05</td>
+<td style="text-align: left;">1990-10-05</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">22784</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">444814009</td>
+<td style="text-align: right;">40481087</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5977</td>
+<td style="text-align: right;">351</td>
+<td style="text-align: right;">40481087</td>
+<td style="text-align: left;">1986-02-24</td>
+<td style="text-align: left;">1986-02-24</td>
+<td style="text-align: left;">1986-03-17</td>
+<td style="text-align: left;">1986-03-17</td>
+<td style="text-align: right;">32020</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">23405</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">444814009</td>
+<td style="text-align: right;">40481087</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -1169,14 +1474,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Intro to SQL">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Intro to SQL</span>
+      <a href="./miscellaneous.html" class="pagination-link" aria-label="Miscellaneous Grabbag">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./week1.html" class="pagination-link" aria-label="Week 1: `DESCRIBE`, `SELECT`, `WHERE`">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1: <code>DESCRIBE</code>, <code>SELECT</code>, <code>WHERE</code></span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1186,7 +1488,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 <p>All illustrations <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;">CC-BY. </a> <br> All other materials <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;"> CC-BY </a> unless noted otherwise.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/concepts.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/tableref.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
 <li class="nav-item compact">
