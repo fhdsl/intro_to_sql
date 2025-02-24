@@ -1,0 +1,68 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: Intro to SQL
+  favicon: img/favicon.ico
+  bread-crumbs: true
+
+  page-navigation: true
+  search: true
+  repo-url: https://github.com/fhdsl/intro_to_sql
+  repo-actions: [edit] 
+
+  chapters:
+    - index.qmd
+    - concepts.qmd
+    - week1.qmd
+    - week2.qmd
+    - week3.qmd
+#    - week4.qmd
+    - miscellaneous.qmd
+    - tableref.qmd
+
+  sidebar: 
+    logo: "img/logo.png"
+    logo-href: "https://hutchdatascience.org/"
+    foreground: "#1B365D"
+  
+  page-footer:
+    left: |
+      This book was built with <a href="https://quarto.org/" style="color: #fff;">Quarto</a> using 
+      <a href="https://github.com/fhdsl/OTTR_Quarto" style="color: #fff;">OTTR</a>.
+    center: |
+      All illustrations <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #fff;">CC-BY. </a>
+      <br>
+      All other materials <a href= "https://creativecommons.org/licenses/by/4.0/" style="color: #fff;"> CC-BY </a> unless noted otherwise.
+    right: 
+      - icon: github
+        href: https://github.com/fhdsl/intro_to_sql
+      - icon: slack
+        href: https://fhdata.slack.com/join/signup#/domain-signup
+
+      
+
+#bibliography: references.bib
+
+format:
+  html:
+    grid:
+       sidebar-width: 260px
+    css: style.css
+    linkcolor: "#00C1D5"
+    mainfont: "Karla"
+    
+    sidebar: true
+    toc: true
+  
+    code-link: true
+    code-copy: true
+    
+    link-external-newwindow: true
+  
+    image: img/favicon.ico
+    license: "CC BY"
+knitr:
+  opts_chunk:
+    fig.path: "resources/images/figure/"
