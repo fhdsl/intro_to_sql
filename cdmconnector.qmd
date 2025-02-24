@@ -1,0 +1,204 @@
+---
+title: "CDM Connector"
+format: 
+  html:
+    df-print: paged
+---
+
+```{r}
+library(CDMConnector)
+```
+
+```{r}
+example_datasets()
+con <- DBI::dbConnect(duckdb::duckdb(), "data/synthea-smaller_breast_cancer.db")
+```
+
+```{r}
+DBI::dbListTables(con)
+```
+
+```{r}
+#| eval: false
+DBI::dbGetQuery(con, "DROP TABLE IF EXISTS concept_ancestor")
+DBI::dbGetQuery(con, "DROP TABLE IF EXISTS concept_synonym")
+DBI::dbGetQuery(con, "DROP TABLE IF EXISTS concept_relationship")
+DBI::dbGetQuery(con, "PRAGMA database_size")
+
+DBI::dbGetQuery(con, "ATTACH 'data/synthea-breast_cancer-10k_5.3_1.1.duckdb' AS db1;
+ATTACH 'data/synthea-smaller_breast_cancer.db' AS db2;
+COPY FROM DATABASE db1 TO db2;")
+DBI::dbDisconnect(con)
+
+```
+
+Data tables are defined here: [DDL](https://github.com/OHDSI/CommonDataModel/blob/v5.4.0/inst/ddl/5.4/postgresql/OMOPCDM_postgresql_5.4_ddl.sql)
+
+
+## A note about SQL syntax
+
+- Capitalization does not matter in SQL. 
+
+## 
+
+Now that we're connected, we can take a look at the tables in our database. We can do this with `SHOW TABLES`:
+
+
+```{r}
+DBI::dbGetQuery(con, "SHOW TABLES")
+```
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * FROM procedure_occurrence LIMIT 10;")
+```
+
+Note there are three tables I had to remove so that our database file is smaller: `concept_relationship`, `concept_synonym`, and `concept_ancestor`. We are mostly doing patient and procedure based queries.
+
+```{mermaid}
+erDiagram
+    PERSON ||--o{ PROCEDURE : "has many"
+    PERSON {
+    integer person_id PK
+    timestamp birth_datetime
+    string ethnicity_source_value
+    }
+    PROCEDURE {
+    integer person_id FK
+    integer procedure_concept_id FK
+    timestamp procedure_date
+    }
+    PROCEDURE ||--|| CONCEPT : "is a"
+    CONCEPT {
+    integer concept_id PK
+    string concept_name 
+    string vocabulary_id
+    }
+```
+
+We can get a summary table using `SUMMARIZE`:
+
+```{r}
+DBI::dbGetQuery(con, "SUMMARIZE person")
+```
+
+And if we want to see what's actually in the table, we can use `SELECT`:
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * from person limit 10")
+```
+
+Let's do the same for `drug_exposure`:
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * FROM drug_exposure LIMIT 10")
+```
+
+As you can see, the `concept` table in OMOP is a lookup of lots of different concepts. 
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * FROM concept LIMIT 10")
+```
+
+## What are the Domain IDs in the Concept Table?
+
+```{r}
+DBI::dbGetQuery(con, "SELECT domain_id, count(domain_id) as domain_count FROM concept GROUP BY domain_id ORDER BY domain_count DESC")
+```
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * FROM concept WHERE domain_id = 'Drug' AND vocabulary_id='RxNorm' LIMIT 100;")
+```
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * FROM condition_era LIMIT 100;")
+
+```
+
+## Drug count
+
+```{r}
+DBI::dbGetQuery(con, "SELECT concept.concept_name, drug_concept_id, count(person_id) as num_persons 
+    FROM drug_exposure join concept
+    ON drug_concept_id = concept.concept_id
+    WHERE
+    lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S'
+    GROUP BY concept.concept_name, drug_concept_id
+    ORDER BY num_persons DESC;")
+```
+
+## Counting Drugs for only Males in our Population
+
+This requires joining three tables: `person`, `drug_exposure`, and `concept`. 
+
+```{r}
+DBI::dbGetQuery(con, "SELECT concept.concept_name, count(person.person_id) as num_persons 
+    FROM drug_exposure JOIN concept
+    ON drug_concept_id = concept.concept_id
+    JOIN person 
+    ON drug_exposure.person_id = person.person_id
+  WHERE
+    lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S' and gender_source_value='M'
+GROUP BY concept.concept_name, drug_concept_id
+ORDER BY num_persons DESC;")
+
+```
+
+## What procedures did someone go under?
+
+```{r}
+DBI::dbGetQuery(con, "SELECT * from procedure_occurrence LIMIT 100;")
+
+```
+
+```{r}
+DBI::dbGetQuery(con, "SELECT person_id, concept_name, procedure_date
+                FROM procedure_occurrence INNER JOIN concept
+                ON procedure_concept_id = concept.concept_id
+                WHERE concept_name = 'Mammography'")
+
+```
+
+```{r}
+#| eval: false
+DBI::dbGetQuery(con, "SELECT concept_name, COUNT(person_id) as num_person
+                FROM procedure_occurrence INNER JOIN concept
+                ON procedure_concept_id = concept.concept_id
+                WHERE
+                GROUP BY concept_name
+                ORDER BY num_person DESC")
+
+```
+
+
+How many people underwent mammography?
+
+```{r}
+DBI::dbGetQuery(con, "SELECT concept_name, COUNT(person_id) as num_person
+                FROM procedure_occurrence INNER JOIN concept
+                ON procedure_concept_id = concept.concept_id
+                GROUP BY concept_name")
+
+```
+
+
+```{r}
+DBI::dbGetQuery(con, "SELECT person_id, concept_name, procedure_date 
+                FROM procedure_occurrence INNER JOIN concept
+                ON procedure_concept_id = concept.concept_id
+                WHERE concept_class_id = 'Procedure' AND person_id = 4
+                ORDER BY procedure_date")
+```
+
+
+## What are the most common conditions?
+
+```{r}
+#| eval: false
+#DBI::dbGetQuery(con, "SELECT concept.concept_name, count(person_id) as num_persons 
+#    FROM condition_era JOIN concept
+#    ON condition_concept_id = concept.concept_id
+#  WHERE
+#    domain_id='Condition' 
+#GROUP BY concept.concept_name
+#ORDER BY num_persons DESC;")
+```

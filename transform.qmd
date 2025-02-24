@@ -1,0 +1,69 @@
+
+```{sql}
+#| connection: "con"
+ALTER TABLE person
+ADD PRIMARY KEY (person_id);
+```
+
+```{sql}
+#| connection: "con"
+ALTER TABLE procedure_occurrence
+ADD PRIMARY KEY (procedure_occurrence_id)
+```
+
+```{sql}
+#| connection: "con"
+ALTER TABLE concept
+ADD PRIMARY KEY (concept_id)
+```
+
+```{sql}
+#| connection: "con"
+ALTER TABLE condition_occurrence
+ADD PRIMARY KEY (condition_occurrence_id)
+```
+
+```{sql}
+#| connection: "con"
+#| output.var: pro
+SELECT DISTINCT procedure_occurrence_id, person_id, procedure_concept_id
+  FROM procedure_occurrence
+  INNER JOIN concept
+  ON procedure_concept_id = concept_id
+  ORDER BY procedure_concept_id
+```
+
+```{sql}
+#| connection: "con"
+#| output.var: pro2
+SELECT procedure_occurrence_id, person_id, procedure_concept_id
+  FROM procedure_occurrence
+  LEFT JOIN concept
+  ON procedure_concept_id = concept_id
+  ORDER BY person_id
+  LIMIT 10;
+```
+
+```{sql}
+#| output.var: concept
+#| connection: "con"
+SELECT DISTINCT concept_id, concept_name
+  FROM concept 
+   JOIN procedure_occurrence
+  ON procedure_occurrence.procedure_concept_id = concept.concept_id
+  WHERE 
+```
+
+
+```{sql}
+#| connection: "con"
+SELECT concept_id, concept_name
+  FROM concept 
+  WHERE concept_id LIKE 4107731
+  LIMIT 10;
+```
+
+```{sql}
+#| connection: "con"
+SELECT procedure_concept_id, concept_name, condition_
+```
