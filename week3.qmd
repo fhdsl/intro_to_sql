@@ -1,0 +1,186 @@
+---
+title: "Week 3: `GROUP BY`/`HAVING`"
+---
+
+## Connecting to our database
+
+Let's connect to our database.
+
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/GiBleed_5.3_1.1.duckdb")
+```
+
+## `GROUP BY`
+
+Say we want to count, calculate totals, or averages for a particular column by a particular grouping variable. We can use a `SELECT/GROUP BY` pattern to do this.
+
+There are some requirements to using `SELECT`/`GROUP BY`:
+
+- Grouping variable should be categorical (such as `c.concept_name`)
+- Grouping variable must be in `SELECT` clause (`c.concept_name`)
+
+Count the number of persons by `gender_source_value`:
+
+```{sql}
+#| connection: "con"
+SELECT gender_source_value, COUNT(person_id) AS person_count
+  FROM person
+  GROUP BY gender_source_value
+```
+
+Here, we're combining `SELECT`/`GROUP_BY` with an `INNER JOIN`:
+
+```{sql}
+#| connection: "con"
+SELECT c.concept_name AS procedure, COUNT(person_id) AS person_count
+  FROM procedure_occurrence AS po
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  GROUP BY c.concept_name
+  ORDER BY person_count DESC
+```
+We can group by multiple variables. Here is a triple join where we are counting by both `gender_source_value` and `concept_name`:
+
+```{sql}
+#| connection: "con"
+SELECT c.concept_name AS procedure, p.gender_source_value, COUNT(p.person_id) AS person_count
+  FROM procedure_occurrence AS po
+  INNER JOIN person AS p
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  GROUP BY c.concept_name, p.gender_source_value
+  ORDER BY person_count DESC
+```
+
+### Check on Learning
+
+`COUNT` the number of `concept_id`s grouped by `domain_id` in the `concept` table:
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT domain_id, COUNT(------) AS count_domain
+  FROM concept
+  GROUP BY -------
+  ORDER BY count_domain DESC
+```
+
+
+## `HAVING`
+
+We can filter by these aggregate variables. But we can't use them in a `WHERE` clause. There is an additional clause `HAVING`:
+
+```{sql}
+#| connection: "con"
+SELECT c.concept_name AS procedure, COUNT(person_id) AS person_count
+  FROM procedure_occurrence AS po
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  GROUP BY c.concept_name
+  HAVING person_count > 500
+  ORDER BY person_count DESC
+```
+
+Why can't we use `WHERE`? `WHERE` is actually evaluated before `SELECT`/`GROUP_BY`, so it has no idea that the aggregated variables exist. Remember [SQL clause priorities?](https://intro-sql-fh.netlify.app/concepts.html#what-is-sql). `WHERE` is priority 2, and `GROUP BY`/`HAVING` are priorities 3 and 4.
+
+In general, you need to put `WHERE` before `GROUP BY`/`HAVING`. Your SQL statement will not work if you put `WHERE` after `GROUP BY` / `HAVING`.
+
+Here is an example of using both `WHERE` and `HAVING`:
+
+```{sql}
+#| connection: "con"
+SELECT domain_id, COUNT(concept_id) AS count_domain
+  FROM concept
+  WHERE domain_id != 'Drug'
+  GROUP BY domain_id
+  HAVING count_domain > 40
+  ORDER BY count_domain DESC
+```
+
+Here's what happens when you put `WHERE` after `GROUP BY`/`HAVING`:
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT domain_id, COUNT(concept_id) AS count_domain
+  FROM concept
+  GROUP BY domain_id
+  HAVING count_domain > 40
+  WHERE domain_id != 'Drug'
+  ORDER BY count_domain DESC
+```
+Here is `WHERE`/`GROUP BY`/`HAVING` combined with an `INNER JOIN`:
+
+```{sql}
+#| connection: "con"
+SELECT c.concept_name AS procedure, COUNT(person_id) AS person_count
+  FROM procedure_occurrence AS po
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  WHERE date_part('YEAR', po.procedure_datetime) > 2000
+  GROUP BY c.concept_name
+  HAVING person_count > 500
+  ORDER BY person_count DESC
+```
+
+We can group by `year` by first extracting it from `po.procedure_datetime` and using an alias `year`:
+
+```{sql}
+#| connection: "con"
+SELECT date_part('YEAR', po.procedure_datetime) AS year, COUNT(po.person_id) AS procedure_count
+  FROM procedure_occurrence AS po
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  GROUP BY year
+  ORDER BY procedure_count DESC
+```
+
+## `IN`/`LIKE`
+
+A couple of twists to `WHERE`. We can use `IN` to search on multiple conditions. We put the multiple words in a `()` separated by commas:
+
+```{sql}
+#| connection: "con"
+SELECT concept_name, domain_id 
+  FROM concept
+  WHERE domain_id IN ('Drug', 'Condition')
+```
+We can use `NOT` with `IN` to exclude a list of conditions:
+
+```{sql}
+#| connection: "con"
+SELECT concept_name, domain_id 
+  FROM concept
+  WHERE domain_id NOT IN ('Drug', 'Condition')
+```
+
+One note. It is usually faster to make a temporary table with your values and join on that temporary table. 
+
+`LIKE` is one way to do wild card searches.
+
+```{sql}
+#| connection: "con"
+SELECT concept_name, domain_id 
+  FROM concept
+  WHERE domain_id LIKE 'Dru%'
+```
+
+## Creating Temporary Tables
+
+Temporary tables can be very useful when you are trying to merge on a list of concepts, or for storing intermediate results.
+
+`CREATE TEMPORARY TABLE`.
+
+## Always close the connection
+
+When we're done, it's best to close the connection with `dbDisconnect()`. 
+
+```{r}
+dbDisconnect(con)
+```
