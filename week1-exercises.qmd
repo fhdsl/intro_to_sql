@@ -3,6 +3,10 @@ title: "week1-exercises"
 format: html
 ---
 
+In the exercises, you'll work with a different database. It is a synthetic dataset of breast cancer patients, but it has the same table structure (or schema) as the in-class example. It is much larger than the in class example.
+
+We'll first connect to the database:
+
 ```{r}
 #| context: setup
 library(duckdb)
@@ -13,13 +17,128 @@ con <- DBI::dbConnect(duckdb::duckdb(),
                       
 ```
 
+## `person`
+
+Let's get some details about the tables.
+
+`DESCRIBE` the person table.
+
+```{sql}
+#| connection: "con"
+DESCRIBE -------;
+```
+
+Show the first 10 rows of `person`.
+
+```{sql}
+#| connection: "con"
+SELECT * FROM
+  ---------
+  LIMIT ----;
+```
+
+
+How many people (or rows) are in the person table?
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(-) FROM person;
+```
+
+How many people are born after 1980?
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT COUNT(person_id) FROM person
+  WHERE year_of_birth -------;
+```
+
+How about how many people who have `gender_source_value` of 'M'? (Hint: remember to use *single* quotes for values, not *double* quotes):
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT COUNT(person_id) FROM person
+  WHERE gender_source_value = ----
+```
+
+Ok, we now have a better idea of what is in the `person` table. Let's take a deeper dive into the `concept` table.
+
 ## Look at the `concept` table
 
 `DESCRIBE` the concept table.
 
 ```{sql}
 #| connection: "con"
-DESCRIBE concept
+DESCRIBE concept;
 ```
 
+Select the distinct `domain_id`s from the `concept` table:
+
+```{sql}
+#| connection: "con"
+SELECT DISTINCT --------
+  FROM -------;
+```
+
+Return the number of distinct `concept_name`s with `domain_id` equal to `'Procedure'`:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(concept_name) FROM concept
+  WHERE -----------;
+```
+
+## Look at `procedure_occurrence`
+
+Let's take a look at `procedure_occurrence` and see whether it uses `concept_id`s.
+
 DESCRIBE `procedure_occurrence`:
+
+```{sql}
+#| connection: "con"
+DESCRIBE procedure_occurrence;
+```
+
+How many columns are `concept_id`s?
+
+How many distinct `procedure_concept_id`s are there in this `procedure_occurrence` table?
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(DISTINCT procedure_concept_id)
+  FROM procedure_occurrence;
+
+```
+
+## Explore another table
+
+Describe another table in the Database. (You can use `SHOW TABLES` to show a list of tables).
+
+```{sql}
+#| connection: "con"
+
+```
+
+Return the first 10 rows of this table.
+
+```{sql}
+#| connection: "con"
+
+```
+
+Choose a column and try to write a `WHERE` statement to filter it. `COUNT` the number of rows returned.
+
+```{sql}
+#| connection: "con"
+
+```
+
+## Disconnect from the database
+
+When you're done with your assignment, run the below code chunk to disconnect from the database.
+
+```{r}
+dbDisconnect(con)
+```

@@ -1,0 +1,420 @@
+---
+title: "Week 2: `JOIN`s, More `WHERE`, Boolean Logic, `ORDER BY`"
+---
+
+## Connecting to our database
+
+Let's connect to our database.
+
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/GiBleed_5.3_1.1.duckdb")
+```
+
+
+## Table References
+
+In single table queries, it is usually unambiguous to the query engine which column and which table you need to query.
+
+However, when you involve multiple tables, it is important to know how to refer to a column in a specific table.
+
+For example, the `procedure_occurrence` table has a `person_id` column as well. If we want to use this specific column in this table, we can use the `.` (dot) notation:
+
+```
+procedure_occurrence.person_id
+```
+
+If we wanted the `person_id` column in `person` we can use this:
+
+```
+person.person_id
+```
+
+This will become much more important as we get into `JOIN`ing tables.
+
+### Check on Learning
+
+Add table references to the `WHERE` part of the query:
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT *
+  FROM procedure_occurrence
+  WHERE person_id = 1
+```
+
+## Aliases
+
+As your queries get more complex, and as you involve more and more tables, you will need to use aliases. I think of them like "nicknames" - they can save you a lot of typing.
+
+I tend to use the `AS` clause when I define them. I've used `AS` here to abbreviate `person`. I use it in two different places: in my `COUNT`, and in my `WHERE`:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(p.person_id)
+  FROM person AS p
+  WHERE p.year_of_birth < 2000;
+```
+
+Some people don't use `AS`, just putting the aliases next to the original name:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(p.person_id)
+  FROM person p
+  WHERE p.year_of_birth < 2000;
+```
+
+We can also rename variables using `AS`:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(person_id) AS person_count
+  FROM person 
+  WHERE year_of_birth < 2000;
+```
+
+Now that we are going to use `JOIN`s, we will be using aliases and table references a lot.
+
+## `JOIN`
+
+We use the `JOIN` clause when we want to combine information from two tables. Here we are going to combine information from two tables: `procedure_occurrence` and `concept`.
+
+To set the stage, let's show two tables, `x` and `y`. We want to join them by the keys, which are represented by colored boxes in both of the tables. 
+
+Note that table `x` has a key ("3") that isn't in table `y`, and that table `y` has a key ("4") that isn't in table `x`. 
+
+![](img/original-dfs.png)
+
+We are going to explore `INNER JOIN` first. In an `INNER JOIN`, we match up our primary key for our table on the foreign key for another table. In this case, we only retain rows that have keys that exist in both the `x` and `y` tables. We drop all rows that don't have matches in both tables.
+
+![](img/inner-join.gif)
+There are other types of joins when we want to retain information from the `x` table or the `y` table, or both.
+
+## `INNER JOIN` syntax
+
+Here's an example where we are joining `procedure_occurrence` with `concept`:
+
+```{sql}
+#| connection: "con"
+SELECT procedure_occurrence.person_id, concept.concept_name 
+    FROM procedure_occurrence 
+    INNER JOIN concept
+    ON procedure_occurrence.procedure_concept_id = concept.concept_id
+```
+
+What's going on here? The magic happens with this clause, which we use to specify the two tables we need to join.
+
+```
+FROM procedure_occurrence
+  INNER JOIN concept
+```
+
+The last thing to note is the `ON` statement. These are the conditions by which we merge rows. Note we are taking one column in `procedure.occurrence`, the `procedure_concept_id`, and matching the rows up with those rows in `concept`
+
+```
+ON procedure_occurrence.procedure_concept_id = concept.concept_id
+```
+
+```{sql}
+#| connection: "con"
+SELECT procedure_occurrence.person_id, concept.concept_name 
+    FROM procedure_occurrence 
+    INNER JOIN concept
+    ON procedure_occurrence.procedure_concept_id = concept.concept_id
+```
+
+Here is the same query using aliases. We use `po` as an alias for `procedure_occurrence` and `c` as an alias for `concept`. You can see it is a little more compact.
+
+```{sql}
+#| connection: "con"
+#| output.var: pro
+SELECT po.person_id, c.concept_name 
+    FROM procedure_occurrence as po 
+    INNER JOIN concept as c
+    ON po.procedure_concept_id = c.concept_id;
+```
+
+## `LEFT JOIN`
+
+::: {.callout-note}
+## Jargon alert
+
+The table to the **left** of the `JOIN` clause is called the **left table**, and the table to the **right** of the `JOIN` clause is known as the **right table**. This will become more important as we explore the different join types.
+
+```
+FROM procedure_occurrence INNER JOIN concept
+      ^^Left Table                    ^^Right Table
+```
+:::
+
+
+What if we want to retain all of the rows in the `procedure_occurrence` table, even if there are no matches in the `concept` table? We can use a `LEFT JOIN` to do that. 
+
+![](img/left-join.gif)
+
+If a row exists in the left table, but not the right table, it will be replicated in the joined table, but have rows with `NULL` columns from the right table.
+
+I tried to find some examples where `LEFT JOIN`ed tables were different than `INNER JOIN`ed tables, but couldn't find one good example in our tables. Here is another example:
+
+![](img/Slide4.jpeg)
+Nevertheless, here is an example of a `LEFT JOIN`:
+
+```{sql}
+#| connection: "con"
+SELECT  c.concept_name, po.person_id, c.domain_id
+    FROM concept as c 
+    LEFT JOIN procedure_occurrence AS po
+    ON po.procedure_concept_id = c.concept_id
+    WHERE c.domain_id = 'Procedure'
+```
+
+## Other kinds of `JOIN`s
+
+- The `RIGHT JOIN` is identical to `LEFT JOIN`, except that the rows preserved are from the *right* table.
+- The `FULL JOIN` retains all rows in both tables, regardless if there is a key match.
+- `ANTI JOIN` is helpful to find all of the keys that are in the *left* table, but not the *right* table
+
+## Multiple `JOIN`s with Multiple Tables
+
+We can have multiple joins by thinking them as a sequential operation of one join after another. In the below query we first `INNER JOIN` `person` and `procedure_occurrence`, and then use the output of that `JOIN` to `INNER JOIN` with `concept`:
+
+```{sql}
+#| connection: "con"
+SELECT p.gender_source_value, c.concept_name, po.procedure_date
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  LIMIT 10;
+```
+
+The way I think of these multi-table joins is to decompose them into two joins:
+
+1. We first `INNER JOIN` `person` and `procedure_occurrence`, to produce an output table
+2. We take this output table and `INNER JOIN` it with `concept`.
+
+Notice that both of these `JOIN`s have separate `ON` statements. For the first join, we have:
+
+```
+INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+```
+
+For the second `JOIN`, we have:
+
+```
+INNER JOIN concept AS c
+ON po.procedure_concept_id = c.concept_id
+```
+
+And that gives us the final table, which takes variables from all three tables.
+
+One thing to keep in mind is that `JOIN`s are not necessarily commutative; that is, the order of joins can matter. This is because we may drop or preserve rows depending on the `JOIN`. 
+
+For combining `INNER JOIN`s, we are looking for the subset of keys that exist in each table, so join order doesn't matter. But for combining `LEFT JOIN`s and `RIGHT JOINS`, order *can* matter. 
+
+It's really important to check intermediate output and make sure that you are retaining the rows that you need in the final output. For example, I'd try the first join first and see that it contains the rows that I need before adding the second join.
+
+## Using `JOIN` with `WHERE`
+
+Where we really start to cook with gas is when we combine `JOIN` with `WHERE`. Here, we're joining `procedure_occurrence` and `concept`, with an additional `WHERE` where we only want those rows that have the `concept_name` of 'Subcutaneous immunotherapy`:
+
+```{sql}
+#| connection: "con"
+SELECT po.person_id, c.concept_name 
+    FROM procedure_occurrence as po 
+    INNER JOIN concept as c
+    ON po.procedure_concept_id = c.concept_id
+    WHERE c.concept_name = 'Subcutaneous immunotherapy';
+```
+
+Here is a triple join query with an additional filter. You can see why aliases are useful:
+
+```{sql}
+#| connection: "con"
+SELECT po.person_id, c.concept_name, p.birth_datetime 
+    FROM procedure_occurrence as po 
+    INNER JOIN concept as c
+    ON po.procedure_concept_id = c.concept_id
+    INNER JOIN person as p
+    ON po.person_id = p.person_id
+    WHERE p.year_of_birth < 1980;
+```
+
+::: {.callout-note}
+## `WHERE` vs `ON`
+
+You will see variations of SQL statements that eliminate `JOIN` and `ON` entirely, putting everything in `WHERE`:
+
+```{sql}
+#| connection: "con"
+SELECT po.person_id, c.concept_name 
+    FROM procedure_occurrence as po, concept as c
+    WHERE c.concept_name = 'Subcutaneous immunotherapy'
+    AND po.procedure_concept_id = c.concept_id
+    LIMIT 10;
+```
+
+I'm not the biggest fan of this, because it is often not clear what is a filtering clause and what is a joining clause, so I prefer to use `JOIN`/`ON` with a `WHERE`.
+:::
+
+## Boolean Logic: `AND` versus `OR`
+
+Revisiting `WHERE`, we can combine conditions with `AND` or `OR`. 
+
+`AND` is always going to be more restrictive than `OR`, because our rows must meet two conditions. 
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM person
+  WHERE year_of_birth < 1980 
+  AND gender_source_value = 'M'
+```
+
+On the other hand `OR` is more permissing than `AND`, because our rows must meet only one of the conditions.
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM person
+  WHERE year_of_birth < 1980 
+  OR gender_source_value = 'M'
+```
+There is also `NOT`, where one condition must be true, and the other must be false. 
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM person
+  WHERE year_of_birth < 1980 
+  AND NOT gender_source_value = 'M'
+```
+
+## `ORDER BY`
+
+`ORDER BY` lets us sort tables by one or more columns:
+
+```{sql}
+#| connection: "con"
+SELECT po.person_id, c.concept_name, po.procedure_date
+    FROM procedure_occurrence as po 
+    INNER JOIN concept as c
+    ON po.procedure_concept_id = c.concept_id
+    ORDER BY po.procedure_date;
+```
+
+We can `ORDER BY` multiple columns. Column order is important. Try changing the order of the columns in the query below. How is it different?
+
+```{sql}
+#| connection: "con"
+SELECT po.person_id, c.concept_name, po.procedure_date
+    FROM procedure_occurrence as po 
+    INNER JOIN concept as c
+    ON po.procedure_concept_id = c.concept_id
+    ORDER BY po.person_id, po.procedure_date;
+```
+
+## Try it OUt
+
+Try ordering by `po.patient_id`:
+
+```{sql}
+#| connection: "con"
+SELECT po.person_id, c.concept_name, po.procedure_date
+    FROM procedure_occurrence AS po 
+    INNER JOIN concept AS c
+    ON po.procedure_concept_id = c.concept_id
+    ORDER BY po.procedure_date;
+```
+
+## Transactions and Inserting Data
+
+So far, we've only queried data, but not added data to databases. 
+
+As we've stated before, DuckDB is an Analytical database, not a transactional one. That means it prioritizes reading from data tables rather than inserting into them. Transactional databases, on the other hand, can handle multiple inserts from multiple users at once. They are made for *concurrent* transactions. 
+ 
+Here is an example of what is called the *Data Definition Language* for our tables:
+
+```sql
+CREATE TABLE @cdmDatabaseSchema.PERSON (
+			person_id integer NOT NULL,
+			gender_concept_id integer NOT NULL,
+			year_of_birth integer NOT NULL,
+			month_of_birth integer NULL,
+			day_of_birth integer NULL,
+			birth_datetime TIMESTAMP NULL,
+			race_concept_id integer NOT NULL,
+			ethnicity_concept_id integer NOT NULL,
+			location_id integer NULL,
+			provider_id integer NULL,
+			care_site_id integer NULL,
+			person_source_value varchar(50) NULL,
+			gender_source_value varchar(50) NULL,
+			gender_source_concept_id integer NULL,
+			race_source_value varchar(50) NULL,
+			race_source_concept_id integer NULL,
+			ethnicity_source_value varchar(50) NULL,
+			ethnicity_source_concept_id integer NULL );
+```
+ 
+ 
+When we add rows into a database, we need to be aware of the *constraints* of the database. They exist to maintain the *integrity* of a database. 
+
+We've encountered one constraint: database fields need to be *typed*. For example, id keys are usually `INTEGER`. Names are often `VARCHAR`. 
+
+One contraint is the requirement for *unique keys* for each row. We cannot add a new row with a previous
+key value. 
+
+- `NOT NULL`
+- `UNIQUE`
+- `PRIMARY KEY` - `NOT NULL` + `UNIQUE`
+- `FOREIGN KEY` - value must exist as a key in another table
+- `CHECK` - check the data type and conditions. One example would be our data shouldn't be before 1900.
+- `DEFAULT` - default values. 
+
+The most important ones to know about are `PRIMARY KEY` and `FOREIGN KEY`. `PRIMARY KEY` forces the database to create new rows with an automatically incremented id.
+
+When we create tables in our database, we need to specify which column is a `PRIMARY KEY`:
+
+```sql
+CREATE TABLE person (
+  person_id INTEGER PRIMARY KEY
+)
+```
+
+`FOREIGN KEY` involves two or more tables. If a column is declared a `FOREIGN KEY`, then that key value must *exist* in a REFERENCE table. Here our two reference tables are `person` and `procedure_occurrence`.
+
+```sql
+CREATE TABLE procedure_occurrence {
+  procedure_occurrence_id PRIMARY KEY,
+  person_id INTEGER REFERENCES person(person_id)
+  procedure_concept_id INTEGER REFERENCES concept(concept_id)
+}
+```
+
+Thus, we can use constraints to make sure that our database retains its integrity when we add rows to it.
+
+There are more constraints we can add to our tables, and the correct use of these constraints will ensure that our data is correct.
+
+You can see an example of constraints for our database here: <https://github.com/OHDSI/CommonDataModel/blob/v5.4.0/inst/ddl/5.4/postgresql/OMOPCDM_postgresql_5.4_constraints.sql>.
+
+## Always close the connection
+
+When we're done, it's best to close the connection with `dbDisconnect()`. 
+
+```{r}
+dbDisconnect(con)
+```
+
+## References
+
+- [Tidyexplain](https://github.com/gadenbuie/tidyexplain) - All `JOIN` animations come from here.
+- [Understanding Joins](https://r4ds.had.co.nz/relational-data.html#understanding-joins) - another nice visual explanation from R for Data Science.

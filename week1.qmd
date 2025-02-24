@@ -1,18 +1,18 @@
 ---
-title: "Week 1"
+title: "Week 1: `DESCRIBE`, `SELECT`, `WHERE`"
 format: html
 ---
 
 ## Our Composable Database System
 
-- Client: R/RStudio
+- Client: R/RStudio w/ SQL
 - Database Engine: DuckDB
 - Data Storage: single file in `data/` folder
 
  
 ## Connecting to our database
 
-To access the data, we need to create a database connection. We use `dbConnect()` from the `DBI` package to do this. The first argument specifies the Database engine (`duckdb()`), and the second provides the file location: ("data/synthea-smaller_breast_cancer.db").
+To access the data, we need to create a database connection. We use `dbConnect()` from the `DBI` package to do this. The first argument specifies the Database engine (`duckdb()`), and the second provides the file location: `"data/data/GiBleed_5.3_1.1.duckdb"`.
 
 ```{r}
 #| context: setup
@@ -31,11 +31,11 @@ Once open, we can use `con` (our database connection)
 These are the same to the database engine: 
 
 ```
-SELECT person_id FROM person
+SELECT person_id FROM person;
 ```
 
 ```
-select PERSON_ID FROM person
+select PERSON_ID FROM person;
 ```
 
 And so on. Our convention is that we capitalize SQL clauses such as `SELECT` so you can differentiate them from other information.
@@ -50,7 +50,7 @@ One of the first things we can learn is to show the contents of the entire datab
 SHOW TABLES;
 ```
 
-We can get further information about the tables within our database using `DESCRIBE`; This will give us more information about 
+We can get further information about the tables within our database using `DESCRIBE`; This will give us more information about individual tables:
 
 ```{sql}
 #| connection: "con"
@@ -79,7 +79,7 @@ SELECT *          # select all columns
 
 ```{sql}
 #| connection: "con"
-SELECT * FROM person LIMIT 10
+SELECT * FROM person LIMIT 10;
 ```
 
 1. Why are there `birth_datetime` and the `month_of_birth`, `day_of_birth`, `year_of_birth` - aren't these redundant?
@@ -155,6 +155,22 @@ SELECT person_id, gender_source_value, race_source_value
   WHERE year_of_birth < 2000
 ```
 
+### Single quotes and `WHERE`
+
+SQL convention: single quotes ('M') refer to values, and double quotes refer to columns ("person_id"). If you try to use double quotes in the below, it will look for a column called "M".
+
+This will trip you up several times if you're not used to it.
+
+```{sql}
+#| connection: "con"
+SELECT person_id, gender_source_value, race_source_value 
+  FROM person 
+  WHERE gender_source_value = 'M'
+  LIMIT 10;
+```
+
+Reminder: use single ('') quotes in your SQL statements to refer to values, not double quotes (").
+
 :::{.callout-note}
 ### Quick Note
 
@@ -176,7 +192,7 @@ Sometimes you want to know the *size* of your result, not necessarily return the
 #| connection: "con"
 SELECT COUNT(*) 
   FROM person
-  WHERE year_of_birth < 2000
+  WHERE year_of_birth < 2000;
 ```
 
 Similarly, when we want to count the number of `person_id`s returned, we can use `COUNT(person_id)`:
@@ -185,7 +201,7 @@ Similarly, when we want to count the number of `person_id`s returned, we can use
 #| connection: "con"
 SELECT COUNT(person_id) 
   FROM person
-  WHERE year_of_birth > 1970
+  WHERE year_of_birth < 2000;
 ```
 
 Let's switch gears to the `procedure_concept_id` table. Let's count the overall number of `procedure_concept_id`s in our table:
@@ -193,7 +209,7 @@ Let's switch gears to the `procedure_concept_id` table. Let's count the overall 
 ```{sql}
 #| connection: "con"
 SELECT COUNT(procedure_concept_id)
-  FROM procedure_occurrence
+  FROM procedure_occurrence;
 ```
 
 Hmmm. That's quite a lot, but are there repeat `procedure_concept_id`s?
@@ -204,6 +220,14 @@ When you have repeated values in the rows, `COUNT(DISTINCT )` can help you find 
 #| connection: "con"
 SELECT COUNT(DISTINCT procedure_concept_id)
   FROM procedure_occurrence
+```
+
+We can also return the actual `DISTINCT` values by removing `COUNT`:
+
+```{sql}
+#| connection: "con"
+SELECT DISTINCT procedure_concept_id
+  FROM procedure_occurrence;
 ```
 
 ## Check on Learning
@@ -253,30 +277,6 @@ If you look at the `column_type` for one of the `DESCRIBE` statements above, you
 Each column of a database needs to be *typed*. The *data type* of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like `date arithmetic` on `DATETIME` columns, asking the engine to calculate 5 days after the dates. 
 
 You can see all of the [datatypes that are available in DuckDB here](https://duckdb.org/docs/sql/data_types/overview.html).
-
-::: {.callout-warning}
-## Keep in Mind: Beware the Smart Quotes
-
-**Beware cutting and pasting code from Microsoft Word**
-
-Microsoft products such as Word, will transform double quotes `"` into what are called *smart quotes*: `“”`. This is bad for us, because it breaks our code.
-
-```
-"This is the Original String"
-```
-
-will transform into:
-
-```
-“This is the Original String”
-```
-
-It is very hard to see the difference between these, but if you cut and paste the bottom one (from a word document), your code will not run. That's because the smart quotes aren't double quotes, which you need to specify a string.
-
-Just be aware that you might have to fix these quotes if you're cutting / pasting from a Microsoft product (although google is also guilty of this).
-
-Oftentimes, you can disable this in Word/Google Docs, or be prepared to replace the smart quotes with double quotes.
-:::
 
 ## Always close the connection
 

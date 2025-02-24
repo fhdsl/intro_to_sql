@@ -1,0 +1,15 @@
+---
+title: "Timer"
+format: revealjs
+---
+
+## Review / Catch up Time
+
+```{r}
+library(countdown)
+countdown::countdown(minutes=20)
+```
+
+`r countdown::countdown(minutes=20)`
+
+# Remember to Hit Record

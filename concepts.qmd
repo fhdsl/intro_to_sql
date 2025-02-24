@@ -15,6 +15,8 @@ con <- DBI::dbConnect(duckdb::duckdb(),
                       
 ```
 
+{{< video https://youtu.be/7YQpuKynWLI >}}
+
 ## What is a Database?
 
 > A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - [Oracle Documentation](https://www.oracle.com/database/what-is-database/)

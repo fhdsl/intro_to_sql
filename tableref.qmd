@@ -1,0 +1,41 @@
+---
+title: "Table Reference"
+---
+
+```{r}
+#| context: setup
+#| echo: false
+library(duckdb)
+library(DBI)
+
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/GiBleed_5.3_1.1.duckdb")
+```
+
+## `person` table:
+
+```{sql}
+#| connection: "con"
+SELECT * FROM person LIMIT 10;
+```
+
+## `procedure_occurrence` table:
+
+```{sql}
+#| connection: "con"
+SELECT * FROM procedure_occurrence LIMIT 10;
+```
+
+## `concept` table
+
+```{sql}
+#| connection: "con"
+SELECT * FROM concept LIMIT 10;
+```
+
+## `condition_occurrence` table
+
+```{sql}
+#| connection: "con"
+SELECT * FROM condition_occurrence LIMIT 10;
+```
