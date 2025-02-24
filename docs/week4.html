@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Week 4 – Intro to SQL</title>
+<title>5&nbsp; Week 4: Subqueries and Views – Intro to SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,17 +61,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./miscellaneous.html" rel="next">
-<link href="./week2.html" rel="prev">
+<link href="./week3.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week4.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 4</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week4.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Week 4: Subqueries and Views</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,20 +158,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./week3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 3: <code>GROUP BY</code>/<code>HAVING</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./week4.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 4</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Week 4: Subqueries and Views</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+  <a href="./tableref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
   </div>
 </li>
     </ul>
@@ -182,32 +188,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#connecting-to-our-database" id="toc-connecting-to-our-database" class="nav-link active" data-scroll-target="#connecting-to-our-database"><span class="header-section-number">4.1</span> Connecting to our database</a></li>
+<li><a href="#connecting-to-our-database" id="toc-connecting-to-our-database" class="nav-link active" data-scroll-target="#connecting-to-our-database"><span class="header-section-number">5.1</span> Connecting to our database</a></li>
   <li>
-<a href="#subqueries" id="toc-subqueries" class="nav-link" data-scroll-target="#subqueries"><span class="header-section-number">4.2</span> Subqueries</a>
+<a href="#subqueries" id="toc-subqueries" class="nav-link" data-scroll-target="#subqueries"><span class="header-section-number">5.2</span> Subqueries</a>
   <ul class="collapse">
-<li><a href="#example-using-a-subquery-in-the-select-clause" id="toc-example-using-a-subquery-in-the-select-clause" class="nav-link" data-scroll-target="#example-using-a-subquery-in-the-select-clause"><span class="header-section-number">4.2.1</span> Example: Using a Subquery in the SELECT Clause</a></li>
-  <li><a href="#check-on-learning" id="toc-check-on-learning" class="nav-link" data-scroll-target="#check-on-learning"><span class="header-section-number">4.2.2</span> Check on learning</a></li>
-  <li><a href="#example-filtering-with-a-subquery" id="toc-example-filtering-with-a-subquery" class="nav-link" data-scroll-target="#example-filtering-with-a-subquery"><span class="header-section-number">4.2.3</span> Example: Filtering with a Subquery</a></li>
-  <li><a href="#check-on-learning-1" id="toc-check-on-learning-1" class="nav-link" data-scroll-target="#check-on-learning-1"><span class="header-section-number">4.2.4</span> Check on learning</a></li>
+<li><a href="#using-a-subquery-in-the-select-clause" id="toc-using-a-subquery-in-the-select-clause" class="nav-link" data-scroll-target="#using-a-subquery-in-the-select-clause"><span class="header-section-number">5.2.1</span> Using a Subquery in the <code>SELECT</code> Clause</a></li>
+  <li><a href="#example-using-a-subquery-in-the-select-clause" id="toc-example-using-a-subquery-in-the-select-clause" class="nav-link" data-scroll-target="#example-using-a-subquery-in-the-select-clause"><span class="header-section-number">5.2.2</span> Example: Using a Subquery in the <code>SELECT</code> Clause</a></li>
+  <li><a href="#filtering-with-a-subquery" id="toc-filtering-with-a-subquery" class="nav-link" data-scroll-target="#filtering-with-a-subquery"><span class="header-section-number">5.2.3</span> Filtering with a Subquery</a></li>
+  <li><a href="#example-filtering-with-a-subquery" id="toc-example-filtering-with-a-subquery" class="nav-link" data-scroll-target="#example-filtering-with-a-subquery"><span class="header-section-number">5.2.4</span> Example: Filtering with a Subquery</a></li>
+  <li><a href="#when-to-use-subqueries" id="toc-when-to-use-subqueries" class="nav-link" data-scroll-target="#when-to-use-subqueries"><span class="header-section-number">5.2.5</span> When to use subqueries</a></li>
   </ul>
 </li>
   <li>
-<a href="#views" id="toc-views" class="nav-link" data-scroll-target="#views"><span class="header-section-number">4.3</span> Views</a>
+<a href="#views" id="toc-views" class="nav-link" data-scroll-target="#views"><span class="header-section-number">5.3</span> Views</a>
   <ul class="collapse">
-<li><a href="#example-creating-a-view" id="toc-example-creating-a-view" class="nav-link" data-scroll-target="#example-creating-a-view"><span class="header-section-number">4.3.1</span> Example: Creating a View</a></li>
-  <li><a href="#check-on-learning-2" id="toc-check-on-learning-2" class="nav-link" data-scroll-target="#check-on-learning-2"><span class="header-section-number">4.3.2</span> Check on learning</a></li>
+<li><a href="#when-to-use-views" id="toc-when-to-use-views" class="nav-link" data-scroll-target="#when-to-use-views"><span class="header-section-number">5.3.1</span> When to use views</a></li>
+  <li><a href="#a-brief-tangent-indexing" id="toc-a-brief-tangent-indexing" class="nav-link" data-scroll-target="#a-brief-tangent-indexing"><span class="header-section-number">5.3.2</span> A brief tangent: indexing</a></li>
+  <li><a href="#example-creating-a-view" id="toc-example-creating-a-view" class="nav-link" data-scroll-target="#example-creating-a-view"><span class="header-section-number">5.3.3</span> Example: Creating a View</a></li>
   </ul>
 </li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.4</span> Summary</a></li>
-  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">4.5</span> Always close the connection</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4.6</span> References</a></li>
+  <li><a href="#query-optimization" id="toc-query-optimization" class="nav-link" data-scroll-target="#query-optimization"><span class="header-section-number">5.4</span> Query Optimization</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.5</span> Summary</a></li>
+  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">5.6</span> Always close the connection</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5.7</span> References</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/week4.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 4</span>
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Week 4: Subqueries and Views</span>
 </h1>
 </div>
 
@@ -223,9 +232,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><p>In this lecture, we will explore <strong>subqueries</strong> and <strong>views</strong> in SQL. These concepts help us break complicated queries into smaller, more manageable parts, improving our ability to read and maintain our code.</p>
-<section id="connecting-to-our-database" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="connecting-to-our-database">
-<span class="header-section-number">4.1</span> Connecting to our database</h2>
-<p>As always, to access the data, we create our database connection to our Synthea breast cancer data.</p>
+<section id="connecting-to-our-database" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="connecting-to-our-database">
+<span class="header-section-number">5.1</span> Connecting to our database</h2>
+<p>As always, to access the data, we create our database connection to our data.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org">DBI</a></span><span class="op">)</span></span>
@@ -236,112 +245,269 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With our data loaded and ready to go, let’s get started!</p>
-</section><section id="subqueries" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="subqueries">
-<span class="header-section-number">4.2</span> Subqueries</h2>
+</section><section id="subqueries" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="subqueries">
+<span class="header-section-number">5.2</span> Subqueries</h2>
 <p>A subquery is a query nested inside another query. Subqueries let us process smaller computations inside larger outer queries.</p>
-<p>The following is a great example from <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a>, offering a visualization of how a subquery works. In this case, we use a subquery to calculate the total number of friends across individuals by state. Here, we are making use of a subquery in our <code>SELECT</code> clause. Let’s dive a little deeper into this type of example using our own data.</p>
+<section id="using-a-subquery-in-the-select-clause" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="using-a-subquery-in-the-select-clause">
+<span class="header-section-number">5.2.1</span> Using a Subquery in the <code>SELECT</code> Clause</h3>
+<p>The following is a great example from <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a>, offering a visualization of how a subquery works. In this case, we use a subquery to calculate the total number of friends across all individuals, subdivided by state. Here, we are making use of the subquery within our <code>SELECT</code> clause. Let’s dive a little deeper into this type of example using our own data.</p>
 <p><img src="https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_1.gif" class="img-fluid"></p>
-<section id="example-using-a-subquery-in-the-select-clause" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="example-using-a-subquery-in-the-select-clause">
-<span class="header-section-number">4.2.1</span> Example: Using a Subquery in the SELECT Clause</h3>
-<p>Let’s use a subquery to dynamically calculate the age of each individual (as of March 7th, 2024) in our database while collecting other patient metadata. To handle this, we’ll make use of the <code>person</code> table in our dataframe and the <code>birth_datetime</code> column.</p>
+<section id="a-brief-tangent-using-datediff-to-compare-dates" class="level4" data-number="5.2.1.1"><h4 data-number="5.2.1.1" class="anchored" data-anchor-id="a-brief-tangent-using-datediff-to-compare-dates">
+<span class="header-section-number">5.2.1.1</span> A brief tangent: using <code>DATEDIFF</code> to compare dates</h4>
+<p>The <code>DATEDIFF</code> function in SQL can be used to calculate differences between days. <code>DATEDIFF</code> takes three parameters: the unit of time, a first date, and a second date. For instance, calling:</p>
+<pre><code>SELECT DATEDIFF('month', DATE '2020-01-01', DATE '2024-03-07')</code></pre>
+<p>calculates the number of months between January 1st, 2020, and March 7th, 2024. All three parameters are required. You can refer to the documentation for <code>DATEDIFF</code> <a href="https://www.w3schools.com/sql/func_sqlserver_datediff.asp">here</a> to see other options for time intervals.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dates in SQL typically follow the ISO 8601 format of ‘YYYY-MM-DD’. Other date formats may work depending on the database system being used, though there is a chance for misinterpretation.</p>
+<p>Note that in our example, we explicitly cast our two dates as <code>DATE</code> variables - while this is not necessary depending on the database system, it enhances readability and interpretability of the code for both other users as well as the database system.</p>
+</div>
+</div>
+<ol type="1">
+<li><strong>What do you think happens if we swap the order of dates in the <code>DATEDIFF</code> command?</strong></li>
+</ol></section></section><section id="example-using-a-subquery-in-the-select-clause" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="example-using-a-subquery-in-the-select-clause">
+<span class="header-section-number">5.2.2</span> Example: Using a Subquery in the <code>SELECT</code> Clause</h3>
+<p>Let’s use a subquery to dynamically calculate the age of each individual (as of March 7th, 2024) in our database while collecting other patient demographic data. To handle this, we’ll make use of the <code>person</code> table in our dataframe and the <code>birth_datetime</code> column.</p>
 <div class="cell" data-output.var="person_age">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">SELECT</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(<span class="st">'year'</span>, birth_datetime, <span class="dt">DATE</span> <span class="st">'2024-03-07'</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="kw">AS</span> age</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  person;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">SELECT</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(<span class="st">'year'</span>, birth_datetime, <span class="dt">DATE</span> <span class="st">'2024-03-07'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="kw">AS</span> age</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  person;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As we can see in the above example, we’ve performed the computation of calculating patient age in a subquery:</p>
 <pre><code>SELECT 
     DATE_DIFF('year', birth_datetime, DATE '2024-03-07')</code></pre>
 <p>This subquery is integrated into the larger query of collecting patient data.</p>
-</section><section id="check-on-learning" class="level3" data-number="4.2.2"><h3 data-number="4.2.2" class="anchored" data-anchor-id="check-on-learning">
-<span class="header-section-number">4.2.2</span> Check on learning</h3>
-<p>Fill in the blanks here to complete the query that dynamically calculates the timespan (in days) between the start and end date for conditions from the condition_occurrence table</p>
+<section id="check-on-learning" class="level4" data-number="5.2.2.1"><h4 data-number="5.2.2.1" class="anchored" data-anchor-id="check-on-learning">
+<span class="header-section-number">5.2.2.1</span> Check on learning</h4>
+<p>Fill in the blank in the query below to dynamically calculate the <strong>number of days</strong> between the <strong>condition start date</strong> and <strong>condition end date</strong> for all conditions from the <code>condition_occurrence</code> table</p>
 <div class="cell" data-output.var="condition_time">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  person_id,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  visit_occurrence_id,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  condition_occurrence_id,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  condition_concept_id, </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  condition_start_date,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  condition_end_date,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">SELECT</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">'day'</span>, condition_start_date, condition_end_date</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="kw">AS</span> condition_time_span</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  condition_occurrence;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  person_id,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  visit_occurrence_id,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  condition_occurrence_id,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  condition_concept_id, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  condition_start_date,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  condition_end_date,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  (_____________________) <span class="kw">AS</span> condition_time_span</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  condition_occurrence;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="example-filtering-with-a-subquery" class="level3" data-number="4.2.3"><h3 data-number="4.2.3" class="anchored" data-anchor-id="example-filtering-with-a-subquery">
-<span class="header-section-number">4.2.3</span> Example: Filtering with a Subquery</h3>
-<p>We’ve now worked through a couple of examples where we use subqueries to create new variables within our <code>SELECT</code> clause. Another thing we can try to do is filter our data based on conditions calculated in a subquery.</p>
+</section></section><section id="filtering-with-a-subquery" class="level3" data-number="5.2.3"><h3 data-number="5.2.3" class="anchored" data-anchor-id="filtering-with-a-subquery">
+<span class="header-section-number">5.2.3</span> Filtering with a Subquery</h3>
+<p>We’ve now worked through a couple of examples where we use subqueries to create new variables within our <code>SELECT</code> clause. Another type of query we can tackle is the filtration of data based on conditions calculated in a subquery.</p>
 <p>Here’s another great example from <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a>, where we apply a subquery in the filtration component of our larger query to find individuals on Facebook who have the same number of Facebook connections as anyone else on LinkedIn.</p>
 <p><img src="https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_7.gif" class="img-fluid"></p>
+<section id="a-brief-tangent-the-in-clause" class="level4" data-number="5.2.3.1"><h4 data-number="5.2.3.1" class="anchored" data-anchor-id="a-brief-tangent-the-in-clause">
+<span class="header-section-number">5.2.3.1</span> A brief tangent: the <code>IN</code> clause</h4>
+<p>The <code>IN</code> clause in SQL is used to filter records where a column matches any value in a specified list or subquery result. It is a shorthand for multiple <code>OR</code> conditions and is commonly used for readability and efficiency.</p>
+<p>For instance, the basic syntax of:</p>
+<pre><code>SELECT column_name
+FROM table_name
+WHERE column_name IN (value1, value2, value3);</code></pre>
+<p>is equivalent to:</p>
+<pre><code>SELECT column_name
+FROM table_name
+WHERE column_name = value1 
+   OR column_name = value2 
+   OR column_name = value3;</code></pre>
+<p>Now back to using a subquery for filtering!</p>
+</section></section><section id="example-filtering-with-a-subquery" class="level3" data-number="5.2.4"><h3 data-number="5.2.4" class="anchored" data-anchor-id="example-filtering-with-a-subquery">
+<span class="header-section-number">5.2.4</span> Example: Filtering with a Subquery</h3>
 <p>For our own database, let’s collect patient demographic data for all patients who had some kind of procedure performed after January 1st, 2019. We’ll make use of the <code>person</code> and <code>procedure_occurrence</code> tables for this query.</p>
 <div class="cell" data-output.var="recent_pts">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  person</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      person_id </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      procedure_occurrence</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      procedure_datetime <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  person</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      person_id </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      procedure_occurrence</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      procedure_datetime <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="check-on-learning-1" class="level3" data-number="4.2.4"><h3 data-number="4.2.4" class="anchored" data-anchor-id="check-on-learning-1">
-<span class="header-section-number">4.2.4</span> Check on learning</h3>
-<p>Fill in the blanks here to complete the query that selects patients who had conditions starting after January 1st, 2019.</p>
+<section id="check-on-learning-1" class="level4" data-number="5.2.4.1"><h4 data-number="5.2.4.1" class="anchored" data-anchor-id="check-on-learning-1">
+<span class="header-section-number">5.2.4.1</span> Check on learning</h4>
+<p>Fill in the blank in the following SQL query to select relevant patient data for any patient in the <code>condition_occurrence</code> table who had a <strong>condition start date</strong> on or after January 1st, 2019.</p>
 <div class="cell" data-output.var="recent_pts">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  person</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      person_id </span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      condition_occurrence</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      condition_start_date <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  person</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (_________);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="views" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="views">
-<span class="header-section-number">4.3</span> Views</h2>
-<p>A <em>view</em> is a stored SQL query that acts as a virtual table. Views improve code reuse and readability. The following image, taken from <a href="https://www.sqlshack.com/create-view-sql-modifying-views-in-sql-server/">SQLShack</a>, depicts how a complicated query can produce a new customized view that can be used in downstream data processing.</p>
+</section></section><section id="when-to-use-subqueries" class="level3" data-number="5.2.5"><h3 data-number="5.2.5" class="anchored" data-anchor-id="when-to-use-subqueries">
+<span class="header-section-number">5.2.5</span> When to use subqueries</h3>
+<p>Subqueries are powerful because they allow you to break down complex queries into smaller, more manageable parts. You should use subqueries when:</p>
+<ul>
+<li><p><strong>You need to use a computed value in a query</strong>: See our previous examples!</p></li>
+<li><p><strong>You want to avoid duplicating code</strong>: Instead of repeating a calculation, you can use a subquery to define it a single time and reuse it (i.e.&nbsp;<code>age</code>).</p></li>
+<li><p><strong>You want to avoid performing unnecessary <code>JOIN</code>’s</strong>: Subqueries let you filter results row-by-row based on information from another table without requiring a <code>JOIN</code>.</p></li>
+<li><p><strong>You need to improve your code’s readability</strong>: Subqueries help make queries more modular and easier to debug. Conceptually, it can be easier to create a multi-step query and check intermediate phases than do perform a bunch of <code>JOIN</code>’s.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Can you think of any examples where it might be better to use a <code>JOIN</code> over a subquery?</strong></li>
+</ol></section></section><section id="views" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="views">
+<span class="header-section-number">5.3</span> Views</h2>
+<p>A <em>view</em> is a stored SQL query that acts as a virtual table. Views improve code reuse and readability. The following image, taken from <a href="https://www.sqlshack.com/create-view-sql-modifying-views-in-sql-server/">SQLShack</a>, depicts how a complicated query can be turned into a customized view that can be used in downstream data processing.</p>
 <p><img src="https://www.sqlshack.com/wp-content/uploads/2020/03/an-executed-create-view-sql-script-showing-data-re.png" class="img-fluid"></p>
-<section id="example-creating-a-view" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="example-creating-a-view">
-<span class="header-section-number">4.3.1</span> Example: Creating a View</h3>
+<section id="when-to-use-views" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="when-to-use-views">
+<span class="header-section-number">5.3.1</span> When to use views</h3>
+<p>Similar to subqueries, views allow us to organize our data into more modular, accessible, and easy-to-read components. You should use views when:</p>
+<ul>
+<li><p><strong>You want to simplify complex queries and improve code maintainability</strong>: Instead of frequently reusing a complex query, you can store the data generated from the query into a view and access it readily.</p></li>
+<li><p><strong>You want to enhance security and restrict data access to others without authorization</strong>: Making your own view can limit access to sensitive columns while still allowing other users to query the necessary data</p></li>
+<li><p><strong>You want to promote data consistency</strong>: Performing a calculation in a view ensures that everyone uses the same calculation to grab consistent data (e.g.&nbsp;calculating age of patients)</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A view itself does not actually store data like a physical table does. Instead, a view is a saved SQL query that gets executed each time you query the view.</p>
+</div>
+</div>
+</section><section id="a-brief-tangent-indexing" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="a-brief-tangent-indexing">
+<span class="header-section-number">5.3.2</span> A brief tangent: indexing</h3>
+<p><strong>Indexing</strong> is a technique used to speed up data retrieval from a database table. An index improves the efficiency of queries by allowing the database to locate rows faster without having to scan the entire table. This is similar to how a table of contents in a book helps you quickly find chapters instead of reading every page.</p>
+<p>However, <strong>views are not indexed</strong>: Since views are virtual tables, they do not store data or have their own indexes. Instead, they rely on the indexes that come from the underlying tables. Because views do not have indexes, <strong>querying a view can be slower than querying a physical table</strong>. Indeed, since the database recomputes the view’s query each time, more complex views can lead to performance issues.</p>
+</section><section id="example-creating-a-view" class="level3" data-number="5.3.3"><h3 data-number="5.3.3" class="anchored" data-anchor-id="example-creating-a-view">
+<span class="header-section-number">5.3.3</span> Example: Creating a View</h3>
 <p>With our own data, let’s create a view from the <code>concept</code> table that focuses on the drugs in our dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> drugs <span class="kw">AS</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> <span class="st">'Drug'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> drugs <span class="kw">AS</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> <span class="st">'Drug'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we can use this view just like a table:</p>
-<div class="cell" data-output.var="drugs">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> drugs;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> drugs</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5 records</caption>
+<colgroup>
+<col style="width: 6%">
+<col style="width: 26%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">concept_id</th>
+<th style="text-align: left;">concept_name</th>
+<th style="text-align: left;">domain_id</th>
+<th style="text-align: left;">vocabulary_id</th>
+<th style="text-align: left;">concept_class_id</th>
+<th style="text-align: left;">standard_concept</th>
+<th style="text-align: left;">concept_code</th>
+<th style="text-align: left;">valid_start_date</th>
+<th style="text-align: left;">valid_end_date</th>
+<th style="text-align: left;">invalid_reason</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1118088</td>
+<td style="text-align: left;">celecoxib 200 MG Oral Capsule [Celebrex]</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">RxNorm</td>
+<td style="text-align: left;">Branded Drug</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">213469</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">40213201</td>
+<td style="text-align: left;">pneumococcal polysaccharide vaccine, 23 valent</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">CVX</td>
+<td style="text-align: left;">CVX</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">33</td>
+<td style="text-align: left;">2008-12-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1557272</td>
+<td style="text-align: left;">Alendronate</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">RxNorm</td>
+<td style="text-align: left;">Ingredient</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">46041</td>
+<td style="text-align: left;">1970-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19129655</td>
+<td style="text-align: left;">Ampicillin 100 MG/ML Injectable Solution</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">RxNorm</td>
+<td style="text-align: left;">Clinical Drug</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">789980</td>
+<td style="text-align: left;">2008-03-30</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">44923712</td>
+<td style="text-align: left;">celecoxib 200 MG Oral Capsule [Celebrex]</td>
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;">NDC</td>
+<td style="text-align: left;">11-digit NDC</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">00025152531</td>
+<td style="text-align: left;">2000-01-01</td>
+<td style="text-align: left;">2099-12-31</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -357,36 +523,47 @@ Note
 <pre><code>DROP VIEW IF EXISTS drugs;</code></pre>
 </div>
 </div>
-</section><section id="check-on-learning-2" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="check-on-learning-2">
-<span class="header-section-number">4.3.2</span> Check on learning</h3>
-<p>Fill in the blanks to create a view that stores measurements from the <code>concept</code> table</p>
+<section id="check-on-learning-2" class="level4" data-number="5.3.3.1"><h4 data-number="5.3.3.1" class="anchored" data-anchor-id="check-on-learning-2">
+<span class="header-section-number">5.3.3.1</span> Check on learning</h4>
+<p>Fill in the blank in the query below to create a view that stores only <strong>measurements</strong> from the <code>concept</code> table</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> measurements <span class="kw">AS</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> <span class="st">'Measurement'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> measurements <span class="kw">AS</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> ________;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-output.var="measurements">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> measurements;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> measurements</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="summary" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="summary">
-<span class="header-section-number">4.4</span> Summary</h2>
+</section></section></section><section id="query-optimization" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="query-optimization">
+<span class="header-section-number">5.4</span> Query Optimization</h2>
+<p>While writing efficient SQL queries is important, database performance optimization is a complex topic that is mostly beyond the scope of <em>“Intro to SQL”</em>. However, here are some key takeaways to keep in mind:</p>
+<ul>
+<li><p><strong>Do not manually create indexes</strong>: Indexing can significantly improve query performance, but in most cases, it is <strong>the responsibility of the Database Administrator (DBA)</strong> to manage indexes appropriately. If you believe an index is needed, consult with your DBA.</p></li>
+<li><p><strong>When in doubt, talk to your database administrator</strong>: They have the expertise to optimize database performance, manage indexing, and ensure efficient query execution.</p></li>
+</ul></section><section id="summary" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="summary">
+<span class="header-section-number">5.5</span> Summary</h2>
 <ul>
 <li>Subqueries allow us to use the result of one query inside another</li>
 <li>Views provide a way to store and reuse complex queries as virtual tables</li>
 <li>Using subqueries and views can make SQL queries more modular and maintanable.</li>
-</ul></section><section id="always-close-the-connection" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="always-close-the-connection">
-<span class="header-section-number">4.5</span> Always close the connection</h2>
+</ul></section><section id="always-close-the-connection" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="always-close-the-connection">
+<span class="header-section-number">5.6</span> Always close the connection</h2>
 <p>When we’re done, always close the connection with <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="references" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="references">
-<span class="header-section-number">4.6</span> References</h2>
+</section><section id="references" class="level2" data-number="5.7"><h2 data-number="5.7" class="anchored" data-anchor-id="references">
+<span class="header-section-number">5.7</span> References</h2>
 <ul>
 <li>
 <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a> - all <code>SUBQUERY</code> animations come from here</li>
 <li>
 <a href="https://www.sqlshack.com/create-view-sql-modifying-views-in-sql-server/">SQL Shack</a> - the image depicting the creation of a <code>VIEW</code> comes from here</li>
+<li>
+<a href="https://www.w3schools.com/sql/func_sqlserver_datediff.asp">W3 Schools</a> - a reference for parameter options for <code>DATEDIFF</code>
+</li>
 </ul>
 
 
@@ -472,6 +649,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -587,6 +766,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -812,13 +992,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./week2.html" class="pagination-link" aria-label="Week 2: `JOIN`s, More `WHERE`, Boolean Logic, `ORDER BY`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Week 2: <code>JOIN</code>s, More <code>WHERE</code>, Boolean Logic, <code>ORDER BY</code></span></span>
+      <a href="./week3.html" class="pagination-link" aria-label="Week 3: `GROUP BY`/`HAVING`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 3: <code>GROUP BY</code>/<code>HAVING</code></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./miscellaneous.html" class="pagination-link" aria-label="Miscellaneous Grabbag">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
