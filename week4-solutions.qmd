@@ -1,5 +1,5 @@
 ---
-title: "Week 4 Exercises"
+title: "Week 4 Exercises - Solutions"
 ---
 
 We'll first connect to the database:
@@ -28,7 +28,7 @@ SELECT
     FROM 
       procedure_occurrence 
     WHERE 
-      person.person_id = ___________.person_id
+      person.person_id = procedure_occurrence.person_id
   ) AS number_of_procedures
 FROM 
   person;
@@ -46,7 +46,7 @@ SELECT
   procedure_datetime,
   (SELECT 
     DATE_DIFF(
-      ______, ______, DATE '2025-03-07'
+      'month', procedure_datetime, DATE '2025-03-07'
     )
   ) AS procedure_time_to_today
 FROM 
@@ -55,7 +55,7 @@ FROM
 
 ## Subquery in `WHERE`
 
-Collect patient demographic data for all patients who have an occurrence of a condition with id = "40481087":
+3. Collect patient demographic data for all patients who have an occurrence of a condition with id = "40481087":
 
 ```{sql connection="con"}
 SELECT 
@@ -73,7 +73,7 @@ WHERE
     FROM 
       condition_occurrence
     WHERE 
-      _____________ == '40481087'
+      condition_concept_id == '40481087'
   );
     
 ```
@@ -93,8 +93,9 @@ SELECT
   ethnicity_source_value
 FROM person 
 WHERE
-  _______ >= '1960';
+  year_of_birth >= '1960';
 ```
+
 
 ## Challenge: Creating a view (using `DATEDIFF` in a subquery)
 
@@ -102,5 +103,19 @@ WHERE
 
 ```{sql}
 #| connection: "con"
-
+CREATE VIEW senior_procedures AS
+SELECT * 
+FROM procedure_occurrence 
+WHERE procedure_occurrence.person_id IN (
+  SELECT 
+    person_id 
+  FROM 
+    person 
+  WHERE 
+    DATE_DIFF(
+      'year', 
+      person.birth_datetime, 
+      procedure_occurrence.procedure_datetime
+    ) >= 50
+);
 ```
