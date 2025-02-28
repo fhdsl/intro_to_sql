@@ -49,10 +49,20 @@ Note that in our example, we explicitly cast our two dates as `DATE` variables -
 
 1.  **What do you think happens if we swap the order of dates in the `DATEDIFF` command?**
 
-```{sql connection="con", output.var="person_age"}
+```{r}
 #| eval: false
 #| include: false
-SELECT DATE_DIFF('day', DATE '2024-03-07', DATE '2024-01-01')
+sql_statement <- "SELECT DATE_DIFF('day', DATE '2024-01-01', DATE '2024-03-07')"
+
+out1 <- DBI::dbGetQuery(con, sql_statement)
+```
+
+```{r}
+#| eval: false
+#| include: false
+sql_statement <- "SELECT DATE_DIFF('day', DATE '2024-03-07', DATE '2024-01-01')"
+
+out2 <- DBI::dbGetQuery(con, sql_statement)
 ```
 
 ### Example: Using a Subquery in the `SELECT` Clause
@@ -95,7 +105,9 @@ SELECT
   condition_concept_id, 
   condition_start_date,
   condition_end_date,
-  (_____________________) AS condition_time_span
+  (SELECT 
+    DATE_DIFF(_____, _____, _____)
+  ) AS condition_time_span
 FROM 
   condition_occurrence;
 ```
@@ -127,7 +139,7 @@ Here's another great example from [The Data School](https://dataschool.com/how-t
 
 ![](https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_7.gif)
 
-#### A brief tangent: the `IN` clause
+#### A brief review: the `IN` clause
 
 The `IN` clause in SQL is used to filter records where a column matches any value in a specified list or subquery result. It is a shorthand for multiple `OR` conditions and is commonly used for readability and efficiency.
 
@@ -153,9 +165,22 @@ Now back to using a subquery for filtering!
 
 ### Example: Filtering with a Subquery
 
-For our own database, let's collect patient demographic data for all patients who had some kind of procedure performed after January 1st, 2019. We'll make use of the `person` and `procedure_occurrence` tables for this query.
+For our own database, let's collect patient demographic data for all patients who had some kind of procedure performed after December 31st, 2018. We'll make use of the `person` and `procedure_occurrence` tables for this query.
+
+We can start by writing the computation for our subquery - collection patient IDs for individuals who had a procedure after December 31st, 2018.
 
 ```{sql, connection="con", output.var="recent_pts"}
+SELECT 
+  person_id 
+FROM 
+  procedure_occurrence
+WHERE 
+  procedure_datetime >= DATE '2019-01-01';
+```
+
+Now, we can insert this query into the `WHERE` clause of our larger query that collects patient demographic information!
+
+```{sql, connection="con", output.var="recent_pt_info"}
 SELECT 
   person_id, 
   birth_datetime, 
@@ -177,7 +202,19 @@ WHERE
 
 #### Check on learning
 
-Fill in the blank in the following SQL query to select relevant patient data for any patient in the `condition_occurrence` table who had a **condition start date** on or after January 1st, 2019.
+Write out a query to collection patient IDs for individuals who had a **condition start date** after December 31st, 2018. This query will become the subquery in our larger computation.
+
+```{sql connection="con", output.var="recent_pts"}
+#| eval: false
+SELECT 
+  person_id 
+FROM 
+  condition_occurrence
+WHERE 
+  condition_start_date >= ______
+```
+
+Now, fill in the blank in the following SQL query with the subquery that you just developed to collect patient demographic data for any patient in the `condition_occurrence` table who had a condition start date on or after January 1st, 2019.
 
 ```{sql connection="con", output.var="recent_pts"}
 #| eval: false
@@ -191,28 +228,6 @@ FROM
   person
 WHERE 
   person_id IN (_________);
-```
-
-```{sql connection="con", output.var="recent_pts"}
-#| eval: false
-#| include: false
-SELECT 
-  person_id, 
-  birth_datetime, 
-  gender_source_value, 
-  race_source_value, 
-  ethnicity_source_value
-FROM 
-  person
-WHERE 
-  person_id IN (
-    SELECT 
-      person_id 
-    FROM 
-      condition_occurrence
-    WHERE 
-      condition_start_date >= DATE '2019-01-01'
-  );
 ```
 
 ### When to use subqueries
@@ -318,7 +333,7 @@ While writing efficient SQL queries is important, database performance optimizat
 
 -   **Do not manually create indexes**: Indexing can significantly improve query performance, but in most cases, it is **the responsibility of the Database Administrator (DBA)** to manage indexes appropriately. If you believe an index is needed, consult with your DBA.
 
--   **When in doubt, talk to your database administrator**: They have the expertise to optimize database performance, manage indexing, and ensure efficient query execution.
+-   **When in doubt, talk to your database administrator**: Especially when your database is transactional, you should not be the one doing these modifications! DBAs have the expertise to optimize database performance, manage indexing, and ensure efficient query execution. Trust your DBA!
 
 ## Summary
 
