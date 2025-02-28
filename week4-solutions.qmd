@@ -1,0 +1,121 @@
+---
+title: "Week 4 Exercises - Solutions"
+---
+
+We'll first connect to the database:
+
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+library(DiagrammeR)
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/GiBleed_5.3_1.1.duckdb")
+                      
+```
+
+## Subquery in `SELECT`
+
+1. Fill in the blank in the subquery below to find each patient's demographic data along with the **total number of procedures** they have had. Note that this query makes use of the `person` table as well as the `procedure_occurrence` table.
+
+```{sql connection="con"}
+SELECT 
+  person_id,
+  gender_source_value,
+  race_source_value,
+  (SELECT 
+      COUNT(*) 
+    FROM 
+      procedure_occurrence 
+    WHERE 
+      person.person_id = procedure_occurrence.person_id
+  ) AS number_of_procedures
+FROM 
+  person;
+```
+
+2.  Fill in the blank in the query below to dynamically calculate the **number of months** between the **procedure date** and today for all procedures from the `procedure_occurrence` table
+
+```{sql connection="con"}
+#| eval: false
+SELECT 
+  person_id,
+  visit_occurrence_id,
+  procedure_occurrence_id,
+  procedure_concept_id, 
+  procedure_datetime,
+  (SELECT 
+    DATE_DIFF(
+      'month', procedure_datetime, DATE '2025-03-07'
+    )
+  ) AS procedure_time_to_today
+FROM 
+  procedure_occurrence;
+```
+
+## Subquery in `WHERE`
+
+3. Collect patient demographic data for all patients who have an occurrence of a condition with id = "40481087":
+
+```{sql connection="con"}
+SELECT 
+  person_id, 
+  birth_datetime, 
+  gender_source_value, 
+  race_source_value, 
+  ethnicity_source_value
+FROM 
+  person
+WHERE 
+  person_id IN (
+    SELECT 
+      person_id 
+    FROM 
+      condition_occurrence
+    WHERE 
+      condition_concept_id == '40481087'
+  );
+    
+```
+
+## Creating a view
+
+4. Create a view for senior citizen demographics, where we collect demographics for patients born in or before 1960.
+
+```{sql}
+#| connection: "con"
+CREATE VIEW senior_demographics AS
+SELECT
+  person_id, 
+  birth_datetime, 
+  gender_source_value, 
+  race_source_value, 
+  ethnicity_source_value
+FROM person 
+WHERE
+  year_of_birth >= '1960';
+```
+
+
+## Challenge: Creating a view (using `DATEDIFF` in a subquery)
+
+5. Create a view for senior citizen procedures, where we collect procedure occurrences for all patients aged \>= 50 at the time of their procedure
+
+```{sql}
+#| connection: "con"
+CREATE VIEW senior_procedures AS
+SELECT * 
+FROM procedure_occurrence 
+WHERE procedure_occurrence.person_id IN (
+  SELECT 
+    person_id 
+  FROM 
+    person 
+  WHERE 
+    DATE_DIFF(
+      'year', 
+      person.birth_datetime, 
+      procedure_occurrence.procedure_datetime
+    ) >= 50
+);
+```
