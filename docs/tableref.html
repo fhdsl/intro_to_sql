@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>6&nbsp; Table Reference – Intro to SQL</title>
+<title>7&nbsp; Table Reference – Intro to SQL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tableref.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tableref.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Table Reference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,14 +163,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./week4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Week 4: Subqueries and Views</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tableref.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
   </div>
 </li>
     </ul>
@@ -181,16 +187,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#person-table" id="toc-person-table" class="nav-link active" data-scroll-target="#person-table"><span class="header-section-number">6.1</span> <code>person</code> table:</a></li>
-  <li><a href="#procedure_occurrence-table" id="toc-procedure_occurrence-table" class="nav-link" data-scroll-target="#procedure_occurrence-table"><span class="header-section-number">6.2</span> <code>procedure_occurrence</code> table:</a></li>
-  <li><a href="#concept-table" id="toc-concept-table" class="nav-link" data-scroll-target="#concept-table"><span class="header-section-number">6.3</span> <code>concept</code> table</a></li>
-  <li><a href="#condition_occurrence-table" id="toc-condition_occurrence-table" class="nav-link" data-scroll-target="#condition_occurrence-table"><span class="header-section-number">6.4</span> <code>condition_occurrence</code> table</a></li>
+<li><a href="#person-table" id="toc-person-table" class="nav-link active" data-scroll-target="#person-table"><span class="header-section-number">7.1</span> <code>person</code> table:</a></li>
+  <li><a href="#procedure_occurrence-table" id="toc-procedure_occurrence-table" class="nav-link" data-scroll-target="#procedure_occurrence-table"><span class="header-section-number">7.2</span> <code>procedure_occurrence</code> table:</a></li>
+  <li><a href="#concept-table" id="toc-concept-table" class="nav-link" data-scroll-target="#concept-table"><span class="header-section-number">7.3</span> <code>concept</code> table</a></li>
+  <li><a href="#condition_occurrence-table" id="toc-condition_occurrence-table" class="nav-link" data-scroll-target="#condition_occurrence-table"><span class="header-section-number">7.4</span> <code>condition_occurrence</code> table</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/tableref.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span>
+<span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Table Reference</span>
 </h1>
 </div>
 
@@ -210,8 +216,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Loading required package: DBI</code></pre>
 </div>
 </div>
-<section id="person-table" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="person-table">
-<span class="header-section-number">6.1</span> <code>person</code> table:</h2>
+<section id="person-table" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="person-table">
+<span class="header-section-number">7.1</span> <code>person</code> table:</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> person <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -462,8 +468,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section><section id="procedure_occurrence-table" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="procedure_occurrence-table">
-<span class="header-section-number">6.2</span> <code>procedure_occurrence</code> table:</h2>
+</section><section id="procedure_occurrence-table" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="procedure_occurrence-table">
+<span class="header-section-number">7.2</span> <code>procedure_occurrence</code> table:</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> procedure_occurrence <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -666,8 +672,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section><section id="concept-table" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="concept-table">
-<span class="header-section-number">6.3</span> <code>concept</code> table</h2>
+</section><section id="concept-table" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="concept-table">
+<span class="header-section-number">7.3</span> <code>concept</code> table</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -822,8 +828,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section><section id="condition_occurrence-table" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="condition_occurrence-table">
-<span class="header-section-number">6.4</span> <code>condition_occurrence</code> table</h2>
+</section><section id="condition_occurrence-table" class="level2" data-number="7.4"><h2 data-number="7.4" class="anchored" data-anchor-id="condition_occurrence-table">
+<span class="header-section-number">7.4</span> <code>condition_occurrence</code> table</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> condition_occurrence <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1475,7 +1481,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./miscellaneous.html" class="pagination-link" aria-label="Miscellaneous Grabbag">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

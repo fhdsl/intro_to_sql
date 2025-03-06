@@ -1,0 +1,86 @@
+---
+title: "Week 3 Exercises"
+---
+
+In the exercises, you'll work with a different database. It is a synthetic dataset of breast cancer patients, but it has the same table structure (or schema) as the in-class example. It is much larger than the in class example.
+
+We'll first connect to the database:
+
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+library(DiagrammeR)
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/synthea-smaller_breast_cancer.db")
+                      
+```
+1. Count the number of people in `person` by `gender_source_value`:
+
+```{sql}
+#| connection: "con"
+SELECT ------, COUNT(----) 
+ FROM person 
+ GROUP BY -------
+```
+
+2. Count the number of procedures in `procedure_occurrence` grouped by `procedure_concept_id`. Name your counts `procedure_count`, and filter to those `HAVING` procedure_count > 100
+
+```{sql}
+#| connection: "con"
+SELECT -----, 
+  COUNT(-----) AS -----
+  FROM procedure_occurrence
+  ------- --------
+  HAVING ------ > 100
+```
+
+3. Count the number of concept_ids in `concept` with concept_class_id is either "SNOMED" or "RxNorm":
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM ------
+  WHERE ---- 
+  IN (----, -----)
+```
+
+4. Do the following steps to calculate the `SUM(cost)` per `procedure_concept_id`
+
+First, Check to see if the temp table `cost` is available. 
+
+```{sql}
+#| connection: "con"
+SHOW TABLES
+```
+
+If not, use the following code to load it up again.
+
+```{sql}
+#| connection: "con"
+CREATE OR REPLACE TEMP TABLE cost AS
+  SELECT * FROM read_csv('data/temp_cost.csv');
+```
+
+Create a query to calculate the total cost of each procedure in `procedure_occurrence`. 
+
+(Hint: do a triple `JOIN` with `cost`, `procedure_occurrence` and `concept` to pull the concept names).
+
+```{sql}
+#| connection: "con"
+SELECT procedure_occurrence_id, SUM(cost)
+  FROM -------
+  INNER JOIN cost AS ---
+  ON ----- = ------
+  INNER JOIN concept AS ----
+  ON ----- = -----
+  GROUP BY --------
+```
+
+## Always close the connection
+
+When we're done, it's best to close the connection with `dbDisconnect()`. 
+
+```{r}
+dbDisconnect(con)
+```

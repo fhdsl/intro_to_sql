@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./miscellaneous.html" rel="next">
+<link href="./week4.html" rel="next">
 <link href="./week2.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -164,14 +164,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./week4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Week 4: Subqueries and Views</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./miscellaneous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tableref.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Table Reference</span></span></a>
   </div>
 </li>
     </ul>
@@ -191,7 +197,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
   <li><a href="#having" id="toc-having" class="nav-link" data-scroll-target="#having"><span class="header-section-number">4.3</span> <code>HAVING</code></a></li>
   <li><a href="#inlike" id="toc-inlike" class="nav-link" data-scroll-target="#inlike"><span class="header-section-number">4.4</span> <code>IN</code>/<code>LIKE</code></a></li>
-  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">4.5</span> Always close the connection</a></li>
+  <li>
+<a href="#creating-temporary-tables" id="toc-creating-temporary-tables" class="nav-link" data-scroll-target="#creating-temporary-tables"><span class="header-section-number">4.5</span> Creating Temporary Tables</a>
+  <ul class="collapse">
+<li><a href="#check-on-learning-1" id="toc-check-on-learning-1" class="nav-link" data-scroll-target="#check-on-learning-1"><span class="header-section-number">4.5.1</span> Check on Learning</a></li>
+  </ul>
+</li>
+  <li><a href="#data-integrity" id="toc-data-integrity" class="nav-link" data-scroll-target="#data-integrity"><span class="header-section-number">4.6</span> Data Integrity</a></li>
+  <li><a href="#database-design" id="toc-database-design" class="nav-link" data-scroll-target="#database-design"><span class="header-section-number">4.7</span> Database Design</a></li>
+  <li><a href="#database-administration" id="toc-database-administration" class="nav-link" data-scroll-target="#database-administration"><span class="header-section-number">4.8</span> Database Administration</a></li>
+  <li><a href="#always-close-the-connection" id="toc-always-close-the-connection" class="nav-link" data-scroll-target="#always-close-the-connection"><span class="header-section-number">4.9</span> Always close the connection</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/fhdsl/intro_to_sql/edit/main/week3.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -221,8 +236,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Loading required package: DBI</code></pre>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org">DBI</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span>                      <span class="st">"data/GiBleed_5.3_1.1.duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="group-by" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="group-by">
@@ -236,9 +265,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Count the number of persons by <code>gender_source_value</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> gender_source_value, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> gender_source_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> gender_source_value, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> person</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> gender_source_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>2 records</caption>
@@ -261,12 +290,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Here, we’re combining <code>SELECT</code>/<code>GROUP_BY</code> with an <code>INNER JOIN</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -300,11 +329,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">1342</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Pulmonary rehabilitation</td>
+<td style="text-align: left;">Intramuscular injection</td>
 <td style="text-align: right;">908</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Intramuscular injection</td>
+<td style="text-align: left;">Pulmonary rehabilitation</td>
 <td style="text-align: right;">908</td>
 </tr>
 <tr class="odd">
@@ -321,14 +350,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can group by multiple variables. Here is a triple join where we are counting by both <code>gender_source_value</code> and <code>concept_name</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, p.gender_source_value, <span class="fu">COUNT</span>(p.person_id) <span class="kw">AS</span> person_count</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> person <span class="kw">AS</span> p</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> p.person_id <span class="op">=</span> po.person_id</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name, p.gender_source_value</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, p.gender_source_value, <span class="fu">COUNT</span>(p.person_id) <span class="kw">AS</span> person_count</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> person <span class="kw">AS</span> p</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> p.person_id <span class="op">=</span> po.person_id</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name, p.gender_source_value</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -396,23 +425,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">4.2.1</span> Check on Learning</h3>
 <p><code>COUNT</code> the number of <code>concept_id</code>s grouped by <code>domain_id</code> in the <code>concept</code> table:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> domain_id, <span class="fu">COUNT</span>(<span class="co">------) AS count_domain</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="co">-------</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> count_domain <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> domain_id, <span class="fu">COUNT</span>(<span class="co">------) AS count_domain</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="co">-------</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> count_domain <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section><section id="having" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="having">
 <span class="header-section-number">4.3</span> <code>HAVING</code>
 </h2>
 <p>We can filter by these aggregate variables. But we can’t use them in a <code>WHERE</code> clause. There is an additional clause <code>HAVING</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> person_count <span class="op">&gt;</span> <span class="dv">500</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> person_count <span class="op">&gt;</span> <span class="dv">500</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -469,12 +498,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In general, you need to put <code>WHERE</code> before <code>GROUP BY</code>/<code>HAVING</code>. Your SQL statement will not work if you put <code>WHERE</code> after <code>GROUP BY</code> / <code>HAVING</code>.</p>
 <p>Here is an example of using both <code>WHERE</code> and <code>HAVING</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> domain_id, <span class="fu">COUNT</span>(concept_id) <span class="kw">AS</span> count_domain</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="op">!=</span> <span class="st">'Drug'</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> domain_id</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> count_domain <span class="op">&gt;</span> <span class="dv">40</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> count_domain <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> domain_id, <span class="fu">COUNT</span>(concept_id) <span class="kw">AS</span> count_domain</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="op">!=</span> <span class="st">'Drug'</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> domain_id</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> count_domain <span class="op">&gt;</span> <span class="dv">40</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> count_domain <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>3 records</caption>
@@ -499,25 +528,119 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sql_statement</span> <span class="op">&lt;-</span> <span class="st">"EXPLAIN SELECT domain_id, COUNT(concept_id) AS count_domain</span></span>
+<span><span class="st">  FROM concept</span></span>
+<span><span class="st">  WHERE domain_id != 'Drug'</span></span>
+<span><span class="st">  GROUP BY domain_id</span></span>
+<span><span class="st">  HAVING count_domain &gt; 40</span></span>
+<span><span class="st">  ORDER BY count_domain DESC"</span></span>
+<span></span>
+<span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">dbGetQuery</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">sql_statement</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>physical_plan
+┌───────────────────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_decompress_strin│
+│           g(#0)           │
+│             #1            │
+│                           │
+│          ~1 Rows          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│    count(GiBleed_5.main   │
+│ .concept.concept_id) DESC │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_compress_string_│
+│        hugeint(#0)        │
+│             #1            │
+│                           │
+│          ~1 Rows          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│           FILTER          │
+│    ────────────────────   │
+│    (count_domain &gt; 40)    │
+│                           │
+│          ~1 Rows          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_decompress_strin│
+│           g(#0)           │
+│             #1            │
+│                           │
+│          ~7 Rows          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│    ────────────────────   │
+│         Groups: #0        │
+│                           │
+│        Aggregates:        │
+│        count_star()       │
+│                           │
+│          ~7 Rows          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         domain_id         │
+│                           │
+│          ~88 Rows         │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│__internal_compress_string_│
+│        hugeint(#0)        │
+│             #1            │
+│                           │
+│          ~88 Rows         │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         SEQ_SCAN          │
+│    ────────────────────   │
+│       Table: concept      │
+│    Type: Sequence Scan    │
+│                           │
+│        Projections:       │
+│         domain_id         │
+│         concept_id        │
+│                           │
+│          Filters:         │
+│     domain_id!='Drug'     │
+│                           │
+│          ~88 Rows         │
+└───────────────────────────┘</code></pre>
+</div>
+</div>
 <p>Here’s what happens when you put <code>WHERE</code> after <code>GROUP BY</code>/<code>HAVING</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> domain_id, <span class="fu">COUNT</span>(concept_id) <span class="kw">AS</span> count_domain</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> domain_id</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> count_domain <span class="op">&gt;</span> <span class="dv">40</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="op">!=</span> <span class="st">'Drug'</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> count_domain <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> domain_id, <span class="fu">COUNT</span>(concept_id) <span class="kw">AS</span> count_domain</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> domain_id</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> count_domain <span class="op">&gt;</span> <span class="dv">40</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="op">!=</span> <span class="st">'Drug'</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> count_domain <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is <code>WHERE</code>/<code>GROUP BY</code>/<code>HAVING</code> combined with an <code>INNER JOIN</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> date_part(<span class="st">'YEAR'</span>, po.procedure_datetime) <span class="op">&gt;</span> <span class="dv">2000</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> person_count <span class="op">&gt;</span> <span class="dv">500</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.concept_name <span class="kw">AS</span> <span class="kw">procedure</span>, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_count</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> date_part(<span class="st">'YEAR'</span>, po.procedure_datetime) <span class="op">&gt;</span> <span class="dv">2000</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.concept_name</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">HAVING</span> person_count <span class="op">&gt;</span> <span class="dv">500</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> person_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>4 records</caption>
@@ -548,12 +671,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can group by <code>year</code> by first extracting it from <code>po.procedure_datetime</code> and using an alias <code>year</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> date_part(<span class="st">'YEAR'</span>, po.procedure_datetime) <span class="kw">AS</span> <span class="dt">year</span>, <span class="fu">COUNT</span>(po.person_id) <span class="kw">AS</span> procedure_count</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> procedure_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> date_part(<span class="st">'YEAR'</span>, po.procedure_datetime) <span class="kw">AS</span> <span class="dt">year</span>, <span class="fu">COUNT</span>(po.person_id) <span class="kw">AS</span> procedure_count</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> concept <span class="kw">AS</span> c</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.concept_id</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> procedure_count <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -611,9 +734,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </h2>
 <p>A couple of twists to <code>WHERE</code>. We can use <code>IN</code> to search on multiple conditions. We put the multiple words in a <code>()</code> separated by commas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> concept_name, domain_id </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="kw">IN</span> (<span class="st">'Drug'</span>, <span class="st">'Condition'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> concept_name, domain_id </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="kw">IN</span> (<span class="st">'Drug'</span>, <span class="st">'Condition'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -672,9 +795,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can use <code>NOT</code> with <code>IN</code> to exclude a list of conditions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> concept_name, domain_id </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'Drug'</span>, <span class="st">'Condition'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> concept_name, domain_id </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'Drug'</span>, <span class="st">'Condition'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -727,11 +850,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>One note. It is usually faster to make a temporary table with your values and join on that temporary table.</p>
+<p>One note. It is usually faster to make a temporary table with your values and join on that temporary table. We’ll talk more about this below.</p>
+<p><code>LIKE</code> is one way to do wild card searches.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> concept_name, domain_id </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="kw">LIKE</span> <span class="st">'Dru%'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> concept_name, domain_id </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> concept</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> domain_id <span class="kw">LIKE</span> <span class="st">'Dru%'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -788,11 +912,343 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section><section id="always-close-the-connection" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="always-close-the-connection">
-<span class="header-section-number">4.5</span> Always close the connection</h2>
+</section><section id="creating-temporary-tables" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="creating-temporary-tables">
+<span class="header-section-number">4.5</span> Creating Temporary Tables</h2>
+<p>Temporary tables can be very useful when you are trying to merge on a list of concepts, or for storing intermediate results.</p>
+<p>Temporary tables only last for the session - they disappear after you disconnect, so don’t use them for permanent storage.</p>
+<p>Here is the csv (comma separated value) file that we’re going to load in:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/temp_cost.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 51 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): concept_name
+dbl (2): procedure_concept_id, cost
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 51 × 3
+   concept_name                          procedure_concept_id  cost
+   &lt;chr&gt;                                                &lt;dbl&gt; &lt;dbl&gt;
+ 1 Cognitive and behavioral therapy                   4043071  3300
+ 2 Nasal sinus endoscopy                              4010253  3000
+ 3 Intubation                                         4202832  4000
+ 4 Removal of subcutaneous contraceptive              4199276  1800
+ 5 Radiography of humerus                             4047491  2300
+ 6 Radiologic examination of knee                     4252419  4100
+ 7 Lung volume reduction surgery                      4323902   730
+ 8 Sputum examination                                 4151422  4000
+ 9 Percutaneous coronary intervention                 4216130  1800
+10 Injection of epinephrine                           4197460  2600
+# ℹ 41 more rows</code></pre>
+</div>
+</div>
+<p>We use <code>CREATE TEMP TABLE</code> to create a temp table. We will need to specify the data types of the columns before we can add data to it. We are using <code>CREATE OR REPLACE</code> in the below chunk to prevent errors when we run it, just in case we have run it before.</p>
+<p>Then we can use <code>COPY</code> from DuckDB to load it in:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> TEMP <span class="kw">TABLE</span> <span class="kw">cost</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  concept_name <span class="dt">VARCHAR</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  procedure_concept_id <span class="dt">INT</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">cost</span> <span class="dt">INT</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> <span class="kw">cost</span> <span class="kw">FROM</span> <span class="st">'data/temp_cost.csv'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>DuckDB also is smart enough to infer the column types and names from the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> TEMP <span class="kw">TABLE</span> <span class="kw">cost</span> <span class="kw">AS</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> read_csv(<span class="st">'data/temp_cost.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now our table exists in our database, and we can work with it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="kw">cost</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead><tr class="header">
+<th style="text-align: left;">concept_name</th>
+<th style="text-align: right;">procedure_concept_id</th>
+<th style="text-align: right;">cost</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cognitive and behavioral therapy</td>
+<td style="text-align: right;">4043071</td>
+<td style="text-align: right;">3300</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nasal sinus endoscopy</td>
+<td style="text-align: right;">4010253</td>
+<td style="text-align: right;">3000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Intubation</td>
+<td style="text-align: right;">4202832</td>
+<td style="text-align: right;">4000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Removal of subcutaneous contraceptive</td>
+<td style="text-align: right;">4199276</td>
+<td style="text-align: right;">1800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Radiography of humerus</td>
+<td style="text-align: right;">4047491</td>
+<td style="text-align: right;">2300</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Radiologic examination of knee</td>
+<td style="text-align: right;">4252419</td>
+<td style="text-align: right;">4100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lung volume reduction surgery</td>
+<td style="text-align: right;">4323902</td>
+<td style="text-align: right;">730</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sputum examination</td>
+<td style="text-align: right;">4151422</td>
+<td style="text-align: right;">4000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Percutaneous coronary intervention</td>
+<td style="text-align: right;">4216130</td>
+<td style="text-align: right;">1800</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Injection of epinephrine</td>
+<td style="text-align: right;">4197460</td>
+<td style="text-align: right;">2600</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE <span class="kw">cost</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead><tr class="header">
+<th style="text-align: left;">column_name</th>
+<th style="text-align: left;">column_type</th>
+<th style="text-align: left;">null</th>
+<th style="text-align: left;">key</th>
+<th style="text-align: left;">default</th>
+<th style="text-align: left;">extra</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">concept_name</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">procedure_concept_id</td>
+<td style="text-align: left;">BIGINT</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cost</td>
+<td style="text-align: left;">BIGINT</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now we can merge our temporary <code>cost</code> table with <code>procedure_occurrence</code> and calculate the sum cost per year:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> date_part(<span class="st">'YEAR'</span>, po.procedure_datetime) <span class="kw">AS</span> <span class="dt">year</span>, <span class="fu">SUM</span>(<span class="kw">cost</span>) <span class="kw">AS</span> sum_cost_month</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> <span class="kw">cost</span> <span class="kw">AS</span> c</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.procedure_concept_id</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span> <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead><tr class="header">
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">sum_cost_month</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">619380</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">1271370</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">1201430</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">1122680</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">1079390</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">1103730</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">1084430</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">1118890</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">1041720</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1015700</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We’ll talk much more about subqueries and Views next time, which are another options to split queries up.</p>
+<section id="check-on-learning-1" class="level3" data-number="4.5.1"><h3 data-number="4.5.1" class="anchored" data-anchor-id="check-on-learning-1">
+<span class="header-section-number">4.5.1</span> Check on Learning</h3>
+<p>Modify the query below to calculate average cost per month using <code>AVG(cost)</code> named as <code>average_monthly_cost</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> date_part(<span class="st">'YEAR'</span>, po.procedure_datetime) <span class="kw">AS</span> <span class="dt">year</span>, <span class="fu">SUM</span>(<span class="kw">cost</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> procedure_occurrence <span class="kw">AS</span> po</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">INNER</span> <span class="kw">JOIN</span> <span class="kw">cost</span> <span class="kw">AS</span> c</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> po.procedure_concept_id <span class="op">=</span> c.procedure_concept_id</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span> <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead><tr class="header">
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">sum(“cost”)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">619380</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">1271370</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">1201430</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">1122680</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">1079390</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">1103730</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">1084430</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">1118890</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">1041720</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1015700</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section><section id="data-integrity" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="data-integrity">
+<span class="header-section-number">4.6</span> Data Integrity</h2>
+<p>We talked a little bit last week about database constraints, such as <code>FOREIGN KEY</code> constraints, where we can’t add a row that refers to a foreign key if that foreign key doesn’t exist.</p>
+<p>These constraints exist to ensure the <em>data integrity</em> of a database. For example, we don’t want to have rows in <code>procedure_occurrence</code> that have <code>procedure_concept_id</code> that don’t exist in the <code>concept</code> table.</p>
+<p>Another way to keep data integrity is to have all operations be <strong>ACID</strong> compliant transactions. That is, all operations (inserting and removing rows) needs to be done in full before the next set of transactions (which could come from another user) are done to the database.</p>
+<p>ACID is short for:</p>
+<ul>
+<li>
+<strong>Atomicity</strong> - the operation must be all or none</li>
+<li>
+<strong>Consistency</strong> - the operation must be done the same way</li>
+<li>
+<strong>Isolation</strong> - the operation is not dependent on other operations, and is done in series, not parallel.</li>
+<li>
+<strong>Durability</strong> - the operation must be robust to disruptions (like power outages). If a database is interrupted in an update, there must be a <em>rollback</em> mechanism to get the previous version of the data.</li>
+</ul>
+<p>Finally, the design of the tables and what information they contain, and how they relate to each other is also important to data integrity. The process of deciding which columns belong to which tables is called <em>normalization</em>.</p>
+</section><section id="database-design" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="database-design">
+<span class="header-section-number">4.7</span> Database Design</h2>
+<p>Database design can be difficult because:</p>
+<ol type="1">
+<li>You need to understand the requirements of the data and how it is collected</li>
+</ol>
+<ol type="a">
+<li>For example, when is procedure information collected?</li>
+<li>Do patients have multiple procedures? (Cardinality)</li>
+</ol>
+<ol start="2" type="1">
+<li>You need to group like data with like (normalization)</li>
+</ol>
+<ol type="a">
+<li>Data that is dependent on a primary key should stay together</li>
+<li>For example, <code>person</code> should contain information of a patient such as demographics, but not individual <code>procedure_concept_ids</code>.</li>
+</ol>
+<ol start="3" type="1">
+<li>You need to have an automated process to add data to the database (Extract Transfer Load, or ETL).</li>
+<li>Search processes must be optimized for common operations (indexing)</li>
+</ol>
+<p>Of this, steps 1 and 2 are the most difficult and take the most time. They require the designer to interview users of the data and those who collect the data to reflect the <em>business processes</em>. These two steps are called the <strong>Data Modeling</strong> steps.</p>
+<p>These processes are essential if you are designing a <strong>transactional database</strong> that is collecting data from multiple sources (such as clinicians at time of care) and is updated multiple times a second. For example, bank databases have a rigorous design.</p>
+<p>If you want to read more about the data model we’re using, I’ve written up a short bit here: <a href="miscellaneous.html#the-omop-data-model">OMOP Data Model</a>.</p>
+</section><section id="database-administration" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="database-administration">
+<span class="header-section-number">4.8</span> Database Administration</h2>
+<p>Maintaining a database is also known as <strong>database administration</strong>. Database Admins are responsible for the following:</p>
+<ol type="1">
+<li>Making sure that the data maintains its integrity</li>
+<li>Ensuring that common queries are optimized for fast loading</li>
+<li>General upkeep and optimization. Oftentimes, if multiple people are accessing the data at once, the data may be distributed among multiple machines (load balancing).</li>
+<li>Security. We don’t want the wrong people accessing the data.</li>
+</ol>
+<p>Being a good admin does not start from scratch. You can’t be a top-tier admin straight out of school. There are a lot of things DB admins learn, but a lot of the optimization happens from experience with managing the data.</p>
+<p>Respect your DB Admin and know that they know a lot about how to optimize your queries.</p>
+</section><section id="always-close-the-connection" class="level2" data-number="4.9"><h2 data-number="4.9" class="anchored" data-anchor-id="always-close-the-connection">
+<span class="header-section-number">4.9</span> Always close the connection</h2>
 <p>When we’re done, it’s best to close the connection with <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -1223,8 +1679,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./miscellaneous.html" class="pagination-link" aria-label="Miscellaneous Grabbag">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Miscellaneous Grabbag</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./week4.html" class="pagination-link" aria-label="Week 4: Subqueries and Views">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Week 4: Subqueries and Views</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

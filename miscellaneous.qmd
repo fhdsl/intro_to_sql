@@ -174,6 +174,20 @@ Our main tool for speeding up database searches is **Indexing**. Creating an ind
 
 Database Tuning is as much an art as it is a science. Too many indexes will make the database too big, whereas too few indexes will result in slow performance. This is why we hire database admins. Their work is incredibly important to keeping our data integrity and performing.  
 
+
+## The OMOP Data Model
+
+The database we've been using has been rigorously modeled using a data model called OMOP CDM (Common Data Model). OMOP is short for Observational Medical Outcomes Partnership, and it is designed to be a database format that standardizes data from systems into a format that can be combined with other systems to compare health outcomes across organizations.
+
+This is a huge accomplishment, because there are a lot of different pieces of a healthcare system. Not only that, we need standardized vocabularies, and standardized units so that we are comparing the same things across the healthcare systems.
+
+The following figure shows how chronic disesases are treated across ([Link to paper](https://link.springer.com/article/10.1007/s10916-018-1076-5)) healthcare systems. This could not have been done without converting all of the electronic healthcare data to 
+
+![https://link.springer.com/article/10.1007/s10916-018-1076-5](img/10916_2018_1076_Fig3_HTML.webp)
+
+Much more info about OMOP is here: [OMOP Data Standardization](https://www.ohdsi.org/data-standardization/). 
+
+
 ```{r}
 dbDisconnect(con)
 ```

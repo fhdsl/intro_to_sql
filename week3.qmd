@@ -10,10 +10,11 @@ Let's connect to our database.
 #| context: setup
 library(duckdb)
 library(DBI)
+library(tidyverse)
 
 con <- DBI::dbConnect(duckdb::duckdb(), 
                       "data/GiBleed_5.3_1.1.duckdb")
-``` pul
+```
 
 ## `GROUP BY`
 
@@ -126,6 +127,8 @@ SELECT domain_id, COUNT(concept_id) AS count_domain
   WHERE domain_id != 'Drug'
   ORDER BY count_domain DESC
 ```
+
+
 Here is `WHERE`/`GROUP BY`/`HAVING` combined with an `INNER JOIN`:
 
 ```{sql}
@@ -171,7 +174,7 @@ SELECT concept_name, domain_id
   WHERE domain_id NOT IN ('Drug', 'Condition')
 ```
 
-One note. It is usually faster to make a temporary table with your values and join on that temporary table. 
+One note. It is usually faster to make a temporary table with your values and join on that temporary table. We'll talk more about this below.
 
 `LIKE` is one way to do wild card searches.
 
@@ -186,7 +189,128 @@ SELECT concept_name, domain_id
 
 Temporary tables can be very useful when you are trying to merge on a list of concepts, or for storing intermediate results.
 
-`CREATE TEMPORARY TABLE`.
+Temporary tables only last for the session - they disappear after you disconnect, so don't use them for permanent storage.
+
+Here is the csv (comma separated value) file that we're going to load in:
+
+```{r}
+read_csv("data/temp_cost.csv")
+
+```
+
+
+We use `CREATE TEMP TABLE` to create a temp table. We will need to specify the data types of the columns before we can add data to it. We are using `CREATE OR REPLACE` in the below chunk to prevent errors when we run it, just in case we have run it before.
+
+Then we can use `COPY` from DuckDB to load it in:
+
+```{sql}
+#| connection: "con"
+CREATE OR REPLACE TEMP TABLE cost(
+  concept_name VARCHAR,
+  procedure_concept_id INT,
+  cost INT
+);
+COPY cost FROM 'data/temp_cost.csv'
+```
+
+DuckDB also is smart enough to infer the column types and names from the data:
+
+```{sql}
+#| connection: "con"
+CREATE OR REPLACE TEMP TABLE cost AS
+  SELECT * FROM read_csv('data/temp_cost.csv')
+```
+
+Now our table exists in our database, and we can work with it.
+
+```{sql}
+#| connection: "con"
+SELECT * FROM cost
+```
+
+```{sql}
+#| connection: "con"
+DESCRIBE cost
+```
+
+Now we can merge our temporary `cost` table with `procedure_occurrence` and calculate the sum cost per year:
+
+```{sql}
+#| connection: "con"
+SELECT date_part('YEAR', po.procedure_datetime) AS year, SUM(cost) AS sum_cost_month
+  FROM procedure_occurrence AS po
+  INNER JOIN cost AS c
+  ON po.procedure_concept_id = c.procedure_concept_id
+  GROUP BY year
+  ORDER BY year DESC
+```
+
+We'll talk much more about subqueries and Views next time, which are another options to split queries up.
+
+### Check on Learning
+
+Modify the query below to calculate average cost per month using `AVG(cost)` named as `average_monthly_cost`:
+
+```{sql}
+#| connection: "con"
+SELECT date_part('YEAR', po.procedure_datetime) AS year, SUM(cost)
+  FROM procedure_occurrence AS po
+  INNER JOIN cost AS c
+  ON po.procedure_concept_id = c.procedure_concept_id
+  GROUP BY year
+  ORDER BY year DESC
+```
+
+
+## Data Integrity
+
+We talked a little bit last week about database constraints, such as `FOREIGN KEY` constraints, where we can't add a row that refers to a foreign key if that foreign key doesn't exist.
+
+These constraints exist to ensure the *data integrity* of a database. For example, we don't want to have rows in `procedure_occurrence` that have `procedure_concept_id` that don't exist in the `concept` table. 
+
+Another way to keep data integrity is to have all operations be **ACID** compliant transactions. That is, all operations (inserting and removing rows) needs to be done in full before the next set of transactions (which could come from another user) are done to the database. 
+
+ACID is short for:
+
+- **Atomicity** - the operation must be all or none
+- **Consistency** - the operation must be done the same way 
+- **Isolation** - the operation is not dependent on other operations, and is done in series, not parallel.
+- **Durability** - the operation must be robust to disruptions (like power outages). If a database is interrupted in an update, there must be a *rollback* mechanism to get the previous version of the data.
+
+Finally, the design of the tables and what information they contain, and how they relate to each other is also important to data integrity. The process of deciding which columns belong to which tables is called *normalization*. 
+
+## Database Design
+
+Database design can be difficult because:
+
+1. You need to understand the requirements of the data and how it is collected
+  a. For example, when is procedure information collected? 
+  b. Do patients have multiple procedures? (Cardinality)
+2. You need to group like data with like (normalization)
+  a. Data that is dependent on a primary key should stay together
+  b. For example, `person` should contain information of a patient such as demographics, but not individual `procedure_concept_ids`.
+3. You need to have an automated process to add data to the database (Extract Transfer Load, or ETL).
+4. Search processes must be optimized for common operations (indexing)
+
+Of this, steps 1 and 2 are the most difficult and take the most time. They require the designer to interview users of the data and those who collect the data to reflect the *business processes*. These two steps are called the **Data Modeling** steps. 
+
+These processes are essential if you are designing a **transactional database** that is collecting data from multiple sources (such as clinicians at time of care) and is updated multiple times a second. For example, bank databases have a rigorous design. 
+
+If you want to read more about the data model we're using, I've written up a short bit here: [OMOP Data Model](miscellaneous.html#the-omop-data-model).
+
+
+## Database Administration
+
+Maintaining a database is also known as **database administration**. Database Admins are responsible for the following:
+
+1. Making sure that the data maintains its integrity
+2. Ensuring that common queries are optimized for fast loading
+3. General upkeep and optimization. Oftentimes, if multiple people are accessing the data at once, the data may be distributed among multiple machines (load balancing).
+4. Security. We don't want the wrong people accessing the data. 
+
+Being a good admin does not start from scratch. You can't be a top-tier admin straight out of school. There are a lot of things DB admins learn, but a lot of the optimization happens from experience with managing the data. 
+
+Respect your DB Admin and know that they know a lot about how to optimize your queries. 
 
 ## Always close the connection
 

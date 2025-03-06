@@ -65,5 +65,18 @@ SELECT concept_id, concept_name
 
 ```{sql}
 #| connection: "con"
-SELECT procedure_concept_id, concept_name, condition_
+#| output.var: my_tab
+SELECT DISTINCT concept_name, procedure_concept_id
+  FROM procedure_occurrence
+  INNER JOIN concept
+  ON procedure_concept_id = concept_id
 ```
+
+```{r}
+library(tidyverse)
+cost_table <- my_tab |>
+  mutate(cost=runif(nrow(my_tab), min = 300, max = 5000)) |>
+  mutate(cost = signif(cost, digits = 2))
+write_csv(cost_table, file="data/temp_cost.csv")
+```
+
