@@ -39,11 +39,11 @@ Classes will be recorded, and those recordings will be sent to you after each cl
 | Week | Date   | Subject                                                    |Office Hours|
 | ---- | ------ | ---------------------------------------------------------- |------------|
 |Pre-class|----|[Concepts of Databases](concepts.html)|
-| 1    | Feb 7  | [Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE`](week1.html) |Feb 11|
-| 2    | Feb 14 | `JOIN`ing tables, more `WHERE`                             |Feb 25| 
-| -    | Feb 21 | No class (school break week)                               |No office hours|
-| 3    | Feb 28 | Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`  |Mar 4|
-| 4    | Mar 7  | Subqueries/Views, Recap of course / review OMOP queries    |No office hours|
+| 1    | May 8  | [Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE`](week1.html) |TBD|
+| 2    | May 15 | [`JOIN`ing tables, more `WHERE`](week2.html)                             |TBD| 
+hours|
+| 3    | May 22 | [Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`](week3.html)  |TBD|
+| 4    | May 29  | [Subqueries/Views, Recap of course / review OMOP queries](week4.html)    |TBD|
 
 ## Format of Class
 
@@ -78,6 +78,31 @@ We sometimes struggle with our data science in isolation, unaware that someone t
   -   *Asking questions is our way of taking care of others.*
 
 We ask you to follow [Participation Guidelines](https://hutchdatascience.org/communitystudios/guidelines/) and [Code of Conduct](https://github.com/fhdsl/coc).
+
+## Posit Cloud Project
+
+For those who are not Fred Hutch learners and want to try the course out, we have an Posit.cloud Project that you can clone to your own account: <https://posit.cloud/content/10022544>
+
+## Badge of completion
+
+![](img/badge.png){width="450"}
+
+We offer a [badge of completion](https://www.credly.com/org/fred-hutch/badge/intro-to-databases) when you finish the course!
+
+What it is:
+
+-   A display of what you accomplished in the course, shareable in your professional networks such as LinkedIn, similar to online education services such as Coursera.
+
+What it isn't:
+
+-   Accreditation through an university or degree-granting program.
+
+
+Requirements:
+
+-   Complete badge-required sections of the exercises for 3 out of 4 assignments. We'll cover this in class
+
+
 
 ## Available Course Formats
 
