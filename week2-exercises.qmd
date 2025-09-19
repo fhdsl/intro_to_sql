@@ -10,7 +10,6 @@ We'll first connect to the database:
 #| context: setup
 library(duckdb)
 library(DBI)
-library(DiagrammeR)
 con <- DBI::dbConnect(duckdb::duckdb(), 
                       "data/synthea-smaller_breast_cancer.db")
                       
@@ -38,7 +37,13 @@ SELECT person_id, gender_source_value, birth_datetime
 
 ## `JOIN`s
 
-`INNER JOIN` `person` and `concept` on `gender_concept_id` and `concept_id`. `SELECT` `person_id` and `concept_name` from the appropriate tables.
+`INNER JOIN` `person` and `concept` on `gender_concept_id` and `concept_id`, respectively. `SELECT` `person_id` and `concept_name` from the appropriate tables.
+
+We update our entity-relationship diagram as follows to show the link between `gender_concept_id` in `person` and `concept_id` in `concept`:
+
+![](img/omop2.png)
+
+This shows that rows of the `concept` table contains `concept_id`s for information about `gender_concept_id` from `person` *and* `procedure_concept_id` from `procedure_occurrence`! The `concept` table is like a lookup table of anything that has a `concept_id`.
 
 ```{sql}
 #| connection: "con"
@@ -49,15 +54,7 @@ SELECT *
   LIMIT 20;
 ```
 
-```{sql}
-#| connection: "con"
-SELECT person.person_id, concept.concept_name
-  FROM person
-  INNER JOIN concept
-  ON person.gender_concept_id = concept.concept_id
-```
-
-`INNER JOIN` 3 tables: `procedure_occurrence`, `person`, and `concept`, `ON` the appropriate keys. Select `person_id`, `birth_datetime`, `concept_name`, and `procedure_date` from the appropriate tables. Use table references and aliases to make the column names unambiguous.
+`INNER JOIN` 3 tables: `person`, `procedure_occurrence`, and `concept`, `ON` the appropriate keys. (See class notes for similar examples.) Select `person_id`, `birth_datetime`, `concept_name`, and `procedure_date` from the appropriate tables. Use table references and aliases to make the column names unambiguous.
 
 ```{sql}
 #| connection: "con"
@@ -70,18 +67,7 @@ SELECT -----, ------, -----, -----
 
 ```
 
-```{sql}
-#| connection: "con"
-SELECT p.person_id, p.birth_datetime, c.concept_name, po.procedure_date
-  FROM person AS p
-  INNER JOIN procedure_occurrence AS po
-  ON p.person_id = po.person_id
-  INNER JOIN concept AS c
-  ON po.procedure_concept_id = c.concept_id
-
-```
-
-Modify the above query to select only those procedures done after the yeqr 2000.
+Modify the above query to select only those procedures done after the year 2000 in the code chunk below.
 
 You can extract the Year part from a date column with `date_part('YEAR', ------)`
 
@@ -96,22 +82,11 @@ SELECT -----, ------, -----, -----
   WHERE ----- - -------
 ```
 
-```{sql}
-#| connection: "con"
-SELECT p.person_id, p.birth_datetime, c.concept_name, po.procedure_date, po.procedure_concept_id
-  FROM person AS p
-  INNER JOIN procedure_occurrence AS po
-  ON p.person_id = po.person_id
-  INNER JOIN concept AS c
-  ON po.procedure_concept_id = c.concept_id
-  WHERE date_part('YEAR',po.procedure_date) > 2000
-```
-
 ## Boolean Logic
 
 Count the number of cases for `procedure_occurrence` with the following criteria:
 
-```
+```         
 procedure_concept_id = 4230911 
   AND date_part('YEAR', procedure_datetime) > 2000
 ```
@@ -123,6 +98,7 @@ SELECT COUNT(*)
   ----------
   ----------
 ```
+
 Try it out with `OR` instead. Was your result bigger or smaller than the `AND`?
 
 ```{sql}
@@ -135,7 +111,7 @@ SELECT COUNT(*)
 
 ## On Your Own
 
-Try constructing a query of your own that uses a `JOIN`. If you want to go further, add a `WHERE` as well.
+Try constructing a query of your own that uses a `JOIN`. If you want to go further, add a `WHERE` as well. Consider other tables in the database!
 
 ```{sql}
 #| connection: "con"
