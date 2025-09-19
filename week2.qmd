@@ -82,7 +82,29 @@ Now that we are going to use `JOIN`s, we will be using aliases and table referen
 
 ## `JOIN`
 
-We use the `JOIN` clause when we want to combine information from two tables. Here we are going to combine information from two tables: `procedure_occurrence` and `concept`.
+Joining tables require understanding the relationship between tables in a database, and it is helpful to visualize it via an **entity-relationship diagram:**
+
+![](img/omop1.png)
+
+Each rectangle represent a table, and within each table are the columns (fields). I am only showing a subset of the columns based on what we have explored so far in class. The connecting lines shows that there are shared values between tables in those columns, which helps one navigate between tables:
+
+-   In the `person` table, the elements of the column `person_id` overlaps with the elements of `person_id` column in in the table `procedure_occurrence`.
+
+-   In the `procedure_occurrence` table, the elements of the column `procedure_concept_id` overlaps with the elements of `concept_id` column in the table `concepts`.
+
+We should consider to what degree the values overlap:
+
+-   For each `person_id` in the `person` table, there may be duplicated `person_id`s in `procedure_occurrence` table, as a patient can have multiple procedures. This is a **one-to-many relationship**.
+
+-   Multiple elements of `procedure_concept_id` in the `procedure_occurrence` table may correspond to a single element of `concept_id` in the "concept" table. This is a **many-to-one relationship**.
+
+-   You can also have a **one-to-one relationship**.
+
+The full OMOP entity-relationship diagram can be [found here](https://ohdsi.github.io/CommonDataModel/cdm54erd.html).
+
+Now, let's join some tables.
+
+We use the `JOIN` clause when we want to combine information from two tables. Here we are going to combine information from two tables: `person` and `procedure_occurrence`.
 
 To set the stage, let's show two tables, `x` and `y`. We want to join them by the keys, which are represented by colored boxes in both of the tables.
 
@@ -90,57 +112,47 @@ Note that table `x` has a key ("3") that isn't in table `y`, and that table `y` 
 
 ![](img/original-dfs.png)
 
-We are going to explore `INNER JOIN` first. In an `INNER JOIN`, we match up our primary key for our table on the foreign key for another table. In this case, we only retain rows that have keys that exist in both the `x` and `y` tables. We drop all rows that don't have matches in both tables.
+We are going to explore `INNER JOIN` first. In an `INNER JOIN`, we pick out a column from each table in which its elements are going to be matched. In this case, we only retain rows that have elements that exist in both the `x` and `y` tables. We drop all rows that don't have matches in both tables.
 
-![](img/inner-join.gif) There are other types of joins when we want to retain information from the `x` table or the `y` table, or both.
+![](img/inner-join.gif)There are other types of joins when we want to retain information from the `x` table or the `y` table, or both.
 
 ## `INNER JOIN` syntax
 
-Here's an example where we are joining `procedure_occurrence` with `concept`:
+Here's an example where we are joining `person` with `procedure_occurrence`:
 
 ```{sql}
 #| connection: "con"
-SELECT procedure_occurrence.person_id, concept.concept_name 
-    FROM procedure_occurrence 
-    INNER JOIN concept
-    ON procedure_occurrence.procedure_concept_id = concept.concept_id
+SELECT person.person_id, procedure_occurrence.procedure_occurrence_id 
+    FROM person
+    INNER JOIN procedure_occurrence
+    ON person.person_id = procedure_occurrence.person_id
 ```
 
 What's going on here? The magic happens with this clause, which we use to specify the two tables we need to join.
 
 ```         
-FROM procedure_occurrence
-  INNER JOIN concept
+FROM person
+  INNER JOIN procedure_occurrence
 ```
 
-The last thing to note is the `ON` statement. These are the conditions by which we merge rows. Note we are taking one column in `procedure.occurrence`, the `procedure_concept_id`, and matching the rows up with those rows in `concept`
+The last thing to note is the `ON` statement. These are the conditions by which we merge rows. We are taking one column in `person`, the `person_id`, and matching the rows up with those rows in `procedure_occurrence`'s own `person_id` column:
 
 ```         
-ON procedure_occurrence.procedure_concept_id = concept.concept_id
+ON person.person_id = procedure_occurrence.person_id
 ```
+
+Here is the same query using aliases. We use `p` as an alias for `person` and `po` as an alias for `procedure_occurrence`. You can see it is a little more compact.
 
 ```{sql}
 #| connection: "con"
-SELECT procedure_occurrence.person_id, concept.concept_name 
-    FROM procedure_occurrence 
-    INNER JOIN concept
-    ON procedure_occurrence.procedure_concept_id = concept.concept_id
-```
-
-Here is the same query using aliases. We use `po` as an alias for `procedure_occurrence` and `c` as an alias for `concept`. You can see it is a little more compact.
-
-```{sql}
-#| connection: "con"
-#| output.var: pro
-SELECT po.person_id, c.concept_name 
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id;
+SELECT p.person_id, po.procedure_occurrence_id 
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
 ```
 
 ## `LEFT JOIN`
 
-::: callout-note
 ## Jargon alert
 
 The table to the **left** of the `JOIN` clause is called the **left table**, and the table to the **right** of the `JOIN` clause is known as the **right table**. This will become more important as we explore the different join types.
@@ -149,7 +161,6 @@ The table to the **left** of the `JOIN` clause is called the **left table**, and
 FROM procedure_occurrence INNER JOIN concept
       ^^Left Table                    ^^Right Table
 ```
-:::
 
 What if we want to retain all of the rows in the `procedure_occurrence` table, even if there are no matches in the `concept` table? We can use a `LEFT JOIN` to do that.
 
@@ -157,18 +168,27 @@ What if we want to retain all of the rows in the `procedure_occurrence` table, e
 
 If a row exists in the left table, but not the right table, it will be replicated in the joined table, but have rows with `NULL` columns from the right table.
 
-I tried to find some examples where `LEFT JOIN`ed tables were different than `INNER JOIN`ed tables, but couldn't find one good example in our tables. Here is another example:
+Here is another example:
 
-![](img/Slide4.jpeg) Nevertheless, here is an example of a `LEFT JOIN`:
+![](img/Slide4.jpeg)We can see the difference between a `INNER JOIN` and `LEFT JOIN` by counting the number of rows kept after joining:
 
 ```{sql}
 #| connection: "con"
-SELECT  c.concept_name, po.person_id, c.domain_id
-    FROM concept as c 
-    LEFT JOIN procedure_occurrence AS po
-    ON po.procedure_concept_id = c.concept_id
-    WHERE c.domain_id = 'Procedure'
+SELECT COUNT (*)
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
 ```
+
+```{sql}
+#| connection: "con"
+SELECT COUNT (*)
+    FROM person as p
+    LEFT JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+```
+
+This suggests that there are some unique `person_id`s in `person` table not found in the `person_id` of `procedure_occurrence` table.
 
 ## Other kinds of `JOIN`s
 
@@ -182,7 +202,7 @@ We can have multiple joins by thinking them as a sequential operation of one joi
 
 ```{sql}
 #| connection: "con"
-SELECT p.gender_source_value, c.concept_name, po.procedure_date
+SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
   FROM person AS p
   INNER JOIN procedure_occurrence AS po
   ON p.person_id = po.person_id
@@ -220,31 +240,33 @@ It's really important to check intermediate output and make sure that you are re
 
 ## Using `JOIN` with `WHERE`
 
-Where we really start to cook with gas is when we combine `JOIN` with `WHERE`. Here, we're joining `procedure_occurrence` and `concept`, with an additional `WHERE` where we only want those rows that have the `concept_name` of 'Subcutaneous immunotherapy\`:
+Where we really start to cook with gas is when we combine `JOIN` with `WHERE`. Let's add an additional `WHERE` where we only want those rows that have the `concept_name` of 'Subcutaneous immunotherapy\`:
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name 
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    WHERE c.concept_name = 'Subcutaneous immunotherapy';
+SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  WHERE c.concept_name = 'Subcutaneous immunotherapy';
+    
 ```
 
-Here is a triple join query with an additional filter. You can see why aliases are useful:
+Or keeping rows where the year of birth is before 1980:
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name, p.birth_datetime 
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    INNER JOIN person as p
-    ON po.person_id = p.person_id
+SELECT p.person_id, p.year_of_birth, po.procedure_occurrence_id, c.concept_name
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
     WHERE p.year_of_birth < 1980;
 ```
 
-::: callout-note
 ## `WHERE` vs `ON`
 
 You will see variations of SQL statements that eliminate `JOIN` and `ON` entirely, putting everything in `WHERE`:
@@ -259,7 +281,6 @@ SELECT po.person_id, c.concept_name
 ```
 
 I'm not the biggest fan of this, because it is often not clear what is a filtering clause and what is a joining clause, so I prefer to use `JOIN`/`ON` with a `WHERE`.
-:::
 
 ## Boolean Logic: `AND` versus `OR`
 
@@ -275,7 +296,7 @@ SELECT COUNT(*)
   AND gender_source_value = 'M'
 ```
 
-On the other hand `OR` is more permissing than `AND`, because our rows must meet only one of the conditions.
+On the other hand `OR` is more permissive than `AND`, because our rows must meet only one of the conditions.
 
 ```{sql}
 #| connection: "con"
@@ -301,35 +322,26 @@ SELECT COUNT(*)
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name, po.procedure_date
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    ORDER BY po.procedure_date;
+SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+    ORDER BY p.person_id;
 ```
 
-We can `ORDER BY` multiple columns. Column order is important. Try changing the order of the columns in the query below. How is it different?
-
-```{sql}
-#| connection: "con"
-SELECT po.person_id, c.concept_name, po.procedure_date
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    ORDER BY po.person_id, po.procedure_date;
-```
+Once we sorted by `person_id`, we see that for every unique `person_id`, there can be multiple procedures! This suggests that there is a **one-to-many relationship** between `person` and `procedure_occurrence` tables.
 
 ## Try it Out
 
-Try ordering by `po.patient_id`:
+We can `ORDER BY` multiple columns at once. Try ordering by `p.patient_id` and `po.procedure_date`:
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name, po.procedure_date
-    FROM procedure_occurrence AS po 
-    INNER JOIN concept AS c
-    ON po.procedure_concept_id = c.concept_id
-    ORDER BY po.procedure_date;
+SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+    ORDER BY ----, ----
 ```
 
 ## Transactions and Inserting Data
