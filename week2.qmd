@@ -78,11 +78,11 @@ SELECT COUNT(person_id) AS person_count
   WHERE year_of_birth < 2000;
 ```
 
-Now that we are going to use `JOIN`s, we will be using aliases and table references a lot.
+We will be using aliases and table references a lot when we start `JOIN`ing tables.
 
-## `JOIN`
+## Entity-relationship diagrams
 
-Joining tables require understanding the relationship between tables in a database, and it is helpful to visualize it via an **entity-relationship diagram:**
+Joining tables require understanding the relationship between tables in a database. This is often visualized via an **entity-relationship diagram:**
 
 ![](img/omop1.png)
 
@@ -100,9 +100,11 @@ We should consider to what degree the values overlap:
 
 -   You can also have a **one-to-one relationship**.
 
-The full OMOP entity-relationship diagram can be [found here](https://ohdsi.github.io/CommonDataModel/cdm54erd.html).
+The database we\'ve been using has been rigorously modeled using a data model called [OMOP CDM (Common Data Model)](https://ohdsi.github.io/CommonDataModel/index.html). OMOP is short for Observational Medical Outcomes Partnership, and it is designed to be a database format that standardizes data from systems into a format that can be combined with other systems to compare health outcomes across organizations. The full OMOP entity relationship diagram can be [found here](https://ohdsi.github.io/CommonDataModel/cdm54erd.html).
 
 Now, let's join some tables.
+
+## `JOIN`
 
 We use the `JOIN` clause when we want to combine information from two tables. Here we are going to combine information from two tables: `person` and `procedure_occurrence`.
 

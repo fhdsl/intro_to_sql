@@ -97,7 +97,7 @@ What it isn't:
 
 Requirements:
 
--   Complete badge-required sections of the exercises for 3 out of 4 assignments. We'll cover this in class.
+-   Complete for 3 out of 4 assignments.
 
 ## Available Course Formats
 

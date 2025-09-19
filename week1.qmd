@@ -5,11 +5,10 @@ format: html
 
 ## Our Composable Database System
 
-- Client: R/RStudio w/ SQL
-- Database Engine: DuckDB
-- Data Storage: single file in `data/` folder
+-   Client: R/RStudio w/ SQL
+-   Database Engine: DuckDB
+-   Data Storage: single file in `data/` folder
 
- 
 ## Connecting to our database
 
 To access the data, we need to create a database connection. We use `dbConnect()` from the `DBI` package to do this. The first argument specifies the Database engine (`duckdb()`), and the second provides the file location: `"data/data/GiBleed_5.3_1.1.duckdb"`.
@@ -25,16 +24,16 @@ con <- DBI::dbConnect(duckdb::duckdb(),
 
 Once open, we can use `con` (our database connection)
 
-:::{.callout-note}
+::: callout-note
 ## Keep in Mind: SQL ignores letter case
 
-These are the same to the database engine: 
+These are the same to the database engine:
 
-```
+```         
 SELECT person_id FROM person;
 ```
 
-```
+```         
 select PERSON_ID FROM person;
 ```
 
@@ -57,21 +56,20 @@ We can get further information about the tables within our database using `DESCR
 DESCRIBE;
 ```
 
-
 We'll look at a few tables in our work:
 
-  - `person` - Contains personal & demographic data
-  - `procedure_occurrence` - procedures performed on patients and when they happened
-  - `condition_occurrence` - patient conditions (such as illnesses) and when they occurred
-  - `concept` - contains the specific information (names of concepts) that map into all three above tables
-  
-  We'll talk much more later about the relationships between these tables.  
+-   `person` - Contains personal & demographic data
+-   `procedure_occurrence` - procedures performed on patients and when they happened
+-   `condition_occurrence` - patient conditions (such as illnesses) and when they occurred
+-   `concept` - contains the specific information (names of concepts) that map into all three above tables
+
+We'll talk much more later about the relationships between these tables.
 
 ## `SELECT` and `FROM`
 
 If we want to see the contents of a table, we can use `SELECT` and `FROM`.
 
-```
+```         
 SELECT *          # select all columns
   FROM person     # from the person table
   LIMIT 10;       # return only 10 rows
@@ -82,11 +80,11 @@ SELECT *          # select all columns
 SELECT * FROM person LIMIT 10;
 ```
 
-1. Why are there `birth_datetime` and the `month_of_birth`, `day_of_birth`, `year_of_birth` - aren't these redundant?
+1.  Why are there `birth_datetime` and the `month_of_birth`, `day_of_birth`, `year_of_birth` - aren't these redundant?
 
 ## Try it Out
 
-Look at the first few rows of `procedure_occurrence`. 
+Look at the first few rows of `procedure_occurrence`.
 
 ```{sql}
 #| eval: FALSE
@@ -94,13 +92,13 @@ Look at the first few rows of `procedure_occurrence`.
 SELECT * FROM ____ LIMIT 10;
 ```
 
-1. Why is there a `person_id` column in this table as well?
+1.  Why is there a `person_id` column in this table as well?
 
 ## `SELECT`ing a few columns in our table
 
-We can use the `SELECT` clause to grab specific columns in our data. 
+We can use the `SELECT` clause to grab specific columns in our data.
 
-```
+```         
 SELECT person_id, birth_datetime, gender_concept_id # Columns in our table
   FROM person;                                      # Our Table
 ```
@@ -133,7 +131,6 @@ Add `race_concept_id` and `year_of_birth` to your `SELECT` query:
 SELECT person_id, birth_datetime, gender_concept_id, ____, ____
   FROM person;
 ```
-
 
 ## `WHERE` - filtering our table
 
@@ -171,12 +168,12 @@ SELECT person_id, gender_source_value, race_source_value
 
 Reminder: use single ('') quotes in your SQL statements to refer to values, not double quotes (").
 
-:::{.callout-note}
+::: callout-note
 ### Quick Note
 
 For R users, notice the similarity of `select()` with `SELECT`. We can rewrite the above in `dplyr` code as:
 
-```r
+``` r
 person |>
   select(person_id, gender_source_value, race_source_value)
 ```
@@ -186,7 +183,7 @@ A lot of `dplyr` was inspired by SQL. In fact, there is a package called `dbplyr
 
 ## `COUNT` - how many rows?
 
-Sometimes you want to know the *size* of your result, not necessarily return the entire set of results. That is what `COUNT` is for. 
+Sometimes you want to know the *size* of your result, not necessarily return the entire set of results. That is what `COUNT` is for.
 
 ```{sql}
 #| connection: "con"
@@ -245,7 +242,7 @@ SELECT COUNT(DISTINCT --------------)
 
 One of the important properties of data in a relational database is that there are no *repeat rows* in the database. Each table that meets this restriction has what is called a *primary key*.
 
-We can use `DESCRIBE` to get more information (the metadata) about a table. This gives us information about our tables. 
+We can use `DESCRIBE` to get more information (the metadata) about a table. This gives us information about our tables.
 
 ```{sql}
 #| connection: "con"
@@ -269,18 +266,18 @@ What column is the same in both tables? That is a hint for what we'll cover next
 
 If you look at the `column_type` for one of the `DESCRIBE` statements above, you'll notice there are different data types:
 
-- `INTEGER`
-- `TIMESTAMP`
-- `DATE`
-- `VARCHAR`
+-   `INTEGER`
+-   `TIMESTAMP`
+-   `DATE`
+-   `VARCHAR`
 
-Each column of a database needs to be *typed*. The *data type* of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like `date arithmetic` on `DATETIME` columns, asking the engine to calculate 5 days after the dates. 
+Each column of a database needs to be *typed*. The *data type* of a column determines what kinds of calculations or operations we can do on them. For example, we can do things like `date arithmetic` on `DATETIME` columns, asking the engine to calculate 5 days after the dates.
 
 You can see all of the [datatypes that are available in DuckDB here](https://duckdb.org/docs/sql/data_types/overview.html).
 
 ## Always close the connection
 
-When we're done, it's best to close the connection with `dbDisconnect()`. 
+When we're done, it's best to close the connection with `dbDisconnect()`.
 
 ```{r}
 dbDisconnect(con)
