@@ -1,0 +1,93 @@
+---
+title: "Week 1 Exercise Continued"
+format: html
+editor: visual
+---
+
+## Week 1 Exercise Continued
+
+We'll first connect to the database:
+
+```{r}
+#| context: setup
+library(duckdb)
+library(DBI)
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "data/synthea-smaller_breast_cancer.db")
+                      
+```
+
+Here is an **entity-relationship diagram:**
+
+![](img/omop1.png)
+
+Each rectangle represent a table, and within each table are the columns (fields). I am only showing a subset of the columns based on what we have explored so far in class. The connecting lines shows that there are shared values between tables in those columns, which helps one navigate between tables:
+
+-   In the "person" table, the elements of the column `person_id` overlaps with the elements of `person_id` column in in the table "procedure_occurrence".
+
+-   In the "procedure_occurrence" table, the elements of the column `procedure_concept_id` overlaps with the elements of `concept_id` column in the table "concepts".
+
+We should consider to what degree the values overlap:
+
+-   For each `person_id` in the "person" table, there may be duplicated `person_id`s in "procedure_occurrence" table, as a patient can have multiple procedures. This is a **one-to-many relationship**.
+
+-   Multiple elements of `procedure_concept_id` in the "procedure_occurrence" table may correspond to a single element of `concept_id` in the "concept" table. This is a **many-to-one relationship**.
+
+-   You can also have a **one-to-one relationship**.
+
+In class today you will start joining these tables via the columns that have shared elements! However, before we go wild with joining, it is often good to explore the relationship so that we know what to expect in our join.
+
+Let's explore `person_id` columns that is found in both "person" and "procedure_occurrence" tables.
+
+First, look at the number of elements in `person_id` from "person" table:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(-----) 
+  FROM person
+```
+
+How about distinct elements in `person_id` from "person" table?
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(DISTINCT ----) 
+  FROM person
+```
+
+Okay, let's look at the "procedure_occurrence" table: what is thenumber of elements in `person_id` from "procedure_occurrence" table?
+
+```{sql connection="con"}
+
+```
+
+How about distinct elements in `person_id` from "person" table?
+
+```{sql connection="con"}
+
+
+```
+
+Let's look at an example: query for the columns `procedure_occurrence_id`, `person_id`, and `procedure_concept_id` in the "procedure_occurrence" table, *where* the `person_id` has a value of 4.
+
+```{sql connection="con"}
+SELECT -----
+  FROM ------
+  WHERE -----
+```
+
+What can you say about the relationship of these two tables based on what you explored above? One-to-one, one-to-many, or many-to-one?
+
+If there is time, do the same analysis for "procedure_occurrence_table" and "concept" table using the columns `procedure_concept_id` and `concept_id`, respectively.
+
+```{sql connection="con"}
+
+```
+
+```{sql connection="con"}
+
+```
+
+```{sql connection="con"}
+
+```

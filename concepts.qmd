@@ -21,19 +21,17 @@ con <- DBI::dbConnect(duckdb::duckdb(),
 
 > A database is an organized collection of structured information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). Together, the data and the DBMS, along with the applications that are associated with them, are referred to as a database system, often shortened to just database. - [Oracle Documentation](https://www.oracle.com/database/what-is-database/)
 
-When we talk about databases, we mean the *database system* rather than database itself. Specifically, we talk about the different layers of a database system.
+When we talk about databases, we often mean the *database system* rather than database itself. Specifically, we talk about the different layers of a database system.
 
 ## Parts of a Database System
 
 The [Composable Codex](https://voltrondata.com/codex/a-new-frontier#structure-of-a-composable-data-system) talks about three layers of a database system:
 
+![](img/composable-data-system-modules.png) [From the Composable Codex](https://voltrondata.com/codex/a-new-frontier#building-a-new-composable-frontier)
 
-![](img/composable-data-system-modules.png)
-[From the Composable Codex](https://voltrondata.com/codex/a-new-frontier#building-a-new-composable-frontier)
-
-1. **A user interface** - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).
-2. **An execution engine** - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.
-3. **Data Storage** - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)
+1.  **A user interface** - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).
+2.  **An execution engine** - a software system that queries the data in storage. There are many examples of this: SQL Server, MariaDB, DuckDB, Snowflake. These can live on our machine, on a server within our network, or a server on the cloud.
+3.  **Data Storage** - the physical location where the data is stored. This could be on your computer, on the network, or in the cloud (such as an Amazon S3 bucket)
 
 ## For this class
 
@@ -46,7 +44,7 @@ B["2.DuckDB"] --> C
 C["3.File on our Machine"]
 ```
 
-::: {.callout}
+::: callout
 ## Why We're Using DuckDB in this Course
 
 DuckDB is a very fast, open-source database engine. Because of restrictions on clinical data, sometimes the only way to analyze it is on an approved laptop. DuckDB does wondrous things on laptops, so we hope it will be a helpful tool in your arsenal.
@@ -74,18 +72,30 @@ B["2.Databricks/Snowflake"] --> C
 C["3.Amazon S3"]
 ```
 
-In this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket). 
+In this case, we need to sign into the Databricks system, which is a set of systems that lives in the cloud. We actually will use SQL within their notebooks to write our queries. Databricks will then use the Snowflake engine to query the data that is stored in cloud storage (an S3 bucket).
 
 If this is making you dizzy, don't worry too much about it. Just know that we can switch out the different layers based on our needs.
 
+## Our underlying data model
+
+The three components of our Database System is dependent on our choice of the data model. Most data models are centered around **Relational Databases**. A relational database organizes data into multiple tables. Each table's row is a record with a unique ID called the key, as well as attributes described in the columns. The tables may relate to each other based on columns with the same values.
+
+Below is an example **entity-relationship diagram** that summarizes relationships between tables:
+
+![](img/omop1.png)
+
+Each rectangle represent a table, and within each table are the columns (fields). The connecting lines shows that there are shared values between tables in those columns, which helps one navigate between tables. Don't worry if this feels foreign to you right now - we will unpack these diagrams throughout the course.
+
+Other data models include **NoSQL ("Not Only SQL")**, which allows the organization of unstructured data via key-value pairs, graphs, and encoding entire documents. Another emerging data model are **Array/Matrix/Vector-based models**, which are largely focused on organizing numerical data for machine learning purposes.
+
 ## What is SQL?
 
-SQL is short for **S**tructured **Q**uery **L**anguage. It is a standardized language for querying databases (originally relational databases)
+SQL is short for **S**tructured **Q**uery **L**anguage. It is a standardized language for querying relational databases.
 
 SQL lets us do various operations on data. It contains various *clauses* which let us manipulate data:
 
 | Priority | Clause     | Purpose                                                        |
-| -------- | ---------- | -------------------------------------------------------------- |
+|------------|------------|------------------------------------------------|
 | 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
 | 2        | `WHERE`    | Filter tables based on criteria                                |
 | 3        | `GROUP BY` | Aggregates the Data                                            |
@@ -99,7 +109,7 @@ We do not use all of these clauses when we write a SQL Query. We only use the on
 Oftentimes, we really only want a summary out of the database. We would probably use the following clauses:
 
 | Priority | Clause     | Purpose                                                        |
-| -------- | ---------- | -------------------------------------------------------------- |
+|------------|------------|------------------------------------------------|
 | 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
 | 2        | `WHERE`    | Filter tables based on criteria                                |
 | 3        | `GROUP BY` | Aggregates the Data                                            |
@@ -107,7 +117,7 @@ Oftentimes, we really only want a summary out of the database. We would probably
 
 Notice that there is a **Priority** column in these tables. This is important, because parts of queries are evaluated in this order.
 
-::: {.callout-note}
+::: callout-note
 ## Dialects of SQL
 
 You may have heard that the SQL used in SQL Server is different than other databases. In truth, there are multiple dialects of SQL, based on the engine.
@@ -119,7 +129,7 @@ However, we're focusing on the 95% of SQL that is common to all systems. Most of
 
 Let's look at a typical SQL statement:
 
-```sql
+``` sql
 SELECT person_id, gender_source_value   # Choose Columns
   FROM person                           # Choose the person table
   WHERE year_of_birth < 2000;            # Filter the data using a criterion
@@ -127,7 +137,7 @@ SELECT person_id, gender_source_value   # Choose Columns
 
 We can read this as:
 
-```
+```         
 SELECT the person_id and gender_source_value columns
 FROM the person table
 ONLY Those with year of birth less than 2000 
@@ -135,17 +145,17 @@ ONLY Those with year of birth less than 2000
 
 As you can see, SQL can be read. We will gradually introduce clauses and different database operations.
 
-::: {.callout-note}
+::: callout-note
 As a convention, we will capitalize SQL clauses (such as `SELECT`), and use lowercase for everything else.
 :::
 
 ## Database Connections
 
-We haven't really talked about how we *connect* to the database engine. 
+We haven't really talked about how we *connect* to the database engine.
 
 In order to connect to the database engine and create a database connection, we may have to authenticate with an ID/password combo or use other methods of authentication to prove who we are.
 
-Once we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can *send* queries through it, and the database engine will run these queries, and **return** a result. 
+Once we are authenticated, we now have a connection. This is basically our conduit to the database engine. We can *send* queries through it, and the database engine will run these queries, and **return** a result.
 
 ```{mermaid}
 graph LR
@@ -155,7 +165,7 @@ graph LR
 
 As long as the connection is open, we can continue to send queries and receive results.
 
-It is best practice to explicitly **disconnect** from the database. Once we have disconnected, we no longer have access to the database. 
+It is best practice to explicitly **disconnect** from the database. Once we have disconnected, we no longer have access to the database.
 
 ```{mermaid}
 graph LR
@@ -175,20 +185,20 @@ SELECT * FROM person LIMIT 10;
 
 Some quick terminology:
 
-- **Database Record** - a row in this table. In this case, each row in the table above corresponds to a single *person*.
-- **Database Field** - the columns in this table. In our case, each column corresponds to a single measurement, such as `birth_datetime`. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.
+-   **Database Record** - a row in this table. In this case, each row in the table above corresponds to a single *person*.
+-   **Database Field** - the columns in this table. In our case, each column corresponds to a single measurement, such as `birth_datetime`. Each column has a specific datatype, which may be integers, decimals, dates, a short text field, or longer text fields. Think of them like the different pieces of information requested in a form.
 
-It is faster and requires less memory if we do not use a single large table, but decompose the data up into *multiple tables*.  These tables are stored in a number of different formats:
+It is faster and requires less memory if we do not use a single large table, but decompose the data up into *multiple tables*. These tables are stored in a number of different formats:
 
-- Comma Separated Value (CSV) 
-- A Single File (SQL Server)
-- a *virtual file*
+-   Comma Separated Value (CSV)
+-   A Single File (SQL Server)
+-   a *virtual file*
 
-In a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The *virtual file* lets us interact with this large mass of data as if it is a single file. 
+In a virtual file, the data acts like it is stored in a single file, but is actually many different files underneath that can be on your machine, on the network, or on the cloud. The *virtual file* lets us interact with this large mass of data as if it is a single file.
 
 The database engine is responsible for scanning the data, either row by row, or column by column. The engines are made to be very fast in this scanning to return relevant records.
 
-:::{.callout}
+::: callout
 ## Rows versus Columns
 
 Just a quick note about row-based storage vs column-based storage. SQL was originally written for relational databases, which are stored by row.

@@ -15,7 +15,6 @@ con <- DBI::dbConnect(duckdb::duckdb(),
                       "data/GiBleed_5.3_1.1.duckdb")
 ```
 
-
 ## Table References
 
 In single table queries, it is usually unambiguous to the query engine which column and which table you need to query.
@@ -24,13 +23,13 @@ However, when you involve multiple tables, it is important to know how to refer 
 
 For example, the `procedure_occurrence` table has a `person_id` column as well. If we want to use this specific column in this table, we can use the `.` (dot) notation:
 
-```
+```         
 procedure_occurrence.person_id
 ```
 
 If we wanted the `person_id` column in `person` we can use this:
 
-```
+```         
 person.person_id
 ```
 
@@ -79,106 +78,125 @@ SELECT COUNT(person_id) AS person_count
   WHERE year_of_birth < 2000;
 ```
 
-Now that we are going to use `JOIN`s, we will be using aliases and table references a lot.
+We will be using aliases and table references a lot when we start `JOIN`ing tables.
+
+## Entity-relationship diagrams
+
+Joining tables require understanding the relationship between tables in a database. This is often visualized via an **entity-relationship diagram:**
+
+![](img/omop1.png)
+
+Each rectangle represent a table, and within each table are the columns (fields). I am only showing a subset of the columns based on what we have explored so far in class. The connecting lines shows that there are shared values between tables in those columns, which helps one navigate between tables:
+
+-   In the `person` table, the elements of the column `person_id` overlaps with the elements of `person_id` column in in the table `procedure_occurrence`.
+
+-   In the `procedure_occurrence` table, the elements of the column `procedure_concept_id` overlaps with the elements of `concept_id` column in the table `concepts`.
+
+We should consider to what degree the values overlap:
+
+-   For each `person_id` in the `person` table, there may be duplicated `person_id`s in `procedure_occurrence` table, as a patient can have multiple procedures. This is a **one-to-many relationship**.
+
+-   Multiple elements of `procedure_concept_id` in the `procedure_occurrence` table may correspond to a single element of `concept_id` in the "concept" table. This is a **many-to-one relationship**.
+
+-   You can also have a **one-to-one relationship**.
+
+The database we\'ve been using has been rigorously modeled using a data model called [OMOP CDM (Common Data Model)](https://ohdsi.github.io/CommonDataModel/index.html). OMOP is short for Observational Medical Outcomes Partnership, and it is designed to be a database format that standardizes data from systems into a format that can be combined with other systems to compare health outcomes across organizations. The full OMOP entity relationship diagram can be [found here](https://ohdsi.github.io/CommonDataModel/cdm54erd.html).
+
+Now, let's join some tables.
 
 ## `JOIN`
 
-We use the `JOIN` clause when we want to combine information from two tables. Here we are going to combine information from two tables: `procedure_occurrence` and `concept`.
+We use the `JOIN` clause when we want to combine information from two tables. Here we are going to combine information from two tables: `person` and `procedure_occurrence`.
 
-To set the stage, let's show two tables, `x` and `y`. We want to join them by the keys, which are represented by colored boxes in both of the tables. 
+To set the stage, let's show two tables, `x` and `y`. We want to join them by the keys, which are represented by colored boxes in both of the tables.
 
-Note that table `x` has a key ("3") that isn't in table `y`, and that table `y` has a key ("4") that isn't in table `x`. 
+Note that table `x` has a key ("3") that isn't in table `y`, and that table `y` has a key ("4") that isn't in table `x`.
 
 ![](img/original-dfs.png)
 
-We are going to explore `INNER JOIN` first. In an `INNER JOIN`, we match up our primary key for our table on the foreign key for another table. In this case, we only retain rows that have keys that exist in both the `x` and `y` tables. We drop all rows that don't have matches in both tables.
+We are going to explore `INNER JOIN` first. In an `INNER JOIN`, we pick out a column from each table in which its elements are going to be matched. In this case, we only retain rows that have elements that exist in both the `x` and `y` tables. We drop all rows that don't have matches in both tables.
 
-![](img/inner-join.gif)
-There are other types of joins when we want to retain information from the `x` table or the `y` table, or both.
+![](img/inner-join.gif)There are other types of joins when we want to retain information from the `x` table or the `y` table, or both.
 
 ## `INNER JOIN` syntax
 
-Here's an example where we are joining `procedure_occurrence` with `concept`:
+Here's an example where we are joining `person` with `procedure_occurrence`:
 
 ```{sql}
 #| connection: "con"
-SELECT procedure_occurrence.person_id, concept.concept_name 
-    FROM procedure_occurrence 
-    INNER JOIN concept
-    ON procedure_occurrence.procedure_concept_id = concept.concept_id
+SELECT person.person_id, procedure_occurrence.procedure_occurrence_id 
+    FROM person
+    INNER JOIN procedure_occurrence
+    ON person.person_id = procedure_occurrence.person_id
 ```
 
 What's going on here? The magic happens with this clause, which we use to specify the two tables we need to join.
 
-```
-FROM procedure_occurrence
-  INNER JOIN concept
-```
-
-The last thing to note is the `ON` statement. These are the conditions by which we merge rows. Note we are taking one column in `procedure.occurrence`, the `procedure_concept_id`, and matching the rows up with those rows in `concept`
-
-```
-ON procedure_occurrence.procedure_concept_id = concept.concept_id
+```         
+FROM person
+  INNER JOIN procedure_occurrence
 ```
 
-```{sql}
-#| connection: "con"
-SELECT procedure_occurrence.person_id, concept.concept_name 
-    FROM procedure_occurrence 
-    INNER JOIN concept
-    ON procedure_occurrence.procedure_concept_id = concept.concept_id
+The last thing to note is the `ON` statement. These are the conditions by which we merge rows. We are taking one column in `person`, the `person_id`, and matching the rows up with those rows in `procedure_occurrence`'s own `person_id` column:
+
+```         
+ON person.person_id = procedure_occurrence.person_id
 ```
 
-Here is the same query using aliases. We use `po` as an alias for `procedure_occurrence` and `c` as an alias for `concept`. You can see it is a little more compact.
+Here is the same query using aliases. We use `p` as an alias for `person` and `po` as an alias for `procedure_occurrence`. You can see it is a little more compact.
 
 ```{sql}
 #| connection: "con"
-#| output.var: pro
-SELECT po.person_id, c.concept_name 
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id;
+SELECT p.person_id, po.procedure_occurrence_id 
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
 ```
 
 ## `LEFT JOIN`
 
-::: {.callout-note}
 ## Jargon alert
 
 The table to the **left** of the `JOIN` clause is called the **left table**, and the table to the **right** of the `JOIN` clause is known as the **right table**. This will become more important as we explore the different join types.
 
-```
+```         
 FROM procedure_occurrence INNER JOIN concept
       ^^Left Table                    ^^Right Table
 ```
-:::
 
-
-What if we want to retain all of the rows in the `procedure_occurrence` table, even if there are no matches in the `concept` table? We can use a `LEFT JOIN` to do that. 
+What if we want to retain all of the rows in the `procedure_occurrence` table, even if there are no matches in the `concept` table? We can use a `LEFT JOIN` to do that.
 
 ![](img/left-join.gif)
 
 If a row exists in the left table, but not the right table, it will be replicated in the joined table, but have rows with `NULL` columns from the right table.
 
-I tried to find some examples where `LEFT JOIN`ed tables were different than `INNER JOIN`ed tables, but couldn't find one good example in our tables. Here is another example:
+Here is another example:
 
-![](img/Slide4.jpeg)
-Nevertheless, here is an example of a `LEFT JOIN`:
+![](img/Slide4.jpeg)We can see the difference between a `INNER JOIN` and `LEFT JOIN` by counting the number of rows kept after joining:
 
 ```{sql}
 #| connection: "con"
-SELECT  c.concept_name, po.person_id, c.domain_id
-    FROM concept as c 
-    LEFT JOIN procedure_occurrence AS po
-    ON po.procedure_concept_id = c.concept_id
-    WHERE c.domain_id = 'Procedure'
+SELECT COUNT (*)
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
 ```
+
+```{sql}
+#| connection: "con"
+SELECT COUNT (*)
+    FROM person as p
+    LEFT JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+```
+
+This suggests that there are some unique `person_id`s in `person` table not found in the `person_id` of `procedure_occurrence` table.
 
 ## Other kinds of `JOIN`s
 
-- The `RIGHT JOIN` is identical to `LEFT JOIN`, except that the rows preserved are from the *right* table.
-- The `FULL JOIN` retains all rows in both tables, regardless if there is a key match.
-- `ANTI JOIN` is helpful to find all of the keys that are in the *left* table, but not the *right* table
+-   The `RIGHT JOIN` is identical to `LEFT JOIN`, except that the rows preserved are from the *right* table.
+-   The `FULL JOIN` retains all rows in both tables, regardless if there is a key match.
+-   `ANTI JOIN` is helpful to find all of the keys that are in the *left* table, but not the *right* table
 
 ## Multiple `JOIN`s with Multiple Tables
 
@@ -186,7 +204,7 @@ We can have multiple joins by thinking them as a sequential operation of one joi
 
 ```{sql}
 #| connection: "con"
-SELECT p.gender_source_value, c.concept_name, po.procedure_date
+SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
   FROM person AS p
   INNER JOIN procedure_occurrence AS po
   ON p.person_id = po.person_id
@@ -197,58 +215,60 @@ SELECT p.gender_source_value, c.concept_name, po.procedure_date
 
 The way I think of these multi-table joins is to decompose them into two joins:
 
-1. We first `INNER JOIN` `person` and `procedure_occurrence`, to produce an output table
-2. We take this output table and `INNER JOIN` it with `concept`.
+1.  We first `INNER JOIN` `person` and `procedure_occurrence`, to produce an output table
+2.  We take this output table and `INNER JOIN` it with `concept`.
 
 Notice that both of these `JOIN`s have separate `ON` statements. For the first join, we have:
 
-```
+```         
 INNER JOIN procedure_occurrence AS po
   ON p.person_id = po.person_id
 ```
 
 For the second `JOIN`, we have:
 
-```
+```         
 INNER JOIN concept AS c
 ON po.procedure_concept_id = c.concept_id
 ```
 
 And that gives us the final table, which takes variables from all three tables.
 
-One thing to keep in mind is that `JOIN`s are not necessarily commutative; that is, the order of joins can matter. This is because we may drop or preserve rows depending on the `JOIN`. 
+One thing to keep in mind is that `JOIN`s are not necessarily commutative; that is, the order of joins can matter. This is because we may drop or preserve rows depending on the `JOIN`.
 
-For combining `INNER JOIN`s, we are looking for the subset of keys that exist in each table, so join order doesn't matter. But for combining `LEFT JOIN`s and `RIGHT JOINS`, order *can* matter. 
+For combining `INNER JOIN`s, we are looking for the subset of keys that exist in each table, so join order doesn't matter. But for combining `LEFT JOIN`s and `RIGHT JOINS`, order *can* matter.
 
 It's really important to check intermediate output and make sure that you are retaining the rows that you need in the final output. For example, I'd try the first join first and see that it contains the rows that I need before adding the second join.
 
 ## Using `JOIN` with `WHERE`
 
-Where we really start to cook with gas is when we combine `JOIN` with `WHERE`. Here, we're joining `procedure_occurrence` and `concept`, with an additional `WHERE` where we only want those rows that have the `concept_name` of 'Subcutaneous immunotherapy`:
+Where we really start to cook with gas is when we combine `JOIN` with `WHERE`. Let's add an additional `WHERE` where we only want those rows that have the `concept_name` of 'Subcutaneous immunotherapy\`:
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name 
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    WHERE c.concept_name = 'Subcutaneous immunotherapy';
+SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  WHERE c.concept_name = 'Subcutaneous immunotherapy';
+    
 ```
 
-Here is a triple join query with an additional filter. You can see why aliases are useful:
+Or keeping rows where the year of birth is before 1980:
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name, p.birth_datetime 
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    INNER JOIN person as p
-    ON po.person_id = p.person_id
+SELECT p.person_id, p.year_of_birth, po.procedure_occurrence_id, c.concept_name
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
     WHERE p.year_of_birth < 1980;
 ```
 
-::: {.callout-note}
 ## `WHERE` vs `ON`
 
 You will see variations of SQL statements that eliminate `JOIN` and `ON` entirely, putting everything in `WHERE`:
@@ -263,13 +283,12 @@ SELECT po.person_id, c.concept_name
 ```
 
 I'm not the biggest fan of this, because it is often not clear what is a filtering clause and what is a joining clause, so I prefer to use `JOIN`/`ON` with a `WHERE`.
-:::
 
 ## Boolean Logic: `AND` versus `OR`
 
-Revisiting `WHERE`, we can combine conditions with `AND` or `OR`. 
+Revisiting `WHERE`, we can combine conditions with `AND` or `OR`.
 
-`AND` is always going to be more restrictive than `OR`, because our rows must meet two conditions. 
+`AND` is always going to be more restrictive than `OR`, because our rows must meet two conditions.
 
 ```{sql}
 #| connection: "con"
@@ -279,7 +298,7 @@ SELECT COUNT(*)
   AND gender_source_value = 'M'
 ```
 
-On the other hand `OR` is more permissing than `AND`, because our rows must meet only one of the conditions.
+On the other hand `OR` is more permissive than `AND`, because our rows must meet only one of the conditions.
 
 ```{sql}
 #| connection: "con"
@@ -288,7 +307,8 @@ SELECT COUNT(*)
   WHERE year_of_birth < 1980 
   OR gender_source_value = 'M'
 ```
-There is also `NOT`, where one condition must be true, and the other must be false. 
+
+There is also `NOT`, where one condition must be true, and the other must be false.
 
 ```{sql}
 #| connection: "con"
@@ -304,87 +324,76 @@ SELECT COUNT(*)
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name, po.procedure_date
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    ORDER BY po.procedure_date;
+SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+    ORDER BY p.person_id;
 ```
 
-We can `ORDER BY` multiple columns. Column order is important. Try changing the order of the columns in the query below. How is it different?
+Once we sorted by `person_id`, we see that for every unique `person_id`, there can be multiple procedures! This suggests that there is a **one-to-many relationship** between `person` and `procedure_occurrence` tables.
+
+## Try it Out
+
+We can `ORDER BY` multiple columns at once. Try ordering by `p.patient_id` and `po.procedure_date`:
 
 ```{sql}
 #| connection: "con"
-SELECT po.person_id, c.concept_name, po.procedure_date
-    FROM procedure_occurrence as po 
-    INNER JOIN concept as c
-    ON po.procedure_concept_id = c.concept_id
-    ORDER BY po.person_id, po.procedure_date;
-```
-
-## Try it OUt
-
-Try ordering by `po.patient_id`:
-
-```{sql}
-#| connection: "con"
-SELECT po.person_id, c.concept_name, po.procedure_date
-    FROM procedure_occurrence AS po 
-    INNER JOIN concept AS c
-    ON po.procedure_concept_id = c.concept_id
-    ORDER BY po.procedure_date;
+SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+    ORDER BY ----, ----
 ```
 
 ## Transactions and Inserting Data
 
-So far, we've only queried data, but not added data to databases. 
+So far, we've only queried data, but not added data to databases.
 
-As we've stated before, DuckDB is an Analytical database, not a transactional one. That means it prioritizes reading from data tables rather than inserting into them. Transactional databases, on the other hand, can handle multiple inserts from multiple users at once. They are made for *concurrent* transactions. 
- 
+As we've stated before, DuckDB is an Analytical database, not a transactional one. That means it prioritizes reading from data tables rather than inserting into them. Transactional databases, on the other hand, can handle multiple inserts from multiple users at once. They are made for *concurrent* transactions.
+
 Here is an example of what is called the *Data Definition Language* for our tables:
 
-```sql
+``` sql
 CREATE TABLE @cdmDatabaseSchema.PERSON (
-			person_id integer NOT NULL,
-			gender_concept_id integer NOT NULL,
-			year_of_birth integer NOT NULL,
-			month_of_birth integer NULL,
-			day_of_birth integer NULL,
-			birth_datetime TIMESTAMP NULL,
-			race_concept_id integer NOT NULL,
-			ethnicity_concept_id integer NOT NULL,
-			location_id integer NULL,
-			provider_id integer NULL,
-			care_site_id integer NULL,
-			person_source_value varchar(50) NULL,
-			gender_source_value varchar(50) NULL,
-			gender_source_concept_id integer NULL,
-			race_source_value varchar(50) NULL,
-			race_source_concept_id integer NULL,
-			ethnicity_source_value varchar(50) NULL,
-			ethnicity_source_concept_id integer NULL );
+            person_id integer NOT NULL,
+            gender_concept_id integer NOT NULL,
+            year_of_birth integer NOT NULL,
+            month_of_birth integer NULL,
+            day_of_birth integer NULL,
+            birth_datetime TIMESTAMP NULL,
+            race_concept_id integer NOT NULL,
+            ethnicity_concept_id integer NOT NULL,
+            location_id integer NULL,
+            provider_id integer NULL,
+            care_site_id integer NULL,
+            person_source_value varchar(50) NULL,
+            gender_source_value varchar(50) NULL,
+            gender_source_concept_id integer NULL,
+            race_source_value varchar(50) NULL,
+            race_source_concept_id integer NULL,
+            ethnicity_source_value varchar(50) NULL,
+            ethnicity_source_concept_id integer NULL );
 ```
- 
- 
-When we add rows into a database, we need to be aware of the *constraints* of the database. They exist to maintain the *integrity* of a database. 
 
-We've encountered one constraint: database fields need to be *typed*. For example, id keys are usually `INTEGER`. Names are often `VARCHAR`. 
+When we add rows into a database, we need to be aware of the *constraints* of the database. They exist to maintain the *integrity* of a database.
 
-One contraint is the requirement for *unique keys* for each row. We cannot add a new row with a previous
-key value. 
+We've encountered one constraint: database fields need to be *typed*. For example, id keys are usually `INTEGER`. Names are often `VARCHAR`.
 
-- `NOT NULL`
-- `UNIQUE`
-- `PRIMARY KEY` - `NOT NULL` + `UNIQUE`
-- `FOREIGN KEY` - value must exist as a key in another table
-- `CHECK` - check the data type and conditions. One example would be our data shouldn't be before 1900.
-- `DEFAULT` - default values. 
+One contraint is the requirement for *unique keys* for each row. We cannot add a new row with a previous key value.
+
+-   `NOT NULL`
+-   `UNIQUE`
+-   `PRIMARY KEY` - `NOT NULL` + `UNIQUE`
+-   `FOREIGN KEY` - value must exist as a key in another table
+-   `CHECK` - check the data type and conditions. One example would be our data shouldn't be before 1900.
+-   `DEFAULT` - default values.
 
 The most important ones to know about are `PRIMARY KEY` and `FOREIGN KEY`. `PRIMARY KEY` forces the database to create new rows with an automatically incremented id.
 
 When we create tables in our database, we need to specify which column is a `PRIMARY KEY`:
 
-```sql
+``` sql
 CREATE TABLE person (
   person_id INTEGER PRIMARY KEY
 )
@@ -392,7 +401,7 @@ CREATE TABLE person (
 
 `FOREIGN KEY` involves two or more tables. If a column is declared a `FOREIGN KEY`, then that key value must *exist* in a REFERENCE table. Here our two reference tables are `person` and `procedure_occurrence`.
 
-```sql
+``` sql
 CREATE TABLE procedure_occurrence {
   procedure_occurrence_id PRIMARY KEY,
   person_id INTEGER REFERENCES person(person_id)
@@ -408,7 +417,7 @@ You can see an example of constraints for our database here: <https://github.com
 
 ## Always close the connection
 
-When we're done, it's best to close the connection with `dbDisconnect()`. 
+When we're done, it's best to close the connection with `dbDisconnect()`.
 
 ```{r}
 dbDisconnect(con)
@@ -416,5 +425,5 @@ dbDisconnect(con)
 
 ## References
 
-- [Tidyexplain](https://github.com/gadenbuie/tidyexplain) - All `JOIN` animations come from here.
-- [Understanding Joins](https://r4ds.had.co.nz/relational-data.html#understanding-joins) - another nice visual explanation from R for Data Science.
+-   [Tidyexplain](https://github.com/gadenbuie/tidyexplain) - All `JOIN` animations come from here.
+-   [Understanding Joins](https://r4ds.had.co.nz/relational-data.html#understanding-joins) - another nice visual explanation from R for Data Science.
