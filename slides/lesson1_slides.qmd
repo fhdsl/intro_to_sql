@@ -1,0 +1,357 @@
+---
+title: "W1: Database Concepts, DESCRIBE, SELECT, WHERE"
+format: 
+  revealjs:
+    smaller: true
+    scrollable: true
+    echo: true
+    embed-resources: true
+output-location: fragment
+---
+
+## Welcome!
+
+![](images/Intro_to_Databases.png){width="400"}
+
+Please [sign-up for an account at Posit Cloud](https://login.posit.cloud/register "https://login.posit.cloud/register") and accept our classroom invitation here: <https://posit.cloud/spaces/689711/join?access_code=8kse5IYlL4kHIqZvKaQ6mXp8IMibFayMa10I8Izn>
+
+## Introductions
+
+-   Who am I?
+
+. . .
+
+-   What is [DaSL](https://hutchdatascience.org/) / [OCDO](https://ocdo.fredhutch.org/) ?
+
+. . .
+
+-   Who are you?
+
+    -   Name, pronouns, group you work in
+
+    -   What you want to get out of the class
+
+    -   What has brought you joy lately?
+
+. . .
+
+-   Our wonderful TAs!
+
+## Goals of the course
+
+. . .
+
+-   
+
+. . .
+
+-   
+
+## Content of the course
+
+1.  Database Concepts, `DESCRIBE`, `SELECT`, `WHERE`
+
+2.  `JOIN`ing tables
+
+3.  \[No class week\]
+
+4.  Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`
+
+5.  Subqueries, Views, **Pizza**
+
+## Culture of the course
+
+. . .
+
+-   Challenge: We are learning a new language, but you already have a full-time job.
+
+. . .
+
+-   *Teach not for mastery, but teach for empowerment to learn effectively.*
+
+. . .
+
+-   *Teach at learner's pace.*
+
+## Culture of the course
+
+-   Challenge: We sometimes struggle with our data science problems in isolation, unaware that other folks are working on similar things.
+
+. . .
+
+-   *We learn and work better with our peers.*
+
+. . .
+
+-   *We encourage discussion and questions, as others often have similar questions also.*
+
+## Format of the course
+
+. . .
+
+-   Hybrid, and recordings will be available.
+
+. . .
+
+-   1 hour exercises after each session are encouraged for practice.
+
+. . .
+
+-   Office hours 11:30-Noon before class.
+
+## Badge of completion
+
+![](images/Intro_to_Databases.png){width="400"}
+
+We offer a [badge of completion](https://www.credly.com/org/fred-hutch/badge/intro-to-sql) when you finish the course!
+
+What it is:
+
+-   A display of what you accomplished in the course, shareable in your professional networks such as LinkedIn, similar to online education services such as Coursera.
+
+What it isn't:
+
+-   Accreditation through an university or degree-granting program.
+
+. . .
+
+Requirements:
+
+-   Complete badge-required sections of the exercises for 3 out of 4 assignments.
+
+## Databases...
+
+-   What are some Databases you are interested in?
+
+. . .
+
+-   Why do we need a Database Management System (DBMS) to manage it? (What could go wrong in managing a spreadsheet?)
+
+. . .
+
+Benefits of a DBMS:
+
+-   **Data Integrity:** What are the rules within the database? If it is a medical database, does a patient always have a visit site? How do we deal with missing data? Are duplicated entries allowed?
+
+. . .
+
+-   **Implementation:** How do you find a particular record? What if we now want to create a new application that uses the same database? What if that application is running on a different machine?
+
+. . .
+
+-   **Durability:** What if the machine crashes while our program is updating a record? What if we want to replicate the database on multiple machines?
+
+## Database Management System (DBMS) consists of
+
+-   **A user interface** - how users interact with the database. In this class, our main way of interacting with databases is SQL (Structured Query Language).
+
+-   **An execution engine** - a software system that queries the data in storage. These can live on our machine, on a server within our network, or a server on the cloud.
+
+-   **Data Storage** - the physical location where the data is stored.
+
+## DBMS examples
+
+|                      | This class          | Example Hutch on-site database system | Example Hutch cloud database system |
+|-----------------|-----------------|---------------------|-------------------|
+| **User Interface**   | SQL                 | SQL                                   | SQL                                 |
+| **Execution Engine** | DuckDB              | SQL Server                            | Databrick/Snowflake                 |
+| **Data Storage**     | File on our machine | FH Shared Storage                     | Amazon S3 Bucket                    |
+
+## Our underlying data model
+
+Relational Database: Data is organized into multiple tables. Tables are connected via columns that share the same elements across tables.
+
+. . .
+
+Person table
+
+| person_id | year_of_birth | gender_source_value |
+|-----------|---------------|---------------------|
+| 001       | 1/1/1999      | F                   |
+| 002       | 12/31/1999    | F                   |
+| 003       | 6/1/2000      | M                   |
+
+. . .
+
+Procedure Occurrence table
+
+| procedure_occurrence_id | person_id | procedure_datetime |
+|-------------------------|-----------|--------------------|
+| 101                     | 001       | 4/1/2010           |
+| 102                     | 003       | 6/1/2022           |
+| 103                     | 004       | 5/1/2001           |
+
+. . .
+
+**Entity Relationship Diagram**
+
+![](../img/omop0.png){width="550"}
+
+## Let's get started: connecting to the database
+
+```{r, warning=FALSE}
+library(DBI)
+
+con <- DBI::dbConnect(duckdb::duckdb(), "../data/GiBleed_5.3_1.1.duckdb")
+```
+
+## What are the available tables?
+
+```{sql connection="con"}
+SHOW TABLES
+```
+
+## Describing a table
+
+```{sql connection="con"}
+DESCRIBE person
+```
+
+## Data Types
+
+If you look at the `column_type` for one of the `DESCRIBE` statements above, you'll notice there are different data types:
+
+-   `INTEGER`
+-   `TIMESTAMP`
+-   `DATE`
+-   `VARCHAR`
+
+You can see all of the [datatypes that are available in DuckDB here](https://duckdb.org/docs/sql/data_types/overview.html).
+
+## `SELECT` and `FROM`
+
+`SELECT` is a clause that lets you pick out columns of interest. If you want all columns, use `*`.
+
+`FROM` is a clause that lets you decide which table to work with.
+
+. . .
+
+```{sql connection="con"}
+SELECT * 
+  FROM person 
+  LIMIT 10;
+```
+
+. . .
+
+`LIMIT n` let's you look at the first n entries.
+
+We put multiple SQL **clauses** together to form a **query**.
+
+. . .
+
+Try it out yourself on `procedure_occurrence` table. Why is there a `person_id` column in this table as well?
+
+## `SELECT` for specific columns
+
+Instead of `*` for all columns, we can specify the columns of interest:
+
+```{sql connection="con"}
+SELECT person_id, birth_datetime, gender_concept_id 
+  FROM person
+  LIMIT 10;
+```
+
+. . .
+
+Try add `race_concept_id` and `year_of_birth` to your `SELECT` query.
+
+## `WHERE` - filtering our table
+
+Adding `WHERE` to our SQL statement lets us add filtering to our query:
+
+```{sql}
+#| connection: "con"
+SELECT person_id, gender_source_value, race_source_value, year_of_birth 
+  FROM person 
+  WHERE year_of_birth < 2000
+```
+
+. . .
+
+You don't need to include the columns you're filtering via `WHERE` in the `SELECT` part of the statement:
+
+```{sql}
+#| connection: "con"
+SELECT person_id, gender_source_value, race_source_value 
+  FROM person 
+  WHERE year_of_birth < 2000
+```
+
+## Single quotes and `WHERE`
+
+Single quotes ('M') refer to values, and double quotes refer to columns ("person_id").
+
+This will trip you up several times if you're not used to it.
+
+```{sql}
+#| connection: "con"
+SELECT person_id, gender_source_value
+  FROM person 
+  WHERE gender_source_value = 'M'
+  LIMIT 10;
+```
+
+## `COUNT` - how many entries?
+
+Sometimes you want to know the *size* of your result, not necessarily return the entire set of results. That is what `COUNT` is for.
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM procedure_occurrence;
+```
+
+. . .
+
+Similarly, when we want to count the number of `person_id`s returned, we can use `COUNT(person_id)`:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(procedure_concept_id)
+  FROM procedure_occurrence;
+```
+
+## `COUNT DISTINCT` for unique entries
+
+When you have repeated values, `COUNT(DISTINCT )` can help you find the number of unique values in a column:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(DISTINCT procedure_concept_id)
+  FROM procedure_occurrence
+```
+
+. . .
+
+We can also return the actual `DISTINCT` values by removing `COUNT`:
+
+```{sql}
+#| connection: "con"
+SELECT DISTINCT procedure_concept_id
+  FROM procedure_occurrence;
+```
+
+. . .
+
+Your turn: Count the distinct values of `gender_source_value` in `person.`
+
+## Revisiting `DESCRIBE` 
+
+One of the important properties of data in a relational database is that there are no *repeat rows* in the database. Each table that meets this restriction has what is called a *primary key*.
+
+```{sql connection="con"}
+DESCRIBE person
+```
+
+. . .
+
+We\'ll see that primary keys need to be unique (so they can map to each row).
+
+## Always close the connection
+
+When we're done, it's best to close the connection with `dbDisconnect()`.
+
+```{r}
+dbDisconnect(con)
+```

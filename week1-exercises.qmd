@@ -11,7 +11,6 @@ We'll first connect to the database:
 #| context: setup
 library(duckdb)
 library(DBI)
-library(DiagrammeR)
 con <- DBI::dbConnect(duckdb::duckdb(), 
                       "data/synthea-smaller_breast_cancer.db")
                       
@@ -32,17 +31,16 @@ Show the first 10 rows of `person`.
 
 ```{sql}
 #| connection: "con"
-SELECT * FROM
-  ---------
+SELECT ------ 
+  FROM ---------
   LIMIT ----;
 ```
-
 
 How many people (or rows) are in the person table?
 
 ```{sql}
 #| connection: "con"
-SELECT COUNT(-) FROM person;
+SELECT COUNT(----) FROM person;
 ```
 
 How many people are born after 1980?
@@ -50,7 +48,8 @@ How many people are born after 1980?
 ```{sql}
 #| connection: "con"
 #| eval: false
-SELECT COUNT(person_id) FROM person
+SELECT COUNT(person_id) 
+  FROM person
   WHERE year_of_birth -------;
 ```
 
@@ -59,8 +58,9 @@ How about how many people who have `gender_source_value` of 'M'? (Hint: remember
 ```{sql}
 #| connection: "con"
 #| eval: false
-SELECT COUNT(person_id) FROM person
-  WHERE gender_source_value = ----
+SELECT COUNT(person_id) 
+  FROM person
+  WHERE ---- = ----
 ```
 
 Ok, we now have a better idea of what is in the `person` table. Let's take a deeper dive into the `concept` table.
@@ -71,7 +71,7 @@ Ok, we now have a better idea of what is in the `person` table. Let's take a dee
 
 ```{sql}
 #| connection: "con"
-DESCRIBE concept;
+DESCRIBE -----;
 ```
 
 Select the distinct `domain_id`s from the `concept` table:
@@ -86,7 +86,8 @@ Return the number of distinct `concept_name`s with `domain_id` equal to `'Proced
 
 ```{sql}
 #| connection: "con"
-SELECT COUNT(concept_name) FROM concept
+SELECT COUNT(concept_name) 
+  FROM concept
   WHERE -----------;
 ```
 
@@ -107,8 +108,8 @@ How many distinct `procedure_concept_id`s are there in this `procedure_occurrenc
 
 ```{sql}
 #| connection: "con"
-SELECT COUNT(DISTINCT procedure_concept_id)
-  FROM procedure_occurrence;
+SELECT COUNT(DISTINCT ----)
+  FROM ----;
 
 ```
 
