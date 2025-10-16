@@ -239,7 +239,7 @@ Count the distinct values of `gender_source_value` in `person`:
 
 ```{sql}
 #| connection: "con"
-
+#| eval: false
 ```
 
 ## Revisiting `DESCRIBE` 

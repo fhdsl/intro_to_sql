@@ -212,7 +212,7 @@ The way I think of these multi-table joins is to decompose them into two joins:
 Give a try yourself:
 
 ```{sql connection="con"}
-
+#| eval: false
 SELECT person.person_id, procedure_occurrence.procedure_occurrence_id
   FROM 
   INNER JOIN 
@@ -223,6 +223,7 @@ SELECT person.person_id, procedure_occurrence.procedure_occurrence_id
 Then, add the third join:
 
 ```{sql connection="con"}
+#| eval: false
 SELECT person.person_id, procedure_occurrence.procedure_occurrence_id, concept.concept_name
   FROM 
   INNER JOIN 
@@ -364,6 +365,7 @@ We can `ORDER BY` multiple columns at once. Try ordering by `p.patient_id` and `
 
 ```{sql}
 #| connection: "con"
+#| eval: false
 SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
     FROM person as p
     INNER JOIN procedure_occurrence as po

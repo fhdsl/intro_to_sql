@@ -119,6 +119,7 @@ Here's what happens when you put `WHERE` after `GROUP BY`/`HAVING`:
 
 ```{sql}
 #| connection: "con"
+#| eval: false
 SELECT domain_id, COUNT(concept_id) AS count_domain
   FROM concept
   GROUP BY domain_id
