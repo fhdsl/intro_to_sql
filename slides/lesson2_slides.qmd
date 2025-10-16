@@ -1,0 +1,268 @@
+---
+title: "Week 2: JOINs, More WHERE, Boolean Logic, ORDER BY"
+format: 
+  revealjs:
+    smaller: true
+    scrollable: true
+    echo: true
+    embed-resources: true
+output-location: fragment
+---
+
+## Table references
+
+In single table queries, it is usually unambiguous to the query engine which column and which table you need to query.
+
+However, when you involve multiple tables, it is important to know how to refer to a column in a specific table.
+
+. . .
+
+For example:
+
+```{r}
+library(DBI)
+
+con <- DBI::dbConnect(duckdb::duckdb(), 
+                      "../data/GiBleed_5.3_1.1.duckdb")
+```
+
+```{sql connection="con"}
+SELECT person.person_id, person.year_of_birth
+  FROM person
+```
+
+. . .
+
+Your turn to use table references:
+
+```{sql connection="con"}
+SELECT *
+  FROM procedure_occurrence
+  WHERE person_id = 1
+```
+
+## Entity Relationship Diagrams
+
+![](images/omop1.png)
+
+-   For each `person_id` in the `person` table, there may be duplicated `person_id`s in `procedure_occurrence` table, as a patient can have multiple procedures. This is a **one-to-many relationship**.
+
+-   Multiple elements of `procedure_concept_id` in the `procedure_occurrence` table may correspond to a single element of `concept_id` in the "concept" table. This is a **many-to-one relationship**.
+
+-   You can also have a **one-to-one relationship**.
+
+. . .
+
+[OMOP CDM (Common Data Model)](https://ohdsi.github.io/CommonDataModel/index.html).
+
+## Joins
+
+To set the stage, let's show two tables, `x` and `y`. We want to join them by the **keys**, which are represented by colored boxes in both of the tables.
+
+![](images/original-dfs.png)
+
+. . .
+
+In an `INNER JOIN`, we only retain rows that have elements that exist in both the `x` and `y` tables.
+
+![](images/inner-join.gif)
+
+## `INNER JOIN` syntax
+
+```{sql connection="con"}
+SELECT person.person_id, procedure_occurrence.procedure_occurrence_id 
+    FROM person
+    INNER JOIN procedure_occurrence
+    ON person.person_id = procedure_occurrence.person_id
+```
+
+. . .
+
+1.  `FROM person` and `INNER JOIN procedure_occurrence` specifies the tables to be joined.
+
+2.  `ON person.person_id = procedure_occurrence.person_id` specifies the columns from each table for keys.
+
+3.  Then, we `SELECT` for the columns we want to keep: `person.person_id, procedure_occurrence.procedure_occurrence_id`
+
+## Table References
+
+We can short-hand the table names via the `AS` statement:
+
+```{sql connection="con"}
+SELECT p.person_id, po.procedure_occurrence_id 
+    FROM person AS p
+    INNER JOIN procedure_occurrence AS po
+    ON p.person_id = po.person_id
+```
+
+## `LEFT JOIN`
+
+If a row exists in the left table, but not the right table, it will be replicated in the joined table, but have rows with `NULL` columns from the right table.
+
+![](images/left-join.gif)
+
+. . .
+
+We can see the difference between a `INNER JOIN` and `LEFT JOIN` by counting the number of rows kept after joining:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT (*)
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+```
+
+. . .
+
+```{sql}
+#| connection: "con"
+SELECT COUNT (*)
+    FROM person as p
+    LEFT JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+```
+
+This suggests that there are some unique `person_id`s in `person` table not found in the `person_id` of `procedure_occurrence` table.
+
+## Other kinds of `JOIN`s
+
+-   The `RIGHT JOIN` is identical to `LEFT JOIN`, except that the rows preserved are from the *right* table.
+-   The `FULL JOIN` retains all rows in both tables, regardless if there is a key match.
+-   `ANTI JOIN` is helpful to find all of the keys that are in the *left* table, but not the *right* table
+
+## Multiple `JOIN`s
+
+Can we do a triple join?
+
+![](images/omop1.png)
+
+Suppose that we want a table with `person.person_id`, `procedure_occurrence.procedure_occurrence_id`, and `concept.concept_name`.
+
+. . .
+
+Some suggested steps:
+
+1.  We first `INNER JOIN` `person` and `procedure_occurrence`, to produce an output table
+2.  We take this output table and `INNER JOIN` it with `concept`.
+
+## Using `JOIN` with `WHERE`
+
+Let's add an additional `WHERE` where we only want those rows that have the `concept_name` of 'Subcutaneous immunotherapy\`:
+
+```{sql connection="con"}
+SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+  WHERE c.concept_name = 'Subcutaneous immunotherapy';
+```
+
+## Revisiting `WHERE`: `AND` versus `OR`
+
+Revisiting `WHERE`, we can combine conditions with `AND` or `OR`.
+
+`AND` is always going to be more restrictive than `OR`, because our rows must meet two conditions.
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM person
+  WHERE year_of_birth < 1980 
+  AND gender_source_value = 'M'
+```
+
+. . .
+
+On the other hand `OR` is more permissive than `AND`, because our rows must meet only one of the conditions.
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM person
+  WHERE year_of_birth < 1980 
+  OR gender_source_value = 'M'
+```
+
+. . .
+
+There is also `NOT`, where one condition must be true, and the other must be false.
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(*)
+  FROM person
+  WHERE year_of_birth < 1980 
+  AND NOT gender_source_value = 'M'
+```
+
+## `ORDER BY`
+
+`ORDER BY` lets us sort tables by one or more columns:
+
+```{sql}
+#| connection: "con"
+SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
+    FROM person as p
+    INNER JOIN procedure_occurrence as po
+    ON p.person_id = po.person_id
+    ORDER BY p.person_id;
+```
+
+. . .
+
+Once we sorted by `person_id`, we see that for every unique `person_id`, there can be multiple procedures! This suggests that there is a **one-to-many relationship** between `person` and `procedure_occurrence` tables.
+
+. . .
+
+We can `ORDER BY` multiple columns at once. Try ordering by `p.patient_id` and `po.procedure_date`...
+
+## Constraints and rules for Databases
+
+Some constraints we can require on columns of a table:
+
+-   Typed: such as `INTEGER`, `VARCHAR`
+-   `NOT NULL` - no values can have a `NULL` value.
+-   `UNIQUE` - all values must be unique.
+-   `PRIMARY KEY` - `NOT NULL` and `UNIQUE`.
+-   `FOREIGN KEY` - value must exist as a primary key in another table's field. The referenced table's field must be specified.
+-   `CHECK` - check the data type and conditions. One example would be our data shouldn't be before 1900.
+-   `DEFAULT` - default values are given if not provided.
+
+## Primary keys
+
+A `PRIMARY KEY` is required for any table, and cannot be `NULL` and must be unique. This gives an unique id for each entry of the table.
+
+. . .
+
+When we create tables in our database, we need to specify which column is a `PRIMARY KEY`:
+
+```         
+CREATE TABLE person (
+  person_id INTEGER PRIMARY KEY
+)
+```
+
+## Foreign keys
+
+`FOREIGN KEY` involves two or more tables. If a column is declared a `FOREIGN KEY`, then that key value must *exist* in a `REFERENCES` table as a primary key.
+
+. . .
+
+```         
+CREATE TABLE procedure_occurrence {
+  procedure_occurrence_id PRIMARY KEY,
+  person_id INTEGER REFERENCES person(person_id)
+  procedure_concept_id INTEGER REFERENCES concept(concept_id)
+}
+```
+
+## Always close the connection
+
+When we're done, it's best to close the connection with `dbDisconnect()`.
+
+```{r}
+dbDisconnect(con)
+```

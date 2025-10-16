@@ -15,6 +15,8 @@ output-location: fragment
 
 Please [sign-up for an account at Posit Cloud](https://login.posit.cloud/register "https://login.posit.cloud/register") and accept our classroom invitation here: <https://posit.cloud/spaces/689711/join?access_code=8kse5IYlL4kHIqZvKaQ6mXp8IMibFayMa10I8Izn>
 
+Our course website: <https://intro-sql-fh.netlify.app/>
+
 ## Introductions
 
 -   Who am I?
@@ -41,11 +43,11 @@ Please [sign-up for an account at Posit Cloud](https://login.posit.cloud/regist
 
 . . .
 
--   
+-   Fundamentals of SQL query writing: filtering, joining, grouping.
 
 . . .
 
--   
+-   Not so much about building your own database and optimizing it.
 
 ## Content of the course
 
@@ -55,7 +57,7 @@ Please [sign-up for an account at Posit Cloud](https://login.posit.cloud/regist
 
 3.  \[No class week\]
 
-4.  Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`
+4.  Grouping and Aggregating variables
 
 5.  Subqueries, Views, **Pizza**
 
@@ -187,6 +189,10 @@ Procedure Occurrence table
 
 ![](../img/omop0.png){width="550"}
 
+## A short survey on your interest and background
+
+<https://forms.gle/YADmDmukRKmGk2KFA>
+
 ## Let's get started: connecting to the database
 
 ```{r, warning=FALSE}
@@ -277,6 +283,20 @@ SELECT person_id, gender_source_value, race_source_value
   FROM person 
   WHERE year_of_birth < 2000
 ```
+
+## SQL Comparison Operators
+
+-   Equal: `=`
+
+-   Greater than: `>`
+
+-   Less than: `<`
+
+-   Greater than or equal to: `>=`
+
+-   Less than or equal to: `<=`
+
+-   Not equal to: `<>`
 
 ## Single quotes and `WHERE`
 
