@@ -47,38 +47,7 @@ SELECT *
   WHERE person_id = 1
 ```
 
-## Aliases
-
-As your queries get more complex, and as you involve more and more tables, you will need to use aliases. I think of them like "nicknames" - they can save you a lot of typing.
-
-I tend to use the `AS` clause when I define them. I've used `AS` here to abbreviate `person`. I use it in two different places: in my `COUNT`, and in my `WHERE`:
-
-```{sql}
-#| connection: "con"
-SELECT COUNT(p.person_id)
-  FROM person AS p
-  WHERE p.year_of_birth < 2000;
-```
-
-Some people don't use `AS`, just putting the aliases next to the original name:
-
-```{sql}
-#| connection: "con"
-SELECT COUNT(p.person_id)
-  FROM person p
-  WHERE p.year_of_birth < 2000;
-```
-
-We can also rename variables using `AS`:
-
-```{sql}
-#| connection: "con"
-SELECT COUNT(person_id) AS person_count
-  FROM person 
-  WHERE year_of_birth < 2000;
-```
-
-We will be using aliases and table references a lot when we start `JOIN`ing tables.
+Let's get ready to work on queries involving multiple tables.
 
 ## Entity-relationship diagrams
 
@@ -100,7 +69,7 @@ We should consider to what degree the values overlap:
 
 -   You can also have a **one-to-one relationship**.
 
-The database we\'ve been using has been rigorously modeled using a data model called [OMOP CDM (Common Data Model)](https://ohdsi.github.io/CommonDataModel/index.html). OMOP is short for Observational Medical Outcomes Partnership, and it is designed to be a database format that standardizes data from systems into a format that can be combined with other systems to compare health outcomes across organizations. The full OMOP entity relationship diagram can be [found here](https://ohdsi.github.io/CommonDataModel/cdm54erd.html).
+The database we've been using has been rigorously modeled using a data model called [OMOP CDM (Common Data Model)](https://ohdsi.github.io/CommonDataModel/index.html). OMOP is short for Observational Medical Outcomes Partnership, and it is designed to be a database format that standardizes data from systems into a format that can be combined with other systems to compare health outcomes across organizations. The full OMOP entity relationship diagram can be [found here](https://ohdsi.github.io/CommonDataModel/cdm54erd.html).
 
 Now, let's join some tables.
 
@@ -143,21 +112,52 @@ The last thing to note is the `ON` statement. These are the conditions by which 
 ON person.person_id = procedure_occurrence.person_id
 ```
 
+## Aliases
+
+As your queries get more complex, and as you involve more and more tables, you will need to use **aliases**. I think of them like "nicknames" - they can save you a lot of typing.
+
 Here is the same query using aliases. We use `p` as an alias for `person` and `po` as an alias for `procedure_occurrence`. You can see it is a little more compact.
 
 ```{sql}
 #| connection: "con"
 SELECT p.person_id, po.procedure_occurrence_id 
-    FROM person as p
-    INNER JOIN procedure_occurrence as po
+    FROM person AS p
+    INNER JOIN procedure_occurrence AS po
     ON p.person_id = po.person_id
+```
+
+### Another example
+
+Here, I use table aliasing in two different places: in my `COUNT`, and in my `WHERE`:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(p.person_id)
+  FROM person AS p
+  WHERE p.year_of_birth < 2000;
+```
+
+Some people don't use `AS`, just putting the aliases next to the original name:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(p.person_id)
+  FROM person p
+  WHERE p.year_of_birth < 2000;
+```
+
+We can also rename variables using `AS`:
+
+```{sql}
+#| connection: "con"
+SELECT COUNT(person_id) AS person_count
+  FROM person 
+  WHERE year_of_birth < 2000;
 ```
 
 ## `LEFT JOIN`
 
-## Jargon alert
-
-The table to the **left** of the `JOIN` clause is called the **left table**, and the table to the **right** of the `JOIN` clause is known as the **right table**. This will become more important as we explore the different join types.
+Jargon alert: The table to the **left** of the `JOIN` clause is called the **left table**, and the table to the **right** of the `JOIN` clause is known as the **right table**. This will become more important as we explore the different join types.
 
 ```         
 FROM procedure_occurrence INNER JOIN concept
@@ -200,32 +200,46 @@ This suggests that there are some unique `person_id`s in `person` table not foun
 
 ## Multiple `JOIN`s with Multiple Tables
 
-We can have multiple joins by thinking them as a sequential operation of one join after another. In the below query we first `INNER JOIN` `person` and `procedure_occurrence`, and then use the output of that `JOIN` to `INNER JOIN` with `concept`:
+![](img/omop1.png)
 
-```{sql}
-#| connection: "con"
-SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
-  FROM person AS p
-  INNER JOIN procedure_occurrence AS po
-  ON p.person_id = po.person_id
-  INNER JOIN concept AS c
-  ON po.procedure_concept_id = c.concept_id
-  LIMIT 10;
-```
+Suppose that we want a table with `person.person_id`, `procedure_occurrence.procedure_occurrence_id`, and `concept.concept_name`. Looks like we need a triple join!
 
 The way I think of these multi-table joins is to decompose them into two joins:
 
 1.  We first `INNER JOIN` `person` and `procedure_occurrence`, to produce an output table
 2.  We take this output table and `INNER JOIN` it with `concept`.
 
-Notice that both of these `JOIN`s have separate `ON` statements. For the first join, we have:
+Give a try yourself:
+
+```{sql connection="con"}
+
+SELECT person.person_id, procedure_occurrence.procedure_occurrence_id
+  FROM 
+  INNER JOIN 
+  ON 
+
+```
+
+Then, add the third join:
+
+```{sql connection="con"}
+SELECT person.person_id, procedure_occurrence.procedure_occurrence_id, concept.concept_name
+  FROM 
+  INNER JOIN 
+  ON 
+  INNER JOIN
+  ON 
+
+```
+
+Some tips: Notice that both of these `JOIN`s have separate `ON` statements. For the first join, we could have:
 
 ```         
 INNER JOIN procedure_occurrence AS po
   ON p.person_id = po.person_id
 ```
 
-For the second `JOIN`, we have:
+For the second `JOIN`, we could have:
 
 ```         
 INNER JOIN concept AS c
@@ -239,6 +253,17 @@ One thing to keep in mind is that `JOIN`s are not necessarily commutative; that 
 For combining `INNER JOIN`s, we are looking for the subset of keys that exist in each table, so join order doesn't matter. But for combining `LEFT JOIN`s and `RIGHT JOINS`, order *can* matter.
 
 It's really important to check intermediate output and make sure that you are retaining the rows that you need in the final output. For example, I'd try the first join first and see that it contains the rows that I need before adding the second join.
+
+Here is the solution:
+
+```{sql connection="con"}
+SELECT p.person_id, po.procedure_occurrence_id, c.concept_name
+  FROM person AS p
+  INNER JOIN procedure_occurrence AS po
+  ON p.person_id = po.person_id
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+```
 
 ## Using `JOIN` with `WHERE`
 
@@ -284,7 +309,7 @@ SELECT po.person_id, c.concept_name
 
 I'm not the biggest fan of this, because it is often not clear what is a filtering clause and what is a joining clause, so I prefer to use `JOIN`/`ON` with a `WHERE`.
 
-## Boolean Logic: `AND` versus `OR`
+## Revisiting `WHERE`: `AND` versus `OR`
 
 Revisiting `WHERE`, we can combine conditions with `AND` or `OR`.
 
@@ -346,13 +371,15 @@ SELECT p.person_id, po.procedure_occurrence_id, po.procedure_date
     ORDER BY ----, ----
 ```
 
-## Transactions and Inserting Data
+## Constraints and rules for Databases
 
 So far, we've only queried data, but not added data to databases.
 
-As we've stated before, DuckDB is an Analytical database, not a transactional one. That means it prioritizes reading from data tables rather than inserting into them. Transactional databases, on the other hand, can handle multiple inserts from multiple users at once. They are made for *concurrent* transactions.
+As we've stated before, DuckDB is an Analytical database, not a Transactional one. That means it prioritizes reading from data tables rather than inserting into them. Transactional databases, on the other hand, can handle multiple inserts from multiple users at once. They are made for *concurrent* transactions.
 
-Here is an example of what is called the *Data Definition Language* for our tables:
+We are not going to look at how to add to a database in this course, but we are going to examine what the *constraints* can be placed on a database, because this gives rules on what is allowed in our database to be queried.
+
+When one sets up a database, we also set up the constraints via a *Data Definition Language* for our tables:
 
 ``` sql
 CREATE TABLE @cdmDatabaseSchema.PERSON (
@@ -376,20 +403,18 @@ CREATE TABLE @cdmDatabaseSchema.PERSON (
             ethnicity_source_concept_id integer NULL );
 ```
 
-When we add rows into a database, we need to be aware of the *constraints* of the database. They exist to maintain the *integrity* of a database.
+We've encountered one constraint: database fields (columns) need to be *typed*. For example, id keys are usually `INTEGER`. Names are often `VARCHAR`.
 
-We've encountered one constraint: database fields need to be *typed*. For example, id keys are usually `INTEGER`. Names are often `VARCHAR`.
+Here are some other constraints that can be applied to a field (column):
 
-One contraint is the requirement for *unique keys* for each row. We cannot add a new row with a previous key value.
-
--   `NOT NULL`
--   `UNIQUE`
--   `PRIMARY KEY` - `NOT NULL` + `UNIQUE`
--   `FOREIGN KEY` - value must exist as a key in another table
+-   `NOT NULL` - no values can have a `NULL` value.
+-   `UNIQUE` - all values must be unique.
+-   `PRIMARY KEY` - `NOT NULL` and `UNIQUE`.
+-   `FOREIGN KEY` - value must exist as a primary key in another table's field. The referenced table's field must be specified.
 -   `CHECK` - check the data type and conditions. One example would be our data shouldn't be before 1900.
--   `DEFAULT` - default values.
+-   `DEFAULT` - default values are given if not provided.
 
-The most important ones to know about are `PRIMARY KEY` and `FOREIGN KEY`. `PRIMARY KEY` forces the database to create new rows with an automatically incremented id.
+The most important constraints to know about are `PRIMARY KEY` and `FOREIGN KEY`. A `PRIMARY KEY` is required for any table, and cannot be `NULL` and must be unique. This gives an unique id for each entry of the table.
 
 When we create tables in our database, we need to specify which column is a `PRIMARY KEY`:
 
@@ -399,7 +424,7 @@ CREATE TABLE person (
 )
 ```
 
-`FOREIGN KEY` involves two or more tables. If a column is declared a `FOREIGN KEY`, then that key value must *exist* in a REFERENCE table. Here our two reference tables are `person` and `procedure_occurrence`.
+`FOREIGN KEY` involves two or more tables. If a column is declared a `FOREIGN KEY`, then that key value must *exist* in a `REFERENCES` table as a primary key. Here, when we create `procedure_occurrence`, `person_id` column `REFERENCES` the table `person`'s `person_id` primay key column, and `procedure_concept_id` column `REFERENCES` the table `concept`'s `concept_id` primary key column.
 
 ``` sql
 CREATE TABLE procedure_occurrence {
@@ -410,8 +435,6 @@ CREATE TABLE procedure_occurrence {
 ```
 
 Thus, we can use constraints to make sure that our database retains its integrity when we add rows to it.
-
-There are more constraints we can add to our tables, and the correct use of these constraints will ensure that our data is correct.
 
 You can see an example of constraints for our database here: <https://github.com/OHDSI/CommonDataModel/blob/v5.4.0/inst/ddl/5.4/postgresql/OMOPCDM_postgresql_5.4_constraints.sql>.
 
