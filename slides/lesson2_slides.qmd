@@ -84,7 +84,7 @@ SELECT person.person_id, procedure_occurrence.procedure_occurrence_id
 
 3.  Then, we `SELECT` for the columns we want to keep: `person.person_id, procedure_occurrence.procedure_occurrence_id`
 
-## Table References
+## Table Alias
 
 We can short-hand the table names via the `AS` statement:
 

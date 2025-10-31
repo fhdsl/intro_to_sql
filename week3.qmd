@@ -18,7 +18,7 @@ con <- DBI::dbConnect(duckdb::duckdb(),
 
 ## `GROUP BY`
 
-Say we want to count, calculate totals, or averages for a particular column by a particular grouping variable. We can use a `SELECT/GROUP BY` pattern to do this.
+Say we want to count, calculate totals, or averages for a particular column by a particular grouping variable. For example, suppose we want to group `gender_source_value` column in the `person` table and count the number of `person_id`s for each value of `gender_source_value`. We can use a `SELECT/GROUP BY` pattern to do this.
 
 There are some requirements to using `SELECT`/`GROUP BY`:
 
@@ -34,6 +34,67 @@ SELECT gender_source_value, COUNT(person_id) AS person_count
   GROUP BY gender_source_value
 ```
 
+Notice that we use the `AS` alias to rename `COUNT(person_id)` to `person_count` in the column name.
+
+We summarize our column in other ways besides `COUNT`:
+
+-   `MEAN`
+
+-   `MIN`
+
+-   `MAX`
+
+-   `MEDIAN`
+
+For example, we can look at the minimum `year_of_birth` for each gender in the `person` table:
+
+```{sql}
+#| connection: "con"
+
+SELECT gender_source_value, MIN(year_of_birth)
+ FROM person
+ GROUP BY gender_source_value
+```
+
+### Check on Learning
+
+If we look at `concept` table, we notice that there are groups of concepts organized by the `domain_id` column:
+
+```{sql connection}
+#| connection: "con"
+
+SELECT concept_id, concept_name, domain_id, vocabulary_id
+  FROM concept
+  LIMIT 10
+```
+
+`COUNT` the number of `concept_id`s grouped by `domain_id` in the `concept` table:
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT domain_id, COUNT(------) AS count_domain
+  FROM concept
+  GROUP BY -------
+  ORDER BY count_domain DESC
+```
+
+You can also group by multiple variables. What happens if you group by `domain_id` *and* `vocabulary_id`?
+
+## GROUP BY with JOINs
+
+Recall that table `procedure_occurrence` records the procedures of each person. Suppose that we do a `GROUP BY` on each `procedure_concept_id` and count the number of `person_id`s to understand how many people were treated for each procedure:
+
+```{sql}
+#| connection: "con"
+SELECT procedure_concept_id, COUNT(person_id) AS person_count
+  FROM procedure_occurrence
+  GROUP BY procedure_concept_id
+  ORDER BY person_count DESC
+```
+
+We wish we know what the `procedure_concept_id` referred to. We need to join it with `concept` table.
+
 Here, we're combining `SELECT`/`GROUP_BY` with an `INNER JOIN`:
 
 ```{sql}
@@ -46,7 +107,7 @@ SELECT c.concept_name AS procedure, COUNT(person_id) AS person_count
   ORDER BY person_count DESC
 ```
 
-We can group by multiple variables. Here is a triple join where we are counting by both `gender_source_value` and `concept_name`:
+Even more complicated: We can group by multiple variables. Here is a triple join where we are counting by both `gender_source_value` and `concept_name`:
 
 ```{sql}
 #| connection: "con"
@@ -58,19 +119,6 @@ SELECT c.concept_name AS procedure, p.gender_source_value, COUNT(p.person_id) AS
   ON po.procedure_concept_id = c.concept_id
   GROUP BY c.concept_name, p.gender_source_value
   ORDER BY person_count DESC
-```
-
-### Check on Learning
-
-`COUNT` the number of `concept_id`s grouped by `domain_id` in the `concept` table:
-
-```{sql}
-#| connection: "con"
-#| eval: false
-SELECT domain_id, COUNT(------) AS count_domain
-  FROM concept
-  GROUP BY -------
-  ORDER BY count_domain DESC
 ```
 
 ## `HAVING`
@@ -88,9 +136,21 @@ SELECT c.concept_name AS procedure, COUNT(person_id) AS person_count
   ORDER BY person_count DESC
 ```
 
-Why can't we use `WHERE`? `WHERE` is actually evaluated before `SELECT`/`GROUP_BY`, so it has no idea that the aggregated variables exist. Remember [SQL clause priorities?](https://intro-sql-fh.netlify.app/concepts.html#what-is-sql). `WHERE` is priority 2, and `GROUP BY`/`HAVING` are priorities 3 and 4.
+Why can't we use `WHERE`?
 
-In general, you need to put `WHERE` before `GROUP BY`/`HAVING`. Your SQL statement will not work if you put `WHERE` after `GROUP BY` / `HAVING`.
+Well, it turns out that SQL clauses have different priorities, which tells the engine how to order the clauses to execute as your queries become bigger. The `WHERE` clause has *higher priority* than the `GROUP BY` clause, which means if you had written `WHERE person_count > 500`, it would be evaluated before `GROUP BY`, thus it has no idea `person_count` exists and throws an error. Here is the full list of SQL clause priorities:
+
+| Priority | Clause     | Purpose                                                        |
+|-----------------|-----------------|--------------------------------------|
+| 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
+| 2        | `WHERE`    | Filter tables based on criteria                                |
+| 3        | `GROUP BY` | Aggregates the Data                                            |
+| 4        | `HAVING`   | Filters Aggregated Data                                        |
+| 5        | `SELECT`   | Selects columns in table and calculate new columns             |
+| 6        | `ORDER BY` | Sorts by a database field                                      |
+| 7        | `LIMIT`    | Limits the number of records returned                          |
+
+In general, you need to put `WHERE` to do any filtering before running `GROUP BY`. Then, after the data is grouped and aggregrated, you can do additional filtereing on the aggregated data via `HAVING`. Your SQL statement will not work if you put `WHERE` after `GROUP BY` / `HAVING`.
 
 Here is an example of using both `WHERE` and `HAVING`:
 
@@ -104,18 +164,7 @@ SELECT domain_id, COUNT(concept_id) AS count_domain
   ORDER BY count_domain DESC
 ```
 
-```{r}
-sql_statement <- "EXPLAIN SELECT domain_id, COUNT(concept_id) AS count_domain
-  FROM concept
-  WHERE domain_id != 'Drug'
-  GROUP BY domain_id
-  HAVING count_domain > 40
-  ORDER BY count_domain DESC"
-
-DBI::dbGetQuery(con, sql_statement)
-```
-
-Here's what happens when you put `WHERE` after `GROUP BY`/`HAVING`:
+Here's what happens when you put `WHERE` after `GROUP BY`/`HAVING`. Can you fix it?
 
 ```{sql}
 #| connection: "con"
@@ -142,16 +191,30 @@ SELECT c.concept_name AS procedure, COUNT(person_id) AS person_count
   ORDER BY person_count DESC
 ```
 
-We can group by `year` by first extracting it from `po.procedure_datetime` and using an alias `year`:
+### Check on learning
+
+Suppose we were given this join, with the column `year` extracted from `procedure_datatime`.
 
 ```{sql}
 #| connection: "con"
-SELECT date_part('YEAR', po.procedure_datetime) AS year, COUNT(po.person_id) AS procedure_count
+SELECT date_part('YEAR', po.procedure_datetime) AS year, person_id, procedure_occurrence_id
   FROM procedure_occurrence AS po
   INNER JOIN concept AS c
   ON po.procedure_concept_id = c.concept_id
-  GROUP BY year
-  ORDER BY procedure_count DESC
+
+```
+
+Build on top of this query: Group by `year`, and then aggregate by the `COUNT` of `person_id`. Finally, filter it so that the `year` is higher than 1990. Should you be using `WHERE` or `HAVING`?
+
+```{sql}
+#| connection: "con"
+#| eval: false
+SELECT date_part('YEAR', po.procedure_datetime) AS year, person_id 
+  FROM procedure_occurrence AS po
+  INNER JOIN concept AS c
+  ON po.procedure_concept_id = c.concept_id
+
+  
 ```
 
 ## `IN`/`LIKE`
@@ -185,20 +248,31 @@ SELECT concept_name, domain_id
   WHERE domain_id LIKE 'Dru%'
 ```
 
+You can find more informaiton about pattern matching [here](https://duckdb.org/docs/stable/sql/functions/pattern_matching).
+
 ## Creating Temporary Tables
 
-Temporary tables can be very useful when you are trying to merge on a list of concepts, or for storing intermediate results.
+Temporary tables can be very useful for storing intermediate results.
 
 Temporary tables only last for the session - they disappear after you disconnect, so don't use them for permanent storage.
 
-Here is the csv (comma separated value) file that we're going to load in:
+You can use `CREATE OR REPLACE TEMPORARY TABLE` clause, followed by your temporary table name and `AS`, and then give a query of choice:
+
+```{sql}
+#| connection: "con"
+CREATE OR REPLACE TEMPORARY TABLE temp_person AS
+SELECT person_id, gender_source_value
+  FROM person
+```
+
+You can also use `CREATE TEMPORARY TABLE` clause, but it will give you an error if the temporary table has been created already.
+
+We can also load in a spreadsheet as a temporary table. Suppose we want to load in the following:
 
 ```{r}
 read_csv("data/temp_cost.csv")
 
 ```
-
-We use `CREATE TEMP TABLE` to create a temp table. We will need to specify the data types of the columns before we can add data to it. We are using `CREATE OR REPLACE` in the below chunk to prevent errors when we run it, just in case we have run it before.
 
 Then we can use `COPY` from DuckDB to load it in:
 
@@ -227,11 +301,6 @@ Now our table exists in our database, and we can work with it.
 SELECT * FROM cost
 ```
 
-```{sql}
-#| connection: "con"
-DESCRIBE cost
-```
-
 Now we can merge our temporary `cost` table with `procedure_occurrence` and calculate the sum cost per year:
 
 ```{sql}
@@ -244,21 +313,7 @@ SELECT date_part('YEAR', po.procedure_datetime) AS year, SUM(cost) AS sum_cost_m
   ORDER BY year DESC
 ```
 
-We'll talk much more about subqueries and Views next time, which are another options to split queries up.
-
-### Check on Learning
-
-Modify the query below to calculate average cost per month using `AVG(cost)` named as `average_monthly_cost`:
-
-```{sql}
-#| connection: "con"
-SELECT date_part('YEAR', po.procedure_datetime) AS year, SUM(cost)
-  FROM procedure_occurrence AS po
-  INNER JOIN cost AS c
-  ON po.procedure_concept_id = c.procedure_concept_id
-  GROUP BY year
-  ORDER BY year DESC
-```
+We'll talk more about Subqueries and Views next time, which are another options to split queries up.
 
 ## Data Integrity
 
@@ -282,33 +337,17 @@ Finally, the design of the tables and what information they contain, and how the
 Database design can be difficult because:
 
 1.  You need to understand the requirements of the data and how it is collected
-
-```{=html}
-<!-- -->
-```
-a.  For example, when is procedure information collected?
-b.  Do patients have multiple procedures? (Cardinality)
-
-```{=html}
-<!-- -->
-```
+    -   For example, when is procedure information collected?
+    -   Do patients have multiple procedures? (Cardinality)
 2.  You need to group like data with like (normalization)
-
-```{=html}
-<!-- -->
-```
-a.  Data that is dependent on a primary key should stay together
-b.  For example, `person` should contain information of a patient such as demographics, but not individual `procedure_concept_ids`.
-
-```{=html}
-<!-- -->
-```
+    -   Data that is dependent on a primary key should stay together
+    -   For example, `person` should contain information of a patient such as demographics, but not individual `procedure_concept_ids`.
 3.  You need to have an automated process to add data to the database (Extract Transfer Load, or ETL).
 4.  Search processes must be optimized for common operations (indexing)
 
-Of this, steps 1 and 2 are the most difficult and take the most time. They require the designer to interview users of the data and those who collect the data to reflect the *business processes*. These two steps are called the **Data Modeling** steps.
+Of this, steps 1 and 2 are the most difficult and take the most time. They require the designer to interview users of the data and those who collect the data to reflect the business processes. These two steps are called the **Data Modeling** steps.
 
-These processes are essential if you are designing a **transactional database** that is collecting data from multiple sources (such as clinicians at time of care) and is updated multiple times a second. For example, bank databases have a rigorous design.
+These processes are essential if you are designing a **transactional database** that is collecting data from multiple sources (such as clinicians at time of care) and is updated multiple times a second.
 
 If you want to read more about the data model we're using, I've written up a short bit here: [OMOP Data Model](miscellaneous.html#the-omop-data-model).
 
