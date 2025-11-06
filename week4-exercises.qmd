@@ -16,7 +16,7 @@ con <- DBI::dbConnect(duckdb::duckdb(),
 
 ## Subquery in `SELECT`
 
-1. Fill in the blank in the subquery below to find each patient's demographic data along with the **total number of procedures** they have had. Note that this query makes use of the `person` table as well as the `procedure_occurrence` table.
+1.  Fill in the blank in the subquery below to find each patient's demographic data along with the **total number of procedures** they have had. Note that this query makes use of the `person` table as well as the `procedure_occurrence` table.
 
 ```{sql connection="con"}
 SELECT 
@@ -46,7 +46,7 @@ SELECT
   procedure_datetime,
   (SELECT 
     DATE_DIFF(
-      ______, ______, DATE '2025-03-07'
+      'month', ______, DATE '2025-11-7'
     )
   ) AS procedure_time_to_today
 FROM 
@@ -55,7 +55,7 @@ FROM
 
 ## Subquery in `WHERE`
 
-Collect patient demographic data for all patients who have an occurrence of a condition with id = "40481087":
+Collect patient demographic data for all patients who have an occurrence of a `condition_occurrence_id` = "40481087":
 
 ```{sql connection="con"}
 SELECT 
@@ -78,29 +78,27 @@ WHERE
     
 ```
 
-## Creating a view
-
-4. Create a view for senior citizen demographics, where we collect demographics for patients born in or before 1960.
-
-```{sql}
-#| connection: "con"
-CREATE VIEW senior_demographics AS
-SELECT
-  person_id, 
-  birth_datetime, 
-  gender_source_value, 
-  race_source_value, 
-  ethnicity_source_value
-FROM person 
-WHERE
-  _______ >= '1960';
-```
-
 ## Challenge: Creating a view (using `DATEDIFF` in a subquery)
 
-5. Create a view for senior citizen procedures, where we collect procedure occurrences for all patients aged \>= 50 at the time of their procedure
+5.  Create a view for senior citizen procedures, where we collect procedure occurrences for all patients aged \>= 50 at the time of their procedure.
+
+Break it down: Create a query for patients aged \>= 50. You will need to use the `person` table and use `DATE_DIFF` function on the `birth_datetime` column.
+
+```{sql connection="con"}
+SELECT ---
+FROM ---
+WHERE DATE_DIFF('year', ----, DATE '2024-03-07') >= ---
+```
+
+Then, write the outer query of the view via the `person` table filtering where the `person_id` corresponds to your query above:
 
 ```{sql}
 #| connection: "con"
+CREATE VIEW senior_citizen_procedures AS
 
+  
+```
+
+```{sql connection="con"}
+SELECT * FROM senior_citizen_procedures 
 ```

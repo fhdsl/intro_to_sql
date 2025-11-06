@@ -25,51 +25,33 @@ With our data loaded and ready to go, let's get started!
 
 A subquery is a query nested inside another query. Subqueries let us process smaller computations inside larger outer queries.
 
-### Using a Subquery in the `SELECT` Clause
-
-The following is a great example from [The Data School](https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/), offering a visualization of how a subquery works. In this case, we use a subquery to calculate the total number of friends across all individuals, subdivided by state. Here, we are making use of the subquery within our `SELECT` clause. Let's dive a little deeper into this type of example using our own data.
-
-![](https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_1.gif)
-
-#### A brief tangent: using `DATEDIFF` to compare dates
-
-The `DATEDIFF` function in SQL can be used to calculate differences between days. `DATEDIFF` takes three parameters: the unit of time, a first date, and a second date. For instance, calling:
+If we look at this very generic statement of all the queries we learned so far:
 
 ```         
-SELECT DATEDIFF('month', DATE '2020-01-01', DATE '2024-03-07')
+SELECT c2, SUM(c3)
+FROM d1
+WHERE c1 IN (a1, a2, a3, a4)
+INNER JOIN d2
+BY d1.c2 = d2.c2
+GROUP BY c2
+HAVING SUM(c3) IN (z1, z2)
 ```
 
-calculates the number of months between January 1st, 2020, and March 7th, 2024. All three parameters are required. You can refer to the documentation for `DATEDIFF` [here](https://www.w3schools.com/sql/func_sqlserver_datediff.asp) to see other options for time intervals.
+Where is it possible to substitute a Subquery? Subquries can be organized by their outputs:
 
-::: callout-note
-Dates in SQL typically follow the ISO 8601 format of 'YYYY-MM-DD'. Other date formats may work depending on the database system being used, though there is a chance for misinterpretation.
+-   Single-value Subquery
 
-Note that in our example, we explicitly cast our two dates as `DATE` variables - while this is not necessary depending on the database system, it enhances readability and interpretability of the code for both other users as well as the database system.
-:::
+-   Single-column Subquery
 
-1.  **What do you think happens if we swap the order of dates in the `DATEDIFF` command?**
+-   Multi-column Subquery
 
-```{r}
-#| eval: false
-#| include: false
-sql_statement <- "SELECT DATE_DIFF('day', DATE '2024-01-01', DATE '2024-03-07')"
+We're just going to focus on Single-column Subqueries for today.
 
-out1 <- DBI::dbGetQuery(con, sql_statement)
-```
+### Using a Subquery in the `SELECT` Clause
 
-```{r}
-#| eval: false
-#| include: false
-sql_statement <- "SELECT DATE_DIFF('day', DATE '2024-03-07', DATE '2024-01-01')"
+Let's use a subquery to dynamically calculate the age of each individual (as of November 7th, 2025) in our database while collecting other patient demographic data. To handle this, we'll make use of the `person` table in our dataframe and the `birth_datetime` column.
 
-out2 <- DBI::dbGetQuery(con, sql_statement)
-```
-
-### Example: Using a Subquery in the `SELECT` Clause
-
-Let's use a subquery to dynamically calculate the age of each individual (as of March 7th, 2024) in our database while collecting other patient demographic data. To handle this, we'll make use of the `person` table in our dataframe and the `birth_datetime` column.
-
-```{sql, connection="con", output.var="person_age"}
+```{sql, connection="con"}
 SELECT 
   person_id, 
   birth_datetime,
@@ -79,24 +61,34 @@ SELECT
   (SELECT 
     DATE_DIFF('year', birth_datetime, DATE '2024-03-07')
   ) AS age
-FROM 
-  person;
+FROM person
+LIMIT 10
 ```
 
 As we can see in the above example, we've performed the computation of calculating patient age in a subquery:
 
 ```         
 SELECT 
-    DATE_DIFF('year', birth_datetime, DATE '2024-03-07')
+DATE_DIFF('year', birth_datetime, DATE '2024-03-07')
 ```
 
-This subquery is integrated into the larger query of collecting patient data.
+This subquery is integrated into the larger query of collecting patient data, and doesn't need to refer to the `person` table. Any variable referenced in the larger outer query can be accessed in the inner subquery.
+
+#### Using `DATEDIFF` to compare dates
+
+The `DATEDIFF` function in SQL can be used to calculate differences between days. `DATEDIFF` takes three parameters: the unit of time, a first date, and a second date. For instance, calling:
+
+```         
+SELECT DATEDIFF('month', DATE '2020-01-01', DATE '2025-11-07')
+```
+
+calculates the number of months between January 1st, 2020, and November 11th, 2025. All three parameters are required. You can refer to the documentation for `DATEDIFF` [here](https://www.w3schools.com/sql/func_sqlserver_datediff.asp) to see other options for time intervals.
 
 #### Check on learning
 
 Fill in the blank in the query below to dynamically calculate the **number of days** between the **condition start date** and **condition end date** for all conditions from the `condition_occurrence` table
 
-```{sql connection="con", output.var="condition_time"}
+```{sql connection="con"}
 #| eval: false
 SELECT 
   person_id,
@@ -108,34 +100,15 @@ SELECT
   (SELECT 
     DATE_DIFF(_____, _____, _____)
   ) AS condition_time_span
-FROM 
-  condition_occurrence;
-```
-
-```{sql connection="con", output.var="condition_time"}
-#| eval: false
-#| include: false
-SELECT 
-  person_id,
-  visit_occurrence_id,
-  condition_occurrence_id,
-  condition_concept_id, 
-  condition_start_date,
-  condition_end_date,
-  (SELECT 
-    DATE_DIFF(
-      'day', condition_start_date, condition_end_date
-    )
-  ) AS condition_time_span
-FROM 
-  condition_occurrence;
+FROM condition_occurrence
+LIMIT 10
 ```
 
 ### Filtering with a Subquery
 
 We've now worked through a couple of examples where we use subqueries to create new variables within our `SELECT` clause. Another type of query we can tackle is the filtration of data based on conditions calculated in a subquery.
 
-Here's another great example from [The Data School](https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/), where we apply a subquery in the filtration component of our larger query to find individuals on Facebook who have the same number of Facebook connections as anyone else on LinkedIn.
+Here's a great example from [The Data School](https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/), where we apply a subquery in the filtration component of our larger query to find individuals on Facebook who have the same number of Facebook connections as anyone else on LinkedIn.
 
 ![](https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_7.gif)
 
@@ -163,13 +136,11 @@ WHERE column_name = value1
 
 Now back to using a subquery for filtering!
 
-### Example: Filtering with a Subquery
-
 For our own database, let's collect patient demographic data for all patients who had some kind of procedure performed after December 31st, 2018. We'll make use of the `person` and `procedure_occurrence` tables for this query.
 
 We can start by writing the computation for our subquery - collection patient IDs for individuals who had a procedure after December 31st, 2018.
 
-```{sql, connection="con", output.var="recent_pts"}
+```{sql, connection="con"}
 SELECT 
   person_id 
 FROM 
@@ -180,7 +151,7 @@ WHERE
 
 Now, we can insert this query into the `WHERE` clause of our larger query that collects patient demographic information!
 
-```{sql, connection="con", output.var="recent_pt_info"}
+```{sql, connection="con"}
 SELECT 
   person_id, 
   birth_datetime, 
@@ -202,21 +173,31 @@ WHERE
 
 #### Check on learning
 
-Write out a query to collection patient IDs for individuals who had a **condition start date** after December 31st, 2018. This query will become the subquery in our larger computation.
+Write out a query to collection patient IDs for individuals who had at least two procedures. This query will become the subquery in our larger computation.
 
-```{sql connection="con", output.var="recent_pts"}
+```{sql connection="con"}
 #| eval: false
-SELECT 
-  person_id 
-FROM 
-  condition_occurrence
-WHERE 
-  condition_start_date >= ______
+SELECT person_id, COUNT(person_id) AS person_id_count
+FROM procedure_occurrence
+GROUP BY ---
+HAVING --- >= 2
+
 ```
 
-Now, fill in the blank in the following SQL query with the subquery that you just developed to collect patient demographic data for any patient in the `condition_occurrence` table who had a condition start date on or after January 1st, 2019.
+For our subquery, we only need `person_id` as our final column, and not `person_id_count`. Move the `COUNT(person_id)` statement into the `HAVING` clause:
 
-```{sql connection="con", output.var="recent_pts"}
+```{sql connection="con"}
+#| eval: false
+
+SELECT person_id
+FROM procedure_occurrence
+GROUP BY ---
+HAVING --- >= 2
+```
+
+Now, fill in the blank in the following SQL query with the subquery that you just developed to collect patient demographic data for any patient that had at least two procedures:
+
+```{sql connection="con"}
 #| eval: false
 SELECT 
   person_id, 
@@ -242,7 +223,7 @@ Subqueries are powerful because they allow you to break down complex queries int
 
 -   **You need to improve your code's readability**: Subqueries help make queries more modular and easier to debug. Conceptually, it can be easier to create a multi-step query and check intermediate phases than do perform a bunch of `JOIN`'s.
 
-2.  **Can you think of any examples where it might be better to use a `JOIN` over a subquery?**
+**Can you think of any examples where it might be better to use a `JOIN` over a subquery?**
 
 ## Views
 
@@ -260,15 +241,13 @@ Similar to subqueries, views allow us to organize our data into more modular, ac
 
 -   **You want to promote data consistency**: Performing a calculation in a view ensures that everyone uses the same calculation to grab consistent data (e.g. calculating age of patients)
 
-::: callout-note
 A view itself does not actually store data like a physical table does. Instead, a view is a saved SQL query that gets executed each time you query the view.
-:::
 
 ### A brief tangent: indexing
 
 **Indexing** is a technique used to speed up data retrieval from a database table. An index improves the efficiency of queries by allowing the database to locate rows faster without having to scan the entire table. This is similar to how a table of contents in a book helps you quickly find chapters instead of reading every page.
 
-However, **views are not indexed**: Since views are virtual tables, they do not store data or have their own indexes. Instead, they rely on the indexes that come from the underlying tables. Because views do not have indexes, **querying a view can be slower than querying a physical table**. Indeed, since the database recomputes the view’s query each time, more complex views can lead to performance issues.
+However, **views are not indexed**: Since views are virtual tables, they do not store data or have their own indexes. Instead, they rely on the indexes that come from the underlying tables. Because views do not have indexes, **querying a view can be slower than querying a physical table**. Indeed, since the database recomputes the view\'s query each time, more complex views can lead to performance issues.
 
 ### Example: Creating a View
 
@@ -293,13 +272,11 @@ FROM drugs
 LIMIT 5;
 ```
 
-::: callout-note
 If a view already exists in your database, then trying to create a new view with the same name will generate an error! To delete a view from memory, using the `DROP VIEW` command. E.g.:
 
 ```         
 DROP VIEW IF EXISTS drugs;
 ```
-:::
 
 #### Check on learning
 
@@ -310,14 +287,6 @@ Fill in the blank in the query below to create a view that stores only **measure
 CREATE VIEW measurements AS
 SELECT * FROM concept
 WHERE domain_id == ________;
-```
-
-```{sql connection="con"}
-#| eval: false
-#| include: false
-CREATE VIEW measurements AS
-SELECT * FROM concept
-WHERE domain_id == 'Measurement';
 ```
 
 ```{sql connection="con"}
@@ -339,7 +308,7 @@ While writing efficient SQL queries is important, database performance optimizat
 
 -   Subqueries allow us to use the result of one query inside another
 -   Views provide a way to store and reuse complex queries as virtual tables
--   Using subqueries and views can make SQL queries more modular and maintanable.
+-   Using subqueries and views can make SQL queries more modular and maintainable.
 
 ## Always close the connection
 

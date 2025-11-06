@@ -95,7 +95,7 @@ SQL is short for **S**tructured **Q**uery **L**anguage. It is a standardized lan
 SQL lets us do various operations on data. It contains various *clauses* which let us manipulate data:
 
 | Priority | Clause     | Purpose                                                        |
-|------------|------------|------------------------------------------------|
+|---------------|---------------|-------------------------------------------|
 | 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
 | 2        | `WHERE`    | Filter tables based on criteria                                |
 | 3        | `GROUP BY` | Aggregates the Data                                            |
@@ -109,7 +109,7 @@ We do not use all of these clauses when we write a SQL Query. We only use the on
 Oftentimes, we really only want a summary out of the database. We would probably use the following clauses:
 
 | Priority | Clause     | Purpose                                                        |
-|------------|------------|------------------------------------------------|
+|---------------|---------------|-------------------------------------------|
 | 1        | `FROM`     | Choose tables to query and specify how to `JOIN` them together |
 | 2        | `WHERE`    | Filter tables based on criteria                                |
 | 3        | `GROUP BY` | Aggregates the Data                                            |
