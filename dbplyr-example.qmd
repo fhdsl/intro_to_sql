@@ -1,0 +1,69 @@
+---
+title: "dbplyr demo"
+format: html
+editor: visual
+---
+
+## dbplyr!
+
+*"Okay, cool, thanks for Intro to SQL. Now can I go back to coding in R?" -* 🧑‍🌾
+
+```{r}
+library(tidyverse)
+library(dbplyr)
+```
+
+```{r}
+library(duckdb)
+library(DBI)
+
+con <- DBI::dbConnect(
+  duckdb::duckdb(), 
+  "data/GiBleed_5.3_1.1.duckdb"
+)
+```
+
+Specify the dataframe of interest:
+
+```{r}
+person_db <- tbl(con, "person")
+```
+
+Now, you can query it. By default you get the first 1000 entries.
+
+```{r}
+person_db |> 
+  select(person_id, birth_datetime, gender_source_value) |>
+  filter(gender_source_value == "F")
+```
+
+You can save your query as a variable:
+
+```{r}
+cool_query = person_db |> 
+  select(person_id, birth_datetime, gender_source_value) |>
+  filter(gender_source_value == "F")
+```
+
+You can see what it is translating into SQL:
+
+```{r}
+cool_query |> show_query()
+```
+
+Finally, when you are ready to fully query it:
+
+```{r}
+cool_query_result = cool_query |> collect()
+```
+
+Do R things:
+
+```{r}
+cool_query_result$year <- as.numeric(sub("-.*", "", cool_query_result$birth_datetime))
+ggplot(cool_query_result) + aes(x = year) + geom_histogram() + theme_bw()
+```
+
+Full Guide here: <https://dbplyr.tidyverse.org/articles/dbplyr.html>
+
+-   Yes, you can even do joins: <https://dbplyr.tidyverse.org/reference/join.tbl_sql.html>
