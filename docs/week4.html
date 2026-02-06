@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>5&nbsp; Week 4: Subqueries and Views – Intro to SQL</title>
 <style>
@@ -18,8 +18,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -30,7 +31,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -63,15 +64,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./miscellaneous.html" rel="next">
 <link href="./week3.html" rel="prev">
 <link href="./img/favicon.ico" rel="icon">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a1c1d0abbd8b67b8b47aad02bae1bfc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-a315636c48edb60108e5628c680fbbf2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -99,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script><link rel="stylesheet" href="style.css">
 </head>
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
@@ -116,8 +119,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="https://hutchdatascience.org/" class="sidebar-logo-link">
-      <img src="./img/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <a href="https://ocdo.fredhutch.org/dasl/" class="sidebar-logo-link">
+      <img src="./img/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./img/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Intro to SQL</a> 
         <div class="sidebar-tools-main">
@@ -147,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1: <code>DESCRIBE</code>, <code>SELECT</code>, <code>WHERE</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Week 1: DESCRIBE, SELECT, WHERE</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -193,10 +196,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <a href="#subqueries" id="toc-subqueries" class="nav-link" data-scroll-target="#subqueries"><span class="header-section-number">5.2</span> Subqueries</a>
   <ul class="collapse">
 <li><a href="#using-a-subquery-in-the-select-clause" id="toc-using-a-subquery-in-the-select-clause" class="nav-link" data-scroll-target="#using-a-subquery-in-the-select-clause"><span class="header-section-number">5.2.1</span> Using a Subquery in the <code>SELECT</code> Clause</a></li>
-  <li><a href="#example-using-a-subquery-in-the-select-clause" id="toc-example-using-a-subquery-in-the-select-clause" class="nav-link" data-scroll-target="#example-using-a-subquery-in-the-select-clause"><span class="header-section-number">5.2.2</span> Example: Using a Subquery in the <code>SELECT</code> Clause</a></li>
-  <li><a href="#filtering-with-a-subquery" id="toc-filtering-with-a-subquery" class="nav-link" data-scroll-target="#filtering-with-a-subquery"><span class="header-section-number">5.2.3</span> Filtering with a Subquery</a></li>
-  <li><a href="#example-filtering-with-a-subquery" id="toc-example-filtering-with-a-subquery" class="nav-link" data-scroll-target="#example-filtering-with-a-subquery"><span class="header-section-number">5.2.4</span> Example: Filtering with a Subquery</a></li>
-  <li><a href="#when-to-use-subqueries" id="toc-when-to-use-subqueries" class="nav-link" data-scroll-target="#when-to-use-subqueries"><span class="header-section-number">5.2.5</span> When to use subqueries</a></li>
+  <li><a href="#filtering-with-a-subquery" id="toc-filtering-with-a-subquery" class="nav-link" data-scroll-target="#filtering-with-a-subquery"><span class="header-section-number">5.2.2</span> Filtering with a Subquery</a></li>
+  <li><a href="#when-to-use-subqueries" id="toc-when-to-use-subqueries" class="nav-link" data-scroll-target="#when-to-use-subqueries"><span class="header-section-number">5.2.3</span> When to use subqueries</a></li>
   </ul>
 </li>
   <li>
@@ -236,48 +237,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">5.1</span> Connecting to our database</h2>
 <p>As always, to access the data, we create our database connection to our data.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org">DBI</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span></span>
 <span>  <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span>  <span class="st">"data/GiBleed_5.3_1.1.duckdb"</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>With our data loaded and ready to go, let’s get started!</p>
 </section><section id="subqueries" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="subqueries">
 <span class="header-section-number">5.2</span> Subqueries</h2>
 <p>A subquery is a query nested inside another query. Subqueries let us process smaller computations inside larger outer queries.</p>
+<p>If we look at this very generic statement of all the queries we learned so far:</p>
+<pre><code>SELECT c2, SUM(c3)
+FROM d1
+WHERE c1 IN (a1, a2, a3, a4)
+INNER JOIN d2
+BY d1.c2 = d2.c2
+GROUP BY c2
+HAVING SUM(c3) IN (z1, z2)</code></pre>
+<p>Where is it possible to substitute a Subquery? Subquries can be organized by their outputs:</p>
+<ul>
+<li><p>Single-value Subquery</p></li>
+<li><p>Single-column Subquery</p></li>
+<li><p>Multi-column Subquery</p></li>
+</ul>
+<p>We’re just going to focus on Single-column Subqueries for today.</p>
 <section id="using-a-subquery-in-the-select-clause" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="using-a-subquery-in-the-select-clause">
 <span class="header-section-number">5.2.1</span> Using a Subquery in the <code>SELECT</code> Clause</h3>
-<p>The following is a great example from <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a>, offering a visualization of how a subquery works. In this case, we use a subquery to calculate the total number of friends across all individuals, subdivided by state. Here, we are making use of the subquery within our <code>SELECT</code> clause. Let’s dive a little deeper into this type of example using our own data.</p>
-<p><img src="https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_1.gif" class="img-fluid"></p>
-<section id="a-brief-tangent-using-datediff-to-compare-dates" class="level4" data-number="5.2.1.1"><h4 data-number="5.2.1.1" class="anchored" data-anchor-id="a-brief-tangent-using-datediff-to-compare-dates">
-<span class="header-section-number">5.2.1.1</span> A brief tangent: using <code>DATEDIFF</code> to compare dates</h4>
-<p>The <code>DATEDIFF</code> function in SQL can be used to calculate differences between days. <code>DATEDIFF</code> takes three parameters: the unit of time, a first date, and a second date. For instance, calling:</p>
-<pre><code>SELECT DATEDIFF('month', DATE '2020-01-01', DATE '2024-03-07')</code></pre>
-<p>calculates the number of months between January 1st, 2020, and March 7th, 2024. All three parameters are required. You can refer to the documentation for <code>DATEDIFF</code> <a href="https://www.w3schools.com/sql/func_sqlserver_datediff.asp">here</a> to see other options for time intervals.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dates in SQL typically follow the ISO 8601 format of ‘YYYY-MM-DD’. Other date formats may work depending on the database system being used, though there is a chance for misinterpretation.</p>
-<p>Note that in our example, we explicitly cast our two dates as <code>DATE</code> variables - while this is not necessary depending on the database system, it enhances readability and interpretability of the code for both other users as well as the database system.</p>
-</div>
-</div>
-<ol type="1">
-<li><strong>What do you think happens if we swap the order of dates in the <code>DATEDIFF</code> command?</strong></li>
-</ol></section></section><section id="example-using-a-subquery-in-the-select-clause" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="example-using-a-subquery-in-the-select-clause">
-<span class="header-section-number">5.2.2</span> Example: Using a Subquery in the <code>SELECT</code> Clause</h3>
-<p>Let’s use a subquery to dynamically calculate the age of each individual (as of March 7th, 2024) in our database while collecting other patient demographic data. To handle this, we’ll make use of the <code>person</code> table in our dataframe and the <code>birth_datetime</code> column.</p>
-<div class="cell" data-output.var="person_age">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<p>Let’s use a subquery to dynamically calculate the age of each individual (as of November 7th, 2025) in our database while collecting other patient demographic data. To handle this, we’ll make use of the <code>person</code> table in our dataframe and the <code>birth_datetime</code> column.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
@@ -286,37 +277,145 @@ Note
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">SELECT</span> </span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(<span class="st">'year'</span>, birth_datetime, <span class="dt">DATE</span> <span class="st">'2024-03-07'</span>)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="kw">AS</span> age</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  person;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> person</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 4%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">person_id</th>
+<th style="text-align: left;">birth_datetime</th>
+<th style="text-align: left;">gender_source_value</th>
+<th style="text-align: left;">race_source_value</th>
+<th style="text-align: left;">ethnicity_source_value</th>
+<th style="text-align: right;">age</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">1963-12-31</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">west_indian</td>
+<td style="text-align: right;">61</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">123</td>
+<td style="text-align: left;">1950-04-12</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">italian</td>
+<td style="text-align: right;">74</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">129</td>
+<td style="text-align: left;">1974-10-07</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">polish</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">1971-10-13</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">american</td>
+<td style="text-align: right;">53</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">65</td>
+<td style="text-align: left;">1967-03-31</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">dominican</td>
+<td style="text-align: right;">57</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">74</td>
+<td style="text-align: left;">1972-01-05</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">english</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">42</td>
+<td style="text-align: left;">1909-11-02</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">irish</td>
+<td style="text-align: right;">115</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">187</td>
+<td style="text-align: left;">1945-07-23</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">irish</td>
+<td style="text-align: right;">79</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">1965-11-17</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">english</td>
+<td style="text-align: right;">59</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">111</td>
+<td style="text-align: left;">1975-05-02</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">english</td>
+<td style="text-align: right;">49</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <p>As we can see in the above example, we’ve performed the computation of calculating patient age in a subquery:</p>
 <pre><code>SELECT 
-    DATE_DIFF('year', birth_datetime, DATE '2024-03-07')</code></pre>
-<p>This subquery is integrated into the larger query of collecting patient data.</p>
-<section id="check-on-learning" class="level4" data-number="5.2.2.1"><h4 data-number="5.2.2.1" class="anchored" data-anchor-id="check-on-learning">
-<span class="header-section-number">5.2.2.1</span> Check on learning</h4>
+DATE_DIFF('year', birth_datetime, DATE '2024-03-07')</code></pre>
+<p>This subquery is integrated into the larger query of collecting patient data, and doesn’t need to refer to the <code>person</code> table. Any variable referenced in the larger outer query can be accessed in the inner subquery.</p>
+<section id="using-datediff-to-compare-dates" class="level4" data-number="5.2.1.1"><h4 data-number="5.2.1.1" class="anchored" data-anchor-id="using-datediff-to-compare-dates">
+<span class="header-section-number">5.2.1.1</span> Using <code>DATEDIFF</code> to compare dates</h4>
+<p>The <code>DATEDIFF</code> function in SQL can be used to calculate differences between days. <code>DATEDIFF</code> takes three parameters: the unit of time, a first date, and a second date. For instance, calling:</p>
+<pre><code>SELECT DATEDIFF('month', DATE '2020-01-01', DATE '2025-11-07')</code></pre>
+<p>calculates the number of months between January 1st, 2020, and November 11th, 2025. All three parameters are required. You can refer to the documentation for <code>DATEDIFF</code> <a href="https://www.w3schools.com/sql/func_sqlserver_datediff.asp">here</a> to see other options for time intervals.</p>
+</section><section id="check-on-learning" class="level4" data-number="5.2.1.2"><h4 data-number="5.2.1.2" class="anchored" data-anchor-id="check-on-learning">
+<span class="header-section-number">5.2.1.2</span> Check on learning</h4>
 <p>Fill in the blank in the query below to dynamically calculate the <strong>number of days</strong> between the <strong>condition start date</strong> and <strong>condition end date</strong> for all conditions from the <code>condition_occurrence</code> table</p>
-<div class="cell" data-output.var="condition_time">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  person_id,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  visit_occurrence_id,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  condition_occurrence_id,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  condition_concept_id, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  condition_start_date,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  condition_end_date,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">SELECT</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(_____, _____, _____)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="kw">AS</span> condition_time_span</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  condition_occurrence;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  person_id,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  visit_occurrence_id,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  condition_occurrence_id,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  condition_concept_id, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  condition_start_date,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  condition_end_date,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">SELECT</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(_____, _____, _____)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="kw">AS</span> condition_time_span</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> condition_occurrence</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section></section><section id="filtering-with-a-subquery" class="level3" data-number="5.2.3"><h3 data-number="5.2.3" class="anchored" data-anchor-id="filtering-with-a-subquery">
-<span class="header-section-number">5.2.3</span> Filtering with a Subquery</h3>
+</section></section><section id="filtering-with-a-subquery" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="filtering-with-a-subquery">
+<span class="header-section-number">5.2.2</span> Filtering with a Subquery</h3>
 <p>We’ve now worked through a couple of examples where we use subqueries to create new variables within our <code>SELECT</code> clause. Another type of query we can tackle is the filtration of data based on conditions calculated in a subquery.</p>
-<p>Here’s another great example from <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a>, where we apply a subquery in the filtration component of our larger query to find individuals on Facebook who have the same number of Facebook connections as anyone else on LinkedIn.</p>
+<p>Here’s a great example from <a href="https://dataschool.com/how-to-teach-people-sql/how-sql-subqueries-work/">The Data School</a>, where we apply a subquery in the filtration component of our larger query to find individuals on Facebook who have the same number of Facebook connections as anyone else on LinkedIn.</p>
 <p><img src="https://dataschool.com/assets/images/how-to-teach-people-sql/subqueries/subqueries_7.gif" class="img-fluid"></p>
-<section id="a-brief-review-the-in-clause" class="level4" data-number="5.2.3.1"><h4 data-number="5.2.3.1" class="anchored" data-anchor-id="a-brief-review-the-in-clause">
-<span class="header-section-number">5.2.3.1</span> A brief review: the <code>IN</code> clause</h4>
+<section id="a-brief-review-the-in-clause" class="level4" data-number="5.2.2.1"><h4 data-number="5.2.2.1" class="anchored" data-anchor-id="a-brief-review-the-in-clause">
+<span class="header-section-number">5.2.2.1</span> A brief review: the <code>IN</code> clause</h4>
 <p>The <code>IN</code> clause in SQL is used to filter records where a column matches any value in a specified list or subquery result. It is a shorthand for multiple <code>OR</code> conditions and is commonly used for readability and efficiency.</p>
 <p>For instance, the basic syntax of:</p>
 <pre><code>SELECT column_name
@@ -329,64 +428,198 @@ WHERE column_name = value1
    OR column_name = value2 
    OR column_name = value3;</code></pre>
 <p>Now back to using a subquery for filtering!</p>
-</section></section><section id="example-filtering-with-a-subquery" class="level3" data-number="5.2.4"><h3 data-number="5.2.4" class="anchored" data-anchor-id="example-filtering-with-a-subquery">
-<span class="header-section-number">5.2.4</span> Example: Filtering with a Subquery</h3>
 <p>For our own database, let’s collect patient demographic data for all patients who had some kind of procedure performed after December 31st, 2018. We’ll make use of the <code>person</code> and <code>procedure_occurrence</code> tables for this query.</p>
 <p>We can start by writing the computation for our subquery - collection patient IDs for individuals who had a procedure after December 31st, 2018.</p>
-<div class="cell" data-output.var="recent_pts">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  person_id </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  procedure_occurrence</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  procedure_datetime <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  person_id </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  procedure_occurrence</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  procedure_datetime <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead><tr class="header">
+<th style="text-align: right;">person_id</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">636</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1072</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1084</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1072</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">967</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">823</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">823</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">972</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">703</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">299</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <p>Now, we can insert this query into the <code>WHERE</code> clause of our larger query that collects patient demographic information!</p>
-<div class="cell" data-output.var="recent_pt_info">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  person</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      person_id </span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      procedure_occurrence</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> </span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      procedure_datetime <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  person</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      person_id </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      procedure_occurrence</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>      procedure_datetime <span class="op">&gt;=</span> <span class="dt">DATE</span> <span class="st">'2019-01-01'</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  );</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 17%">
+<col style="width: 23%">
+<col style="width: 20%">
+<col style="width: 26%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">person_id</th>
+<th style="text-align: left;">birth_datetime</th>
+<th style="text-align: left;">gender_source_value</th>
+<th style="text-align: left;">race_source_value</th>
+<th style="text-align: left;">ethnicity_source_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">160</td>
+<td style="text-align: left;">1961-07-27</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">hispanic</td>
+<td style="text-align: left;">puerto_rican</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">99</td>
+<td style="text-align: left;">1958-10-25</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">west_indian</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36</td>
+<td style="text-align: left;">1958-10-21</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">german</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">286</td>
+<td style="text-align: left;">1928-05-05</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">american</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">299</td>
+<td style="text-align: left;">1961-12-09</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">german</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">403</td>
+<td style="text-align: left;">1922-02-27</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">polish</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">280</td>
+<td style="text-align: left;">1938-10-28</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">hispanic</td>
+<td style="text-align: left;">central_american</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">307</td>
+<td style="text-align: left;">1969-06-21</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">russian</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">636</td>
+<td style="text-align: left;">1948-03-12</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">irish</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">354</td>
+<td style="text-align: left;">1956-01-05</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">irish</td>
+</tr>
+</tbody>
+</table>
 </div>
-<section id="check-on-learning-1" class="level4" data-number="5.2.4.1"><h4 data-number="5.2.4.1" class="anchored" data-anchor-id="check-on-learning-1">
-<span class="header-section-number">5.2.4.1</span> Check on learning</h4>
-<p>Write out a query to collection patient IDs for individuals who had a <strong>condition start date</strong> after December 31st, 2018. This query will become the subquery in our larger computation.</p>
-<div class="cell" data-output.var="recent_pts">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  person_id </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  condition_occurrence</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  condition_start_date <span class="op">&gt;=</span> ______</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, fill in the blank in the following SQL query with the subquery that you just developed to collect patient demographic data for any patient in the <code>condition_occurrence</code> table who had a condition start date on or after January 1st, 2019.</p>
-<div class="cell" data-output.var="recent_pts">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  person</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (_________);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section><section id="check-on-learning-1" class="level4" data-number="5.2.2.2"><h4 data-number="5.2.2.2" class="anchored" data-anchor-id="check-on-learning-1">
+<span class="header-section-number">5.2.2.2</span> Check on learning</h4>
+<p>Write out a query to collection patient IDs for individuals who had at least two procedures. This query will become the subquery in our larger computation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id, <span class="fu">COUNT</span>(person_id) <span class="kw">AS</span> person_id_count</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> procedure_occurrence</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="co">---</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="co">--- &gt;= 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section></section><section id="when-to-use-subqueries" class="level3" data-number="5.2.5"><h3 data-number="5.2.5" class="anchored" data-anchor-id="when-to-use-subqueries">
-<span class="header-section-number">5.2.5</span> When to use subqueries</h3>
+<p>For our subquery, we only need <code>person_id</code> as our final column, and not <code>person_id_count</code>. Move the <code>COUNT(person_id)</code> statement into the <code>HAVING</code> clause:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> person_id</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> procedure_occurrence</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="co">---</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="co">--- &gt;= 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now, fill in the blank in the following SQL query with the subquery that you just developed to collect patient demographic data for any patient that had at least two procedures:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  person_id, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  birth_datetime, </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  gender_source_value, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  race_source_value, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ethnicity_source_value</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  person</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  person_id <span class="kw">IN</span> (_________);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section></section><section id="when-to-use-subqueries" class="level3" data-number="5.2.3"><h3 data-number="5.2.3" class="anchored" data-anchor-id="when-to-use-subqueries">
+<span class="header-section-number">5.2.3</span> When to use subqueries</h3>
 <p>Subqueries are powerful because they allow you to break down complex queries into smaller, more manageable parts. You should use subqueries when:</p>
 <ul>
 <li><p><strong>You need to use a computed value in a query</strong>: See our previous examples!</p></li>
@@ -394,9 +627,8 @@ WHERE column_name = value1
 <li><p><strong>You want to avoid performing unnecessary <code>JOIN</code>’s</strong>: Subqueries let you filter results row-by-row based on information from another table without requiring a <code>JOIN</code>.</p></li>
 <li><p><strong>You need to improve your code’s readability</strong>: Subqueries help make queries more modular and easier to debug. Conceptually, it can be easier to create a multi-step query and check intermediate phases than do perform a bunch of <code>JOIN</code>’s.</p></li>
 </ul>
-<ol start="2" type="1">
-<li><strong>Can you think of any examples where it might be better to use a <code>JOIN</code> over a subquery?</strong></li>
-</ol></section></section><section id="views" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="views">
+<p><strong>Can you think of any examples where it might be better to use a <code>JOIN</code> over a subquery?</strong></p>
+</section></section><section id="views" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="views">
 <span class="header-section-number">5.3</span> Views</h2>
 <p>A <em>view</em> is a stored SQL query that acts as a virtual table. Views improve code reuse and readability. The following image, taken from <a href="https://www.sqlshack.com/create-view-sql-modifying-views-in-sql-server/">SQLShack</a>, depicts how a complicated query can be turned into a customized view that can be used in downstream data processing.</p>
 <p><img src="https://www.sqlshack.com/wp-content/uploads/2020/03/an-executed-create-view-sql-script-showing-data-re.png" class="img-fluid"></p>
@@ -408,36 +640,24 @@ WHERE column_name = value1
 <li><p><strong>You want to enhance security and restrict data access to others without authorization</strong>: Making your own view can limit access to sensitive columns while still allowing other users to query the necessary data</p></li>
 <li><p><strong>You want to promote data consistency</strong>: Performing a calculation in a view ensures that everyone uses the same calculation to grab consistent data (e.g.&nbsp;calculating age of patients)</p></li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <p>A view itself does not actually store data like a physical table does. Instead, a view is a saved SQL query that gets executed each time you query the view.</p>
-</div>
-</div>
 </section><section id="a-brief-tangent-indexing" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="a-brief-tangent-indexing">
 <span class="header-section-number">5.3.2</span> A brief tangent: indexing</h3>
 <p><strong>Indexing</strong> is a technique used to speed up data retrieval from a database table. An index improves the efficiency of queries by allowing the database to locate rows faster without having to scan the entire table. This is similar to how a table of contents in a book helps you quickly find chapters instead of reading every page.</p>
-<p>However, <strong>views are not indexed</strong>: Since views are virtual tables, they do not store data or have their own indexes. Instead, they rely on the indexes that come from the underlying tables. Because views do not have indexes, <strong>querying a view can be slower than querying a physical table</strong>. Indeed, since the database recomputes the view’s query each time, more complex views can lead to performance issues.</p>
+<p>However, <strong>views are not indexed</strong>: Since views are virtual tables, they do not store data or have their own indexes. Instead, they rely on the indexes that come from the underlying tables. Because views do not have indexes, <strong>querying a view can be slower than querying a physical table</strong>. Indeed, since the database recomputes the view's query each time, more complex views can lead to performance issues.</p>
 </section><section id="example-creating-a-view" class="level3" data-number="5.3.3"><h3 data-number="5.3.3" class="anchored" data-anchor-id="example-creating-a-view">
 <span class="header-section-number">5.3.3</span> Example: Creating a View</h3>
 <p>With our own data, let’s create a view from the <code>concept</code> table that focuses on the drugs in our dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> drugs <span class="kw">AS</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> <span class="st">'Drug'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> drugs <span class="kw">AS</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> <span class="st">'Drug'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, we can use this view just like a table:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> drugs</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> drugs</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>5 records</caption>
@@ -530,32 +750,20 @@ Note
 </table>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <p>If a view already exists in your database, then trying to create a new view with the same name will generate an error! To delete a view from memory, using the <code>DROP VIEW</code> command. E.g.:</p>
 <pre><code>DROP VIEW IF EXISTS drugs;</code></pre>
-</div>
-</div>
 <section id="check-on-learning-2" class="level4" data-number="5.3.3.1"><h4 data-number="5.3.3.1" class="anchored" data-anchor-id="check-on-learning-2">
 <span class="header-section-number">5.3.3.1</span> Check on learning</h4>
 <p>Fill in the blank in the query below to create a view that stores only <strong>measurements</strong> from the <code>concept</code> table</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> measurements <span class="kw">AS</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> ________;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> measurements <span class="kw">AS</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> concept</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> domain_id <span class="op">==</span> ________;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> measurements</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> measurements</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section></section><section id="query-optimization" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="query-optimization">
 <span class="header-section-number">5.4</span> Query Optimization</h2>
@@ -568,12 +776,12 @@ Note
 <ul>
 <li>Subqueries allow us to use the result of one query inside another</li>
 <li>Views provide a way to store and reuse complex queries as virtual tables</li>
-<li>Using subqueries and views can make SQL queries more modular and maintanable.</li>
+<li>Using subqueries and views can make SQL queries more modular and maintainable.</li>
 </ul></section><section id="always-close-the-connection" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="always-close-the-connection">
 <span class="header-section-number">5.6</span> Always close the connection</h2>
 <p>When we’re done, always close the connection with <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="references" class="level2" data-number="5.7"><h2 data-number="5.7" class="anchored" data-anchor-id="references">
 <span class="header-section-number">5.7</span> References</h2>
@@ -589,241 +797,248 @@ Note
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-          // target, if specified
-          link.setAttribute("target", "_blank");
-          if (link.getAttribute("rel") === null) {
-            link.setAttribute("rel", "noopener");
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
         }
-        return container.innerHTML
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -831,185 +1046,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./week3.html" class="pagination-link" aria-label="Week 3: `GROUP BY`/`HAVING`">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Week 3: <code>GROUP BY</code>/<code>HAVING</code></span></span>
       </a>          
