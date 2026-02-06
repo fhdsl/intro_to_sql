@@ -6,3 +6,4 @@
 /.quarto/
 _publish.yml
 data/synthea-smaller_breast_cancer.db
+**/*.quarto_ipynb

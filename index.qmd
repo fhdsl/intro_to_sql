@@ -15,16 +15,16 @@ Data that we need to utilize and query is often stored in data sources such as d
 
 If you need to schedule some time to talk, please schedule with Chris.
 
--   Chris Lo, Data Scientist/Trainer, Office of the Chief Data Officer
--   [Vivek Sriram](https://viveksriram.com/), Data Scientist, Office of the Chief Data Officer
+-   [Ted Laderas](https://laderast.github.io), Director of Training and Community, Data Science Lab, Office of the Chief Data Officer
+-   Chris Lo, Data Science Trainer, Data Science Lab, Office of the Chief Data Officer
 
 ## Introductions
 
 In chat, please introduce yourself:
 
--   Your Name & Your Group
+-   Your Name, Pronouns & Your Group
 -   What you want to learn in this course
--   Favorite Fall activity
+-   Favorite Winter activity
 
 ## Tentative Schedule
 
@@ -36,12 +36,18 @@ Classes will be recorded, and those recordings will be sent to you after each cl
 
 | Week       | Date   | Subject                                                                  |
 |----------|----------|-------------------------------------------|
-| Pre-class  | ----   | [Concepts of Databases](concepts.html)                                   |
-| 1          | Oct 10 | [Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE`](week1.html) |
-| 2          | Oct 17 | [`JOIN`ing tables, more `WHERE`](week2.html)                             |
-| No classs! | Oct 24 |                                                                          |
-| 3          | Oct 31 | [Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`](week3.html)  |
-| 4          | Nov 7  | [Subqueries/Views, Recap of course / review OMOP queries](week4.html)    |
+| Pre-class  | ----   | [Concepts of Databases](concepts.qmd)                                   |
+| 1          | Feb 6| [Intro to SQL; `SHOW TABLES`, `DESCRIBE`, `SELECT`, `WHERE`](week1.qmd) |
+| 2          | Feb 13 | [`JOIN`ing tables, more `WHERE`](week2.qmd)                             |
+| No class! | Feb 20 | Spring Break (No class)                    |
+| 3          | Feb 27 | [Calculating new fields, `GROUP BY`, `CASE WHEN`, `HAVING`](week3.qmd)  |
+| 4          | Mar 6  | [Subqueries/Views, Recap of course / review OMOP queries](week4.qmd)    |
+
+## Class Cheatsheet
+
+All videos, announcements, and other resources will be shared through the class cheatsheet. This link will be shared with you in the follow up email to class.
+
+If you find any interesting tips you'd like to share, please feel free to add to it.
 
 ## Format of Class
 
@@ -51,11 +57,11 @@ We will spend the first 20-25 minutes of each class on catching up on last week'
 
 ## First Class Survey
 
-[First Class Survey](https://forms.gle/smj4wFAQufoHsG6h7) - Please fill out. We mostly want to see how confident you are before and after class. We will share these results with everyone (anonymized).
+[First Class Survey](https://forms.gle/svtATwRYRGfjJECp6) - Please fill out. We mostly want to see how confident you are before and after class. We will share these results with everyone (anonymized).
 
 ## Weekly Check In
 
-[Weekly Check In Form](https://forms.gle/obwC5GYAA3iPHk5x7) - please fill out to let us know if you have any issues or want to share what you've learned. We look at the answers in aggregate and we anonymize responses (unless you want us to know).
+[Weekly Check In Form](https://forms.gle/FArpnY2kKGpFnci28) - please fill out to let us know if you have any issues or want to share what you've learned. We look at the answers in aggregate and we anonymize responses (unless you want us to know).
 
 ## Posit Cloud Intro
 
@@ -75,7 +81,7 @@ We sometimes struggle with our data science in isolation, unaware that someone t
 -   *Know that if you have a question, other people will have it.*
 -   *Asking questions is our way of taking care of others.*
 
-We ask you to follow [Participation Guidelines](https://hutchdatascience.org/communitystudios/guidelines/) and [Code of Conduct](https://github.com/fhdsl/coc).
+We ask you to follow [Participation Guidelines](https://ocdo.fredhutch.org/dasl/participation-guidelines/) to ensure that learning is safe for everyone is class.
 
 ## Posit Cloud Project
 
