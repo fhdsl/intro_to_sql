@@ -483,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 EXPLAIN ANALYZE SELECT po.person_id, c.concept_name, po.procedure_date     FROM procedure_occurrence as po      INNER JOIN concept as c     ON po.procedure_concept_id = c.concept_id     ORDER BY po.procedure_date;
 ┌────────────────────────────────────────────────┐
 │┌──────────────────────────────────────────────┐│
-││              Total Time: 0.0046s             ││
+││              Total Time: 0.0037s             ││
 │└──────────────────────────────────────────────┘│
 └────────────────────────────────────────────────┘
 ┌───────────────────────────┐
